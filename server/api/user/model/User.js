@@ -22,10 +22,6 @@ const userSchema = mongoose.Schema({
     type: Date,
     required: true
   },
-  dateNaissance: {
-    type: String,
-    required: true
-  },
   statut: {
     type: String,
     required: true
@@ -42,9 +38,29 @@ const userSchema = mongoose.Schema({
     type: String,
     required: [true, "Veuillez saisir un mot de passe"]
   },
+  // traitementDonneePerso: {
+  //   type: Boolean,
+  //   required: true
+  // },
+  // traitementDonneePro: {
+  //   type: Boolean,
+  //   required: true
+  // },
   dateInscription: {
     type: Date,
     default: Date.now()
+  },
+  linkedin: {
+    type: String,
+    default: null
+  },
+  sitePersonnel: {
+    type: String,
+    default: null
+  },
+  numereoTelephone: {
+    type: String,
+    default: null
   },
   tokens: [
     {
