@@ -1,3 +1,4 @@
+const { response } = require("express");
 const User = require("../model/User");
 
 exports.registerNewUser = async (req, res) => {
@@ -36,6 +37,11 @@ exports.loginUser = async (req, res) => {
         .status(401)
         .json({ error: "Login failed! Check authentication credentials" });
     }
+    if (!user.valide) {
+      return res
+        .status(401)
+        .json({ error: "Compte non validé !" });
+    }
     const token = await user.generateAuthToken();
     res.status(201).json({ user, token });
   } catch (err) {
@@ -53,4 +59,42 @@ exports.getAllUsers = async (req, res) => {
 exports.getUserbyEmail = async (req, res) => {
   const user = await User.findOne({ email: req.params.email });
   res.status(201).json({ user });
+};
+
+exports.updateUser = async (req, res) => {
+  try {
+    res.json({message: "OK" });
+    await User.updateOne({ nomUtilisateur: req.body.nomUtilisateur }, { linkedin: "prout" })
+      .then(response => {
+        console.log(response);
+      });
+  }catch (err) {
+    res.status(400).json({ err: err });
+  }
+  
+};
+
+// Update User Validation Admin
+exports.updateValidation = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (user) {
+      user.valide = !user.valide;
+      console.log(user.valide);
+      user.save()
+    }
+    res.status(201).json({message: "Validation mise à jour !"});
+  }catch (err){
+      res.status(401).json({err: err});
+  }
+};
+
+// Delete User Admin
+exports.deleteUser = async (req, res) => {
+  try {
+    await User.deleteOne({ email: req.body.email });
+    res.status(201).json({message: "Suppression réussie !"});
+  } catch (err) {
+    res.status(401).json({err: err});
+  }
 };
