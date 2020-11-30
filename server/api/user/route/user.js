@@ -11,7 +11,7 @@ router.get("/users", userController.getAllUsers);
 router.get("/users/etudiant", userController.getAllEtudiant);
 router.get("/:email", userController.getUserbyEmail);
 
-router.post("/update", auth, userController.updateUser);
+router.put("/:email", userController.updateUser);
 
 
 

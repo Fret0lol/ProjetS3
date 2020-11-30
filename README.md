@@ -11,10 +11,11 @@ npm run serve
 
 # Admin
     // Membres
-        \_ Valider un membres $$
-        \_ Supprimer un membres $$
-        \_ Obtenir un membre $$
-        \_ Lister les membres -> Affiner filtre de recherche
-        \_ Modifier un membre -> En cours
+        \_ Valider un membres $$    CSS
+        \_ Supprimer un membres $$  CSS
+        \_ Lister les membres -> Affiner filtre de recherche    CSS
+        \_ Afficher un membre $$    CSS
+        \_ Modifier un membre -> En cours   CSS
+            \_ L'utilisateur ne peut modifier que sa page perso
 
     // Institution

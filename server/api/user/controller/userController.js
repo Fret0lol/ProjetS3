@@ -91,10 +91,9 @@ exports.getUserByParams = async (req, res) => {
 //    UPDATE
 exports.updateUser = async (req, res) => {
   try {
-    res.json({message: "OK" });
-    await User.updateOne({ nomUtilisateur: req.body.nomUtilisateur }, { linkedin: "prout" })
+    await User.updateOne({ email: req.body.email },  req.body )
       .then(response => {
-        console.log(response);
+        res.status(201).json(response);
       });
   }catch (err) {
     res.status(400).json({ err: err });
@@ -107,7 +106,6 @@ exports.updateValidation = async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
       user.valide = !user.valide;
-      console.log(user.valide);
       user.save()
     }
     res.status(201).json({message: "Validation mise à jour !"});
