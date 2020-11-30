@@ -1,6 +1,7 @@
 const { response } = require("express");
 const User = require("../model/User");
 
+// CREATE
 exports.registerNewUser = async (req, res) => {
   try {
     let isUser = await User.find({ email: req.body.email });
@@ -27,6 +28,7 @@ exports.registerNewUser = async (req, res) => {
     res.status(400).json({ err: err });
   }
 };
+//       GET
 exports.loginUser = async (req, res) => {
   try {
     const email = req.body.email;
@@ -48,19 +50,45 @@ exports.loginUser = async (req, res) => {
     res.status(400).json({ err: err });
   }
 };
-exports.getUserDetails = async (req, res) => {
-  await res.json(req.userData);
-};
 
+// exports.getUserDetails = async (req, res) => {
+//   await res.json(req.userData);
+// };
 exports.getAllUsers = async (req, res) => {
-  const users = await User.find();
+  const users = await User.find({});
   res.status(201).json({ users });
+};
+// Annuaire
+exports.getAllEtudiant = async (req, res) => {
+  const count = await User.count();
+  const offset = parseInt(req.query.offset)*10;
+  const rep = await User.find({ $or: [{ statut: "Etudiant" }, { statut: "Professeur" }] }).skip(offset).limit(10);
+  res.status(201).json({ rep, count });
 };
 exports.getUserbyEmail = async (req, res) => {
   const user = await User.findOne({ email: req.params.email });
   res.status(201).json({ user });
 };
+exports.getUserByParams = async (req, res) => {
+  try {
+    const count = await User.count();
+    const offset = parseInt(req.query.offset)*10;
+    const limit = parseInt(req.query.limit);
+    const { search_field, search_value } = req.query.filtre;
+    const queryObj = {};
+    if (search_field !== '' && search_value !== '') {
+      queryObj[search_field] = search_value;
+    }
+    console.log('::queryObj::', queryObj);
+    const rep = await User.find({ $or: [filtre] }).skip(offset).limit(limit);
+    res.status(201).json({ rep, count })
+  } catch (err) {
+    res.status(401).json({ err: err})
+  }
+  
 
+};
+//    UPDATE
 exports.updateUser = async (req, res) => {
   try {
     res.json({message: "OK" });
@@ -73,7 +101,6 @@ exports.updateUser = async (req, res) => {
   }
   
 };
-
 // Update User Validation Admin
 exports.updateValidation = async (req, res) => {
   try {
@@ -89,6 +116,8 @@ exports.updateValidation = async (req, res) => {
   }
 };
 
+
+//    DELETE
 // Delete User Admin
 exports.deleteUser = async (req, res) => {
   try {

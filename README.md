@@ -10,6 +10,11 @@ npm run serve
 
 
 # Admin
-    // Liste user
-        \_ Valider un utilisateur $$
-        \_ Supprimer un utilisateur $$
+    // Membres
+        \_ Valider un membres $$
+        \_ Supprimer un membres $$
+        \_ Obtenir un membre $$
+        \_ Lister les membres -> Affiner filtre de recherche
+        \_ Modifier un membre -> En cours
+
+    // Institution
