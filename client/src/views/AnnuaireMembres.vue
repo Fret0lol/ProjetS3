@@ -31,7 +31,7 @@
 </template>
 <script>
 import Header from "../components/header";
-import CardAnnuaire from "../components/userAnnuaire";
+import CardAnnuaire from "../components/CardUser";
 export default {
   components: {
     Header,

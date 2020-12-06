@@ -78,7 +78,7 @@ export default {
 $color: #26f191;
 nav {
   font-family: Poppins;
-  height: 7vh;
+  height: 8.5vh;
   display: grid;
   grid-template-columns: 25% 75%;
   margin: 0;

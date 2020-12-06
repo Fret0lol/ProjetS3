@@ -2,7 +2,9 @@
   <div id="app">
     <Header />
     <div id="homeFirstView">
-      <h1>Les Anciens d'Abord</h1>
+      <div id="rightPart">
+        <h1>Les Anciens d'Abord</h1>
+      </div>
     </div>
     <section id="annuaire">
       <router-link to="/annuaire-membres"><h2>Annuaire</h2></router-link>
@@ -14,7 +16,7 @@
 </template>
 <script>
 import Header from "../components/header";
-import Annuaire from "../components/userAnnuaire";
+import Annuaire from "../components/CardUser";
 export default {
   data() {
     return {
@@ -40,17 +42,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$color: #26F191;
+$colorBlur: #26F19140;
   #app {
     #homeFirstView {
-      height: 60vh;
-      background-image: url("../assets/iutLannion.jpg");
+      height: 80vh;
+      background-image: url("../assets/Rectangle_101.png");
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      justify-content: flex-end;
       color: white;
+      #rightPart {
+        background: $colorBlur;
+        backdrop-filter: blur(10px);
+        width: 50vw;
+        height: 100%;
+        
+      }
     }
     #annuaire {
       display: flex;
