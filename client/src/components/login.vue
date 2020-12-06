@@ -72,7 +72,7 @@ $color: #26F191;
 }
 .container {
   width: 400px;
-  height: 86.5vh;
+  height: 90vh;
   margin: auto;
   display: flex;
   flex-direction: column;

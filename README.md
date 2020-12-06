@@ -1,5 +1,6 @@
 # ProjetS3
 
+Node 12.16.1
 # Serveur
 cd server
 npm run serve
