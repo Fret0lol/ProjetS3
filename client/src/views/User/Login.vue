@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <Header />
+    <Header id="header" />
     <div class="body">
       <div class="login">
         <login />
@@ -29,7 +29,11 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
   .body {
     //@media screen and (max-width: 499px) {
       display: flex;

@@ -79,9 +79,11 @@ export default {
 $color: #26f191;
 nav {
   font-family: Poppins;
-  height: 7vh;
+  //height: 9vh;
   display: grid;
   grid-template-columns: 25% 75%;
+  margin: 0;
+  padding: 0;
   //padding: 1vh 0;
   #logo {
     display: flex-start ;
