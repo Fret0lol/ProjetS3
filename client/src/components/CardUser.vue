@@ -50,6 +50,7 @@ $color: #26f191;
   width: 400px;
   height: 200px;
   border-radius: 5px;
+  border: 1px solid $color;
   background-color: $color;
   div {
     display: grid;

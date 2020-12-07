@@ -40,8 +40,16 @@ export default {
   },
   methods: {
     async getInfoUser() {
-      const info = await this.$http.get(`/user/${this.email}`);
-      this.user = info.data.user;
+      try {
+        const params = {
+          email: this.email
+        };
+        const info = await this.$http.get(`/user/email`, { params });
+        console.log(info);
+        this.user = info.data.user;
+      } catch (err) {
+        console.log(err);
+      }
     },
     getUserDetails() {
       let token = localStorage.getItem("jwt");
@@ -54,7 +62,7 @@ export default {
     },
   },
   created() {
-    this.getUserDetails();
+    //this.getUserDetails();
     this.getInfoUser();
   },
 };

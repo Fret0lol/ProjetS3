@@ -5,20 +5,34 @@
       <h1>RECHERCHE</h1>
       <div id="tri">
         <div class="input">
-          <input type="radio" id="alpha" name="tri" value="alphabetique" />
+          <input
+            type="radio"
+            id="alpha"
+            name="tri"
+            value="alphabetique"
+            @change="alphabetique"
+          />
           <label for="alpha">Tri alphabétique</label>
         </div>
         <div class="input">
-            <input type="radio" id="anti_alpha" name="tri" value="nati_alphabetique"/>
-            <label for="anti_alpha">Tri alphabétique</label>
+          <input
+            type="radio"
+            id="anti_alpha"
+            name="tri"
+            value="nati_alphabetique"
+            @change="antiAlphabetique"
+          />
+          <label for="anti_alpha">Tri alphabétique</label>
         </div>
-
       </div>
     </div>
     <div id="cards">
       <CardAnnuaire
         :email="user.email"
         :key="user.email"
+        :nom="user.nom"
+        :prenom="user.prenom"
+        :statut="user.statut"
         v-for="user in users"
         class="card"
       />
@@ -48,9 +62,12 @@ export default {
   },
   methods: {
     async getAllUsers() {
-      const info = await this.$http.get(
-        `/user/users/etudiant?offset=${this.offset}`
-      );
+      const params = {
+        offset: this.offset,
+        limit: 10,
+        sort: "",
+      };
+      const info = await this.$http.get(`/user/users/params`, { params });
       this.users = info.data.rep;
       this.userCount = info.data.count;
     },
@@ -69,6 +86,28 @@ export default {
         this.boutonPrecedent = false;
       }
       this.boutonSuivant = true;
+    },
+    async alphabetique() {
+      const params = {
+        offset: this.offset,
+        limit: 10,
+        sortType: "nom",
+        sortValue: 1,
+      };
+      const info = await this.$http.get(`/user/users/params`, { params });
+      this.users = info.data.rep;
+      this.userCount = info.data.count;
+    },
+    async antiAlphabetique() {
+      const params = {
+        offset: this.offset,
+        limit: 10,
+        sortType: "nom",
+        sortValue: -1,
+      };
+      const info = await this.$http.get(`/user/users/params`, { params });
+      this.users = info.data.rep;
+      this.userCount = info.data.count;
     },
   },
   created() {

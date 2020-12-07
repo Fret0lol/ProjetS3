@@ -78,14 +78,18 @@ exports.getUserByParams = async (req, res) => {
     const count = await User.countDocuments();
     const offset = parseInt(req.query.offset)*10;
     const limit = parseInt(req.query.limit);
-    const { sort } = req.query.sort;
+    var sortObject = {};
+    const sortType = req.query.sortType;
+    const sortValue = req.query.sortValue;
+    sortObject[sortType] = sortValue;
+    console.log(sortObject);
     // const { search_field, search_value } = req.query.filtre;
     // const queryObj = {};
     // if (search_field !== '' && search_value !== '') {
     //   queryObj[search_field] = search_value;
     // }
     // console.log('::queryObj::', queryObj); { $or: [filtre] }
-    const rep = await User.find().sort(sort).skip(offset).limit(limit);
+    const rep = await User.find().sort(sortObject).skip(offset).limit(limit);
     res.status(201).json({ rep, count })
   } catch (err) {
     res.status(401).json(err)

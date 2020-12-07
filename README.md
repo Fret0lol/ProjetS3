@@ -20,3 +20,9 @@ npm run serve
             \_ L'utilisateur ne peut modifier que sa page perso
 
     // Institution
+
+    // Annuaire
+        \_ Liste des membres $$
+            \_ Tri alphabétique $$
+            \_ Tri anti-alphabétique $$
+        \_ Liste des entreprises
