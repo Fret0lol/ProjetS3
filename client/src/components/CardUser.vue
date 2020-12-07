@@ -1,20 +1,22 @@
 <template>
   <div id="card">
-    <div id="card_row">
+    <div>
       <div id="imgProfil">
         <img src="../assets/Logo.png" alt="" />
       </div>
       <div id="infoProfil">
-        <h4>{{ user.nom }} {{ user.prenom }}</h4>
-        <h5>{{ user.statut }}</h5>
+        <p id="name">{{ this.nom }} {{ this.prenom }}</p>
+        <p>{{ this.statut }}</p>
       </div>
     </div>
-    <button @click="redirect">Plus d'info</button>
+    <div class="button">
+      <button @click="redirect">Plus d'info</button>
+    </div>
   </div>
 </template>
 <script>
 export default {
-  props: ["email"],
+  props: ["email", "nom", "prenom", "statut"],
   data() {
     return {
       user: {},
@@ -22,10 +24,13 @@ export default {
   },
   methods: {
     async getInfoUser() {
-      const info = await this.$http.get(`/user/${this.email}`);
+      const params = {
+        email: this.email,
+      };
+      const info = await this.$http.get(`/user/email`, { params }); //${this.email}
       this.user = info.data.user;
     },
-    async redirect() {
+    redirect() {
       this.$router.push(`/membre/${this.email}`);
     },
   },
@@ -40,40 +45,51 @@ $color: #26f191;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+
   min-width: 350px;
   width: 400px;
   height: 200px;
-  border: 3px solid $color;
   border-radius: 5px;
-  #card_row {
+  background-color: $color;
+  div {
     display: grid;
     grid-template-columns: 40% 60%;
     #imgProfil {
-        display: flex;
-        justify-content: center;
-        //align-content: center;
-        img {
-            height: 120px;
-            margin: auto;
-            //border-radius: 50%;
-        }
+      display: flex;
+      justify-content: center;
+      img {
+        height: 120px;
+        width: 120px;
+        border-radius: 5px;
+      }
     }
     #infoProfil {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      h4,
-      h5 {
+      color: white;
+      #name {
+        font-size: 1.5vw;
+        font-weight: 700;
+      }
+      p {
         text-align: center;
+        font-size: 1vw;
       }
     }
   }
-  button {
-    border: 2px solid $color;
-    border-radius: 5px;
-    width: 150px;
-    align-self: center;
-    padding: 1vh 1vw;
+  .button {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    padding: 0 2vw;
+    button {
+      border: 2px solid $color;
+      border-radius: 5px;
+      width: 150px;
+      padding: 0.75vh 1vw;
+      color: $color;
+    }
   }
 }
 </style>

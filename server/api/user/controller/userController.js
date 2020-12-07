@@ -66,24 +66,29 @@ exports.getAllEtudiant = async (req, res) => {
   res.status(201).json({ rep, count });
 };
 exports.getUserbyEmail = async (req, res) => {
-  const user = await User.findOne({ email: req.params.email });
-  res.status(201).json({ user });
+  try {
+    const user = await User.findOne({ email: req.query.email });
+    res.status(201).json({ user });
+  } catch (err) {
+    res.status(401).json({ err });
+  }
 };
 exports.getUserByParams = async (req, res) => {
   try {
-    const count = await User.count();
+    const count = await User.countDocuments();
     const offset = parseInt(req.query.offset)*10;
     const limit = parseInt(req.query.limit);
-    const { search_field, search_value } = req.query.filtre;
-    const queryObj = {};
-    if (search_field !== '' && search_value !== '') {
-      queryObj[search_field] = search_value;
-    }
-    console.log('::queryObj::', queryObj);
-    const rep = await User.find({ $or: [filtre] }).skip(offset).limit(limit);
+    const { sort } = req.query.sort;
+    // const { search_field, search_value } = req.query.filtre;
+    // const queryObj = {};
+    // if (search_field !== '' && search_value !== '') {
+    //   queryObj[search_field] = search_value;
+    // }
+    // console.log('::queryObj::', queryObj); { $or: [filtre] }
+    const rep = await User.find().sort(sort).skip(offset).limit(limit);
     res.status(201).json({ rep, count })
   } catch (err) {
-    res.status(401).json({ err: err})
+    res.status(401).json(err)
   }
   
 
