@@ -115,11 +115,5 @@ $colorBlur: #26f19140;
       align-items: center;
     }
   }
-  #annuaire {
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
-  }
 }
 </style>

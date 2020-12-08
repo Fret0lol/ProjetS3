@@ -1,8 +1,7 @@
 <template>
   <div id="register">
-    <h3>Chouette un nouveau copain !</h3>
     <form @submit.prevent="registerUser">
-      <div class="sex">
+      <div class="sex"> 
         <h5>Civilité</h5>
         <div class="input">
           <div class="inputSex">
@@ -39,23 +38,13 @@
           <CustomInput type="text" label="Nom" v-model="register.nom" icon="user"/>
         </div>
       </div>
-      
-      
-      
       <input
         type="date"
         id="dateNaissance"
         class="date"
         v-model="register.dateNaissance"
         required
-      /><!--
-      <select v-model="register.statut">
-        <option disabled value="">Choisissez</option>
-        <option>Etudiant</option>
-        <option>Professeur</option>
-        <option>Entreprise</option>
-        <option>Administrateur</option>
-      </select>-->
+      />
       <CustomInput type="text" label="Nom d'utilisateur" v-model="register.nomUtilisateur" icon="user" required/>
 
       
@@ -66,6 +55,7 @@
           >Se connecter</router-link
         > 
       </p>
+      <a href="" @click="this.$emit('retour', 0)">Je ne suis pas étudiant</a>
         <!-- Sign in button -->
           <button type="submit">
             S'enregistrer
@@ -88,7 +78,7 @@ export default {
         prenom: "",
         nom: "",
         dateNaissance: "",
-        statut: "",
+        statut: "Etudiant",
         nomUtilisateur: "",
         email: "",
         password: "",
@@ -124,20 +114,14 @@ export default {
 $color: #26F191;
 #register {
   min-width: 400px;
-  //width: 100%;
+  width: 50vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 3em;
-  h3 {
-    color: $color;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 2em;
-  }
   form {
-    width: 500px;
+    //width: 500px;
     .sex {
       .input {
         display: flex;

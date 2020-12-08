@@ -67,14 +67,13 @@ $color: #26f191;
     #infoProfil {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       color: white;
       #name {
         font-size: 1.5vw;
         font-weight: 700;
       }
       p {
-        text-align: center;
         font-size: 1vw;
       }
     }
