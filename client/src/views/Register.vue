@@ -4,12 +4,12 @@
     <div id="body">
       <h3>Chouette un nouveau copain !</h3>
         <div class="choix" v-if="choice === 0">
-        <button @click="choix('etudiant')">Etudiant</button>
-        <button @click="choix('ancienEtudiant')">Ancien Etudiant</button>
-        <button @click="choix('entreprise')">Entreprise</button>
-        <button @click="choix('professeur')">Professeur</button>
+        <button @click="choix('Etudiant')">Etudiant</button>
+        <button @click="choix('Ancien Etudiant')">Ancien Etudiant</button>
+        <button @click="choix('Entreprise')">Entreprise</button>
+        <button @click="choix('Professeur')">Professeur</button>
       </div>
-      <register v-if="choice === 1" @retour="retour"/>
+      <register v-if="choice !== 0" @retour="retour" :statutUser="this.choice"/>
     </div>
     
   </div>
@@ -30,17 +30,17 @@ export default {
   methods: {
     choix(value) {
       switch (value) {
-        case 'etudiant':
-          this.choice = 1;
+        case 'Etudiant':
+          this.choice = value;
           break;
-        case 'ancienEtudiant':
-          this.choice = 2;
+        case 'Ancien Etudiant':
+          this.choice = value;
           break;
-        case 'entreprise':
-          this.choice = 3;
+        case 'Entreprise':
+          this.choice = value;
           break;
-        case 'professeur':
-          this.choice = 4;
+        case 'Professeur':
+          this.choice = value;
           break;
       }
     },

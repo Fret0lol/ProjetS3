@@ -17,6 +17,9 @@ npm run serve
         \_ Créer un membre
             \_ Statuts possibles des membres
                 \_ Etudiant -> Intitulé : "Etudiant"
+                \_ Ancien Etudiant -> Intitulé : "Ancien Etudiant"
+                \_ Entreprise -> Intitulé : "Entreprise"
+                \_ Professeur -> Intitulé : "Professeur"
         \_ Valider un membres $$    CSS
         \_ Supprimer un membres $$  CSS
         \_ Lister les membres -> Affiner filtre de recherche    CSS

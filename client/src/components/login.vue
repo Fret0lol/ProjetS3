@@ -50,7 +50,7 @@ export default {
         let token = response.data.token;
         localStorage.setItem("jwt", token);
         if (token) {
-          swal("Success", "Login Successful", "Error");
+          swal("Connection réussie", "", "success");
           this.$router.replace("/");
         }
       } catch (err) {

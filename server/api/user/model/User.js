@@ -2,6 +2,15 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+// « jà » est un mot d’ancien français signifiant « l’instant présent »
+const jà = new Date(),
+	limiteAntérieureNaissance = new Date(),
+	limitePostérieureNaissance = new Date()
+
+// Les limites dans les quelles on considère qu’une personne peut être née
+limiteAntérieureNaissance.setYear(jà.getFullYear() - 100)
+limitePostérieureNaissance.setYear(jà.getFullYear() - 15)
+
 const userSchema = mongoose.Schema({
   valide: {
     type: Boolean,
@@ -21,6 +30,8 @@ const userSchema = mongoose.Schema({
   },
   dateNaissance: {
     type: Date,
+    min: limiteAntérieureNaissance,
+    max: limitePostérieureNaissance,
     required: true
   },
   statut: {

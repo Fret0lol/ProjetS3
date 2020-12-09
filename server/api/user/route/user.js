@@ -5,7 +5,6 @@ const userController = require("../controller/userController");
 
 router.post("/register", userController.registerNewUser);
 router.post("/login", userController.loginUser);
-//router.get("/me", auth, userController.getUserDetails);
 router.get("/email", userController.getUserbyEmail);
 router.get("/users/params", userController.getUserByParams); //A FINIR
 //router.get("/users", userController.getAllUsers);
