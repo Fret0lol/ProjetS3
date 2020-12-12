@@ -2,7 +2,7 @@
   <nav>
     <div id="logo">
       <router-link to="/" id="logoLink"
-        ><img src="../assets/Logo.png" alt="Logo" height="60px" />
+        ><img src="../assets/Logotype.png" alt="Logo" height="60px" />
         <p>Les Anciens D'abord</p>
       </router-link>
     </div>
@@ -90,10 +90,15 @@ export default {
 
   created() {
     this.getUserDetails();
+    if (document.documentElement.clientWidth > 800) {
+      this.desktop = true;
+    } else {
+      this.desktop = false;
+    }
   },
   mounted() {
     window.onresize = () => {
-      if (document.documentElement.clientWidth > 450) {
+      if (document.documentElement.clientWidth > 800) {
       this.desktop = true;
     } else {
       this.desktop = false;
@@ -119,8 +124,9 @@ nav {
       display: flex;
       flex-flow: row nowrap;
       align-items: center;
-      justify-content: center;
+      justify-content: space-around;
       color: black;
+      height: 100%;
       &:hover {
         text-decoration: none;
       }
@@ -128,11 +134,7 @@ nav {
         display: none;
         margin: 0;
       }
-      img {
-        margin-top: 1vh;
-        margin-right: 1vw;
-      }
-      @media screen and (min-width: 750px) {
+      @media screen and (min-width: 950px) {
         p {
           display: block;
         }
@@ -203,6 +205,8 @@ nav {
       opacity: 0;
       &:checked {
         & + .hamburger {
+          background: transparent;
+          transition: background 0.6s;
           > div {
             transform: rotate(135deg);
             &::before,
@@ -296,7 +300,9 @@ nav {
         width: 250vw;
         height: 250vw;
         color: white;
-        background: $color;
+        background: /*url("../assets/Logotype.png"),*/ $color;
+        background-position: center;
+        background-repeat: no-repeat;
         border-radius: 50%;
         transition: all 0.4s ease;
         flex: none;
@@ -306,6 +312,18 @@ nav {
         display: flex;
         align-items: center;
         justify-content: center;
+        &::before {
+          content: "";
+          background-image: url("../assets/Logotype.png");
+          background-position: center;
+          background-repeat: no-repeat;
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          opacity: 0.05;
+        }
         > div > ul {
           list-style: none;
           padding: 0 1em;
@@ -315,8 +333,10 @@ nav {
           > li {
             padding: 0;
             margin: 1em;
-            font-size: 24px;
+            font-size: 3.5vh;
+            font-weight: 700;
             display: block;
+            text-align: center;
             > a {
               position: relative;
               display: inline;
@@ -337,6 +357,15 @@ nav {
               height: 2px;
               background: #1a8b56;
               transition: width 0.4s ease;
+            }
+          }
+          .bouton {
+            border: 2px solid #ffffff;
+            border-radius: 10px;
+            padding: 0.75vh 2vw;
+            background-color: #fff;
+            a {
+              color: $color;
             }
           }
         }

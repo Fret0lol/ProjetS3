@@ -14,7 +14,7 @@ npm run serve
 
 # Admin
     // Membres
-        \_ Créer un membre
+        \_ Créer un membre : Page : Register -> Faire version mobile
             \_ Statuts possibles des membres
                 \_ Etudiant -> Intitulé : "Etudiant"
                 \_ Ancien Etudiant -> Intitulé : "Ancien Etudiant"

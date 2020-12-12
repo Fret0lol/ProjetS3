@@ -123,7 +123,7 @@ $color: #26F191;
 
         padding: 1.2vh 3.2rem 1.2vh 1.2rem;
         min-width: 10vw;
-
+        width: 100%;
         border: none;
         outline: none;
         &:focus {
