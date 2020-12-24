@@ -101,7 +101,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 $color: #26f191;
 #app {
   #body {
