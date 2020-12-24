@@ -16,9 +16,10 @@
           <div>
             <ul>
               <li><router-link to="/">Accueil</router-link></li>
-              <li><a href="#">Products</a></li>
+              <li><a href="#">Forum</a></li>
               <li><router-link to="/annuaire-membres">Annuaire</router-link></li>
-              <li><router-link to="/admin/users">Offres</router-link></li>
+              <li><a href="#">Offre</a></li>
+              <li v-if="this.user.statut === 'Administrateur'"><router-link to="/admin/users">Membres</router-link></li>
               <li class="bouton" v-if="this.login === true">
                 <button @click="logUserOut">Logout</button>
               </li>
@@ -42,7 +43,8 @@
           <li><router-link to="/">Accueil</router-link></li>
           <li>Forums</li>
           <li><router-link to="/annuaire-membres">Annuaire</router-link></li>
-          <li><router-link to="/admin/users">Offres</router-link></li>
+          <li><a href="#">Offre</a></li>
+          <li v-if="this.user.statut === 'Administrateur'"><router-link to="/admin/users">Membres</router-link></li>
         </ul>
         <li class="bouton" v-if="this.login === true">
           <button @click="logUserOut">Logout</button>

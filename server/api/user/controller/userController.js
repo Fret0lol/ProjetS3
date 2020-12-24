@@ -59,12 +59,12 @@ exports.getAllUsers = async (req, res) => {
   res.status(201).json({ users });
 };
 // Annuaire
-exports.getAllEtudiant = async (req, res) => {
-  const count = await User.count();
-  const offset = parseInt(req.query.offset)*10;
-  const rep = await User.find({ $or: [{ statut: "Etudiant" }, { statut: "Professeur" }] }).skip(offset).limit(10);
-  res.status(201).json({ rep, count });
-};
+// exports.getAllEtudiant = async (req, res) => {
+//   const count = await User.count();
+//   const offset = parseInt(req.query.offset)*10;
+//   const rep = await User.find({ $or: [{ statut: "Etudiant" }, { statut: "Professeur" }] }).skip(offset).limit(10);
+//   res.status(201).json({ rep, count });
+// };
 exports.getUserbyEmail = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.query.email });

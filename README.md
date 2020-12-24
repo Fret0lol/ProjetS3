@@ -12,14 +12,30 @@ cd client
 npm run serve
 
 
-# Admin
+# App
+    // Menu
+        \_ Membre
+            \_ Version Mobile 
+                \_ Fonctionnel ✅
+                \_ CSS -> Reste Pauffinage ❌
+            \_ Version Web
+                \_ Fonctionnel ✅
+                \_ CSS -> Reste Pauffinage ❌
+        \_ Admin 
+            \_ Version Mobile 
+                \_ Fonctionnel ✅
+                \_ CSS -> Reste Pauffinage ❌
+            \_ Version Web
+                \_ Fonctionnel ✅ 
+                \_ CSS -> Reste Pauffinage ❌
     // Membres
-        \_ Créer un membre : Page : Register -> Faire version mobile
+        \_ Créer un membre : Page : Register -> Reste Pauffinage CSS
             \_ Statuts possibles des membres
                 \_ Etudiant -> Intitulé : "Etudiant"
                 \_ Ancien Etudiant -> Intitulé : "Ancien Etudiant"
                 \_ Entreprise -> Intitulé : "Entreprise"
                 \_ Professeur -> Intitulé : "Professeur"
+                \_ Administrateur -> Intitulé : "Administrateur"
         \_ Valider un membres $$    CSS
         \_ Supprimer un membres $$  CSS
         \_ Lister les membres -> Affiner filtre de recherche    CSS
@@ -27,6 +43,15 @@ npm run serve
             \_ Carte Membre $$
         \_ Modifier un membre -> En cours   CSS
             \_ L'utilisateur ne peut modifier que sa page perso
+    // Admin 
+         \_ Liste Membres
+            \_ Accès qu'avec le rôle "Administrateur" ✅
+            \_ Valider un membre ✅
+            \_ Supprimer un membre ✅
+                \_ Confirmation de suppresion ❌
+            \_ Tri selon critères ✅
+            \_ CSS ❌
+            \_ Afficher une liste infini de membres ❌
 
     // Institution
 
@@ -35,3 +60,6 @@ npm run serve
             \_ Tri alphabétique $$
             \_ Tri anti-alphabétique $$
         \_ Liste des entreprises
+    
+    // Page Personelle Membre
+        \_

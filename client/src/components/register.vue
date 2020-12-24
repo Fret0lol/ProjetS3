@@ -190,7 +190,6 @@ export default {
 $color: #26f191;
 #register {
   user-select: none;
-  min-width: 400px;
   width: 75vw;
   display: flex;
   flex-direction: column;

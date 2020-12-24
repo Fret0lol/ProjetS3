@@ -2,7 +2,7 @@
   <div id="app">
     <Header />
     <div id="body">
-      <h3>Chouette un nouveau copain !</h3>
+        <h3>Chouette un nouveau copain !</h3>
         <div class="choix" v-if="choice === 0">
         <button @click="choix('Etudiant')">Etudiant</button>
         <button @click="choix('Ancien Etudiant')">Ancien Etudiant</button>
@@ -17,6 +17,7 @@
 <script>
 import Header from '@/components/header';
 import register from "@/components/register";
+
 export default {
   components: {
     register,
@@ -29,20 +30,7 @@ export default {
   },
   methods: {
     choix(value) {
-      switch (value) {
-        case 'Etudiant':
-          this.choice = value;
-          break;
-        case 'Ancien Etudiant':
-          this.choice = value;
-          break;
-        case 'Entreprise':
-          this.choice = value;
-          break;
-        case 'Professeur':
-          this.choice = value;
-          break;
-      }
+      this.choice = value;
     },
     retour(e) {
       this.choice = e;
