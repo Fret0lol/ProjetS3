@@ -1,13 +1,6 @@
 <template>
   <div id="app">
     <Header />
-    <div id="edit" v-if="userLogin === user.email && disabled == 1">
-      <router-link :to="'/membre/' + user.email + '/edit'">
-        <i>
-          <font-awesome-icon icon="edit" />
-        </i>
-      </router-link>
-    </div>
 
     <div id="info">
       <div id="img-background"></div>
@@ -20,15 +13,31 @@
           </div>
         </div>
         <div id="right-head-info">
+          <router-link
+            :to="'/membre/' + user.email + '/edit'"
+            tag="button"
+            id="edit"
+            v-if="userLogin === user.email"
+          >
+            <i>
+              <font-awesome-icon icon="edit" />
+            </i>
+          </router-link>
           <button>Prendre Contact</button>
         </div>
       </div>
       <div id="body-info">
         <div class="formations">
           <div class="title">
-              <p>Formations</p>
-              <div class="line"></div>
-            </div>
+            <p>Formations</p>
+            <div class="line"></div>
+          </div>
+          <div class="body">
+            <ul class="timeline">
+              <li><Timeline /></li>
+              <li><Timeline /></li>
+            </ul>
+          </div>
         </div>
         <div class="rightInfo">
           <div class="infoDiv">
@@ -46,17 +55,18 @@
 <script>
 import VueJwtDecode from "vue-jwt-decode";
 import Header from "../../components/header";
+import Timeline from "../../components/Timeline";
 
 export default {
   props: ["email"],
   components: {
     Header,
+    Timeline,
   },
   data() {
     return {
       userLogin: "",
       user: {},
-      disabled: 1,
     };
   },
   methods: {
@@ -66,7 +76,6 @@ export default {
           email: this.email,
         };
         const info = await this.$http.get(`/user/email`, { params });
-        console.log(info);
         this.user = info.data.user;
       } catch (err) {
         console.log(err);
@@ -83,17 +92,17 @@ export default {
     },
   },
   created() {
-    //this.getUserDetails();
+    this.getUserDetails();
     this.getInfoUser();
   },
 };
 </script>
 <style lang="scss" scoped>
-@import '@/Variable.scss';
+@import "@/Variable.scss";
 
 #app {
   #info {
-    margin-top: 5vh;
+    margin-top: 1vh;
     #img-background {
       position: absolute;
       z-index: -1;
@@ -144,11 +153,49 @@ export default {
       }
     }
     #body-info {
+      margin: auto;
       display: flex;
-      flex-flow: row;
+      flex-flow: row wrap;
+      width: 90vw;
 
       .formations {
-        width: 50%;
+        width: 100vw;
+        min-width: 300px;
+        @media screen and (min-width: 660px) {
+          width: 45vw;
+        }
+        .body {
+          .timeline {
+            position: relative;
+            width: 100%;
+            margin-top: 20px;
+            margin: 20px 2vw 0;
+            padding: 1em 0;
+            list-style-type: none;
+            &::before {
+              position: absolute;
+              left: 0;
+              top: 0;
+              content: " ";
+              display: block;
+              width: 6px;
+              height: 100%;
+              margin-left: -3px;
+              background: black;
+              z-index: 5;
+            }
+            li {
+              padding: 1em 2em;
+              &::after {
+                content: "";
+                display: block;
+                height: 0;
+                clear: both;
+                visibility: hidden;
+              }
+            }
+          }
+        }
       }
       .rightInfo {
         width: 50%;
@@ -156,12 +203,12 @@ export default {
     }
   }
   #edit {
-    height: 5vh;
+    //height: 5vh;
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-end;
     align-items: center;
-    margin: 1vh 5vw 0;
+    margin: 0 2vw;
     a i {
       font-size: 3vh;
       color: $color;

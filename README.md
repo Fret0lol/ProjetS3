@@ -17,27 +17,23 @@ npm run serve
         \_ Membre
             \_ Version Mobile 
                 \_ Fonctionnel ✅
-                \_ CSS -> Reste Pauffinage ❌
+                \_ CSS -> Reste Pauffinage ✅
             \_ Version Web
                 \_ Fonctionnel ✅
-                \_ CSS -> Reste Pauffinage ❌
+                \_ CSS -> Reste Pauffinage ✅
         \_ Admin 
             \_ Version Mobile 
                 \_ Fonctionnel ✅
-                \_ CSS -> Reste Pauffinage ❌
+                \_ CSS -> Reste Pauffinage ✅
             \_ Version Web
                 \_ Fonctionnel ✅ 
-                \_ CSS -> Reste Pauffinage ❌
+                \_ CSS -> Reste Pauffinage ✅
+
     // Membres
-        \_ Créer un membre : Page : Register -> Reste Pauffinage CSS
-            \_ Statuts possibles des membres
-                \_ Etudiant -> Intitulé : "Etudiant"
-                \_ Ancien Etudiant -> Intitulé : "Ancien Etudiant"
-                \_ Entreprise -> Intitulé : "Entreprise"
-                \_ Professeur -> Intitulé : "Professeur"
-                \_ Administrateur -> Intitulé : "Administrateur"
-        \_ Valider un membres $$    CSS
-        \_ Supprimer un membres $$  CSS
+        \_ Créer un membre 
+            \_ Fonctionnel ✅
+            \_ CSS -> Reste Pauffinage ❌
+            
         \_ Lister les membres -> Affiner filtre de recherche    CSS
         \_ Afficher un membre $$    CSS
             \_ Carte Membre $$
@@ -50,7 +46,9 @@ npm run serve
             \_ Supprimer un membre ✅
                 \_ Confirmation de suppresion ❌
             \_ Tri selon critères ✅
+            \_ Accèder à la page de l'utilisateur en cliquant sur son prénom ❌
             \_ CSS ❌
+                \_ Changer Croix de suppression et de validation 
             \_ Afficher une liste infini de membres ❌
 
     // Institution
@@ -62,4 +60,25 @@ npm run serve
         \_ Liste des entreprises
     
     // Page Personelle Membre
-        \_
+        \_ Images ❌
+        \_ Timeline
+            \_ Fonctionnel ❌
+                \_ Créer Schéma établissment / Formation / Institution ??/ Inscription
+                \_ Développer requêtes Back
+            \_ CSS ✅
+
+
+
+
+# Index 
+
+// Statuts possibles des membres
+                \_ Etudiant -> Intitulé : "Etudiant"
+                \_ Ancien Etudiant -> Intitulé : "Ancien Etudiant"
+                \_ Entreprise -> Intitulé : "Entreprise"
+                \_ Professeur -> Intitulé : "Professeur"
+                \_ Administrateur -> Intitulé : "Administrateur"
+Ajout envoie mail après enregistrement d'un membre
+
+tri alphabétique 
+maj menu

@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <div id="logo">
+    <div id="logo" v-if="desktop">
       <router-link to="/" id="logoLink"
         ><img src="../assets/Logotype.png" alt="Logo" height="60px" />
         <p>Les Anciens D'abord</p>
@@ -15,16 +15,22 @@
         <div>
           <div>
             <ul>
-              <li><router-link to="/">Accueil</router-link></li>
-              <li><a href="#">Forum</a></li>
-              <li><router-link to="/annuaire-membres">Annuaire</router-link></li>
-              <li><a href="#">Offre</a></li>
-              <li v-if="this.user.statut === 'Administrateur'"><router-link to="/admin/users">Membres</router-link></li>
-              <li class="bouton" v-if="this.login === true">
-                <button @click="logUserOut">Logout</button>
+              <li><router-link to="/">ACCUEIL</router-link></li>
+              <li><a href="#">FORUMS</a></li>
+              <li>
+                <router-link to="/annuaire-membres">ANNUAIRE</router-link>
+              </li>
+              <li><a href="#">OFFRES</a></li>
+              <li v-if="this.user.statut === 'Administrateur'">
+                <router-link to="/admin/users">MEMBRES</router-link>
               </li>
               <li v-if="this.login === true">
-                <router-link :to="'/membre/' + user.email">Mon compte</router-link>
+                <router-link :to="'/membre/' + user.email"
+                  ><i><font-awesome-icon icon="user" /></i>
+                </router-link>
+              </li>
+              <li class="bouton" v-if="this.login === true">
+                <a @click="logUserOut">Se déconnecter</a>
               </li>
               <li class="bouton" v-if="login === false">
                 <router-link to="/login">Se connecter</router-link>
@@ -40,17 +46,21 @@
     <div id="navbarNav" v-if="desktop">
       <ul>
         <ul>
-          <li><router-link to="/">Accueil</router-link></li>
-          <li>Forums</li>
-          <li><router-link to="/annuaire-membres">Annuaire</router-link></li>
-          <li><a href="#">Offre</a></li>
-          <li v-if="this.user.statut === 'Administrateur'"><router-link to="/admin/users">Membres</router-link></li>
+          <li><router-link to="/">ACCUEIL</router-link></li>
+          <li>FORUMS</li>
+          <li><router-link to="/annuaire-membres">ANNUAIRE</router-link></li>
+          <li><a href="#">OFFRES</a></li>
+          <li v-if="this.user.statut === 'Administrateur'">
+            <router-link to="/admin/users">MEMBRES</router-link>
+          </li>
         </ul>
-        <li class="bouton" v-if="this.login === true">
-          <button @click="logUserOut">Logout</button>
-        </li>
         <li v-if="this.login === true">
-          <router-link :to="'/membre/' + user.email">Mon compte</router-link>
+          <router-link :to="'/membre/' + user.email"
+            ><i><font-awesome-icon icon="user" /></i
+          ></router-link>
+        </li>
+        <li class="bouton" v-if="this.login === true">
+          <button @click="logUserOut">Se déconnecter</button>
         </li>
         <li class="bouton" v-if="login === false">
           <router-link to="/login" tag="button">Se connecter</router-link>
@@ -70,7 +80,7 @@ export default {
     return {
       user: {},
       login: "",
-      desktop: false
+      desktop: false,
     };
   },
   methods: {
@@ -101,12 +111,11 @@ export default {
   mounted() {
     window.onresize = () => {
       if (document.documentElement.clientWidth > 800) {
-      this.desktop = true;
-    } else {
-      this.desktop = false;
-    }
-    }
-    
+        this.desktop = true;
+      } else {
+        this.desktop = false;
+      }
+    };
   },
 };
 </script>
@@ -115,12 +124,15 @@ export default {
 $color: #26f191;
 nav {
   font-family: Poppins;
-  height: 8.5vh;
+
   display: grid;
   grid-template-columns: 25% 75%;
   margin: 0;
   padding: 0;
   //padding: 1vh 0;
+  @media screen and (min-width: 800px) {
+    height: 8.5vh;
+  }
   #logo {
     a {
       display: flex;
@@ -136,7 +148,7 @@ nav {
         display: none;
         margin: 0;
       }
-      @media screen and (min-width: 950px) {
+      @media screen and (min-width: 1300px) {
         p {
           display: block;
         }
@@ -169,9 +181,19 @@ nav {
       justify-content: flex-end;
       //align-content: center;
       list-style: none;
+      font-size: 20px;
       li {
         margin: 6px;
         align-self: center;
+        a {
+          color: $color;
+          text-decoration: none;
+          i {
+            margin: 0 2vw;
+            font-size: 3vh;
+            color: $color;
+          }
+        }
 
         button {
           background-color: $color;
@@ -266,7 +288,7 @@ nav {
         justify-content: center;
         &::before,
         &::after {
-          content: '';
+          content: "";
           position: absolute;
           z-index: 1;
           top: 10px;
@@ -348,9 +370,13 @@ nav {
               &::after {
                 width: 100%;
               }
+              // ICON USER 
+              i {
+                font-size: 6vh;
+              }
             }
             &::after {
-              content: '';
+              content: "";
               position: absolute;
               z-index: 1;
               bottom: -0.15em;
