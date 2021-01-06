@@ -51,9 +51,6 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-// exports.getUserDetails = async (req, res) => {
-//   await res.json(req.userData);
-// };
 exports.getAllUsers = async (req, res) => {
   const users = await User.find({});
   res.status(201).json({ users });

@@ -38,6 +38,15 @@ app.get("/", (req, res) => {
 const userRoutes = require("./api/user/route/user"); //bring in our user routes
 app.use("/user", userRoutes);
 
+const etablissementRoutes = require("./api/user/route/etablissement");
+app.use("/etablissement", etablissementRoutes);
+
+const inscriptionRoutes = require("./api/user/route/inscription");
+app.use("/inscription", inscriptionRoutes);
+
+const formationRoutes = require("./api/user/route/formation");
+app.use("/formation", formationRoutes);
+
 app.listen(PORT, () => {
   console.log(`App is running on ${PORT}`);
 });

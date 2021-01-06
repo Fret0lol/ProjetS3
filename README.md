@@ -63,7 +63,15 @@ npm run serve
         \_ Images ❌
         \_ Timeline
             \_ Fonctionnel ❌
+                    \_ Bouton Ajouter -> Affiche formulaire Inscription avec bouton Ajouter pour formation et etablissment si pas dans liste déjà existant -> Formulaire Formation et Etablissement
                 \_ Créer Schéma établissment / Formation / Institution ??/ Inscription
+                    \_ Schéma Etablissement ✅
+                        \_ Créer ✅
+                        \_ Get by nom ✅
+                    \_ Schéma Formation ✅
+                        \_ Créer ✅
+                    \_ Shéma Inscription ✅
+                        \_ Créer ✅
                 \_ Développer requêtes Back
             \_ CSS ✅
 
