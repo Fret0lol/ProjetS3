@@ -34,8 +34,17 @@
           </div>
           <div class="body">
             <ul class="timeline">
-              <li><Timeline /></li>
-              <li><Timeline /></li>
+              <li v-for="line in timeline" :key="line._id">
+                <Timeline 
+                  :formationComplet="line.formationId.intitulé_formation_long" 
+                  :formationCourt="line.formationId.intitulé_formation_court"
+                  :dateEntree="line.date_entrée"
+                  :dateSortie="line.date_sortie"
+                  :infoSupp="line.infoSupp"
+                  :nomEtablissement="line.etablissementId.nom"
+                  :villeEtablissement="line.etablissementId.ville"
+                />
+              </li>
             </ul>
           </div>
         </div>
@@ -67,6 +76,7 @@ export default {
     return {
       userLogin: "",
       user: {},
+      timeline: {}
     };
   },
   methods: {
@@ -90,10 +100,24 @@ export default {
         this.userLogin = decoded.email;
       }
     },
+
+    async getTimeline() {
+      try {
+        const params = {
+          email: this.email,
+        };
+        const data = await this.$http.get(`/inscription/getByUser`, { params });
+        console.log(data.data.inscription);
+        this.timeline = data.data.inscription;
+      } catch (err) {
+        console.log(err);
+      }
+    }
   },
   created() {
     this.getUserDetails();
     this.getInfoUser();
+    this.getTimeline();
   },
 };
 </script>

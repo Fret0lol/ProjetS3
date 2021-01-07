@@ -2,16 +2,19 @@
   <div id="app">
     <div class="flag-wrapper">
       <span class="flag">
-        Freelancer
+        {{ this.formationComplet }} ( {{ this.formationCourt }} )
       </span>
-      <span class="time-wrapper"><span class="time">2013- présent</span></span>
+      <span class="time-wrapper"><span class="time">{{ new Date(this.dateEntree).toLocaleDateString() }} - {{ new Date(this.dateSortie).toLocaleDateString() }}</span></span>
     </div>
-    <div class="desc">My current employment. Way better than the position before!</div>
+    <div class="desc">{{ infoSupp }}</div>
+    <div class="localisation">
+      <span class="localisation-wrapper"><span class="loca">{{ this.nomEtablissement }} - {{ this.villeEtablissement }} </span></span>
+    </div>
   </div>
 </template>
 <script>
 export default {
-  
+  props: ["formationComplet", "formationCourt", "dateEntree", "dateSortie", "infoSupp", "nomEtablissement", "villeEtablissement"]
 }
 </script>
 <style lang="scss" scoped>
@@ -83,10 +86,24 @@ export default {
       }
     }
     .desc {
-      margin: 2vh 0 0 0.75vw;
+      margin: 1.4vh 0 1vh 1.75vw;
       font-size: 1.75vh;
       font-style: italic;
       line-height: 2vh;
+    }
+    .localisation {
+      .localisation-wrapper {
+        display: inline;
+        line-height: 1em;
+        font-size: 0.8em;
+        color: white;
+        vertical-align: middle;
+        .loca {
+          display: inline-block;
+          padding: 4px 6px;
+          background: $color;
+        }
+      }
     }
   }
 </style>

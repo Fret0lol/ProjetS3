@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const User = require("../model/User");
 
 const inscriptionSchema = mongoose.Schema({
   date_entrée: {
@@ -11,16 +10,23 @@ const inscriptionSchema = mongoose.Schema({
     required: true
   },
   utilisateurId: {
-    type: mongoose.Schema.ObjectId,
-    ref: User
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   },
   formationId: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Formation"
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Formation',
+    required: true
   },
   etablissementId: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Etablissement"
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Etablissement',
+    required: true
+  },
+  infoSupp: {
+    type: String,
+    default: null
   }
 });
 

@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <Header />
-
     <div id="info">
+      <!-- TOP -->
       <div id="img-background"></div>
       <div id="head-info">
         <div id="left-head-info">
@@ -18,6 +18,7 @@
         </div>
       </div>
       <div id="body-info">
+        <!-- FORMATION -->
         <div class="formations">
           <div class="title">
             <p>Formations</p>
@@ -25,8 +26,18 @@
           </div>
           <div class="body">
             <ul class="timeline">
-              <li><Timeline /><button class="modifier">Modifier</button></li>
-              <li><Timeline /><button class="modifier">Modifier</button></li>
+              <li v-for="line in timeline" :key="line._id">
+                <Timeline 
+                  :formationComplet="line.formationId.intitulé_formation_long" 
+                  :formationCourt="line.formationId.intitulé_formation_court"
+                  :dateEntree="line.date_entrée"
+                  :dateSortie="line.date_sortie"
+                  :infoSupp="line.infoSupp"
+                  :nomEtablissement="line.etablissementId.nom"
+                  :villeEtablissement="line.etablissementId.ville"
+                />
+                <button>Modifier</button>
+              </li>
               <li><button>Ajouter</button></li>
             </ul>
           </div>
@@ -59,6 +70,7 @@ export default {
     return {
       userLogin: "",
       user: {},
+      timeline: {}
     };
   },
   methods: {
@@ -82,10 +94,23 @@ export default {
         this.userLogin = decoded.email;
       }
     },
+    async getTimeline() {
+      try {
+        const params = {
+          email: this.email,
+        };
+        const data = await this.$http.get(`/inscription/getByUser`, { params });
+        console.log(data.data.inscription);
+        this.timeline = data.data.inscription;
+      } catch (err) {
+        console.log(err);
+      }
+    }
   },
   created() {
     this.getUserDetails();
     this.getInfoUser();
+    this.getTimeline();
   },
 };
 </script>

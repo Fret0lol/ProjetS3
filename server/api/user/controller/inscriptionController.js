@@ -3,7 +3,6 @@ const Inscription = require("../model/Inscription");
 const Etablissement = require("../model/Etablissement");
 const User = require("../model/User");
 const Formation = require("../model/Formation");
-const mongoose = require("mongoose");
 
 // CREATE
 exports.createNewInscription = async (req, res) => {
@@ -15,7 +14,6 @@ exports.createNewInscription = async (req, res) => {
         message: "Etablissement non-répertorié dans notre base de données"
       });
     }
-    console.log(isEtablissment._id);
     // Test si Utilisateur déjà connu ou non
     let isUser = await User.find({ email: req.body.utilisateur });
     if (isUser.length < 1) {
@@ -23,7 +21,6 @@ exports.createNewInscription = async (req, res) => {
         message: "Utilisateur non-répertorié dans notre base de données"
       });
     }
-    console.log(isUser._id)
     // Test si Formation déjà connue ou non
     let isFormation = await Formation.find({intitulé_formation_long: req.body.formation});
     if (isFormation.length < 1) {
@@ -31,13 +28,13 @@ exports.createNewInscription = async (req, res) => {
         message: "Formation non-répertorié dans notre base de données"
       });
     }
-    console.log(isFormation._id)
     const inscription = new Inscription({
       date_entrée: req.body.date_entrée,
       date_sortie: req.body.date_sortie,
-      utilisateurId: isUser._id,
-      formationId: isFormation._id,
-      etablissementId: isEtablissment._id
+      utilisateurId: isUser[0]._id,
+      formationId: isFormation[0]._id,
+      etablissementId: isEtablissment[0]._id,
+      infoSupp: req.body.infoSupp
     });
     let data = await inscription.save();
     res.status(201).json({ data });
@@ -46,20 +43,33 @@ exports.createNewInscription = async (req, res) => {
   }
 };
 
-// GET BY USER
+// GET BY USERMAIL TO GET INSCRIPTION WITH FORMATION AND ETABLISSEMENT
 exports.getByUser = async (req, res) => {
   try {
-    let isUser = await User.findOne({ email: req.body.utilisateur });
+    let isUser = await User.findOne({ email: req.query.email });
     if (isUser.length >= 1) {
       return res.status(409).json({
         message: "Utilisateur non-répertorié dans notre base de données"
       });
     }
-    console.log(isUser._id)
-    const inscription = await Inscription.find().populate('utilisateurId');
-    console.log(inscription);
+    const inscription = await Inscription.find({ utilisateurId: isUser._id }).populate([{ path: 'formationId'},{ path: 'etablissementId' }]);
     res.status(201).json({ inscription });
   } catch (err) {
     res.status(400).json({ err: err });
+  }
+};
+
+// UPDATE INSCRIPTION
+exports.updateByUser = async (req, res) => {
+  try {
+    let isUser = await User.findOne({ email: req.query.email });
+    if (isUser.length >= 1) {
+      return res.status(409).json({
+        message: "Utilisateur non-répertorié dans notre base de données"
+      });
+    }
+    
+  } catch (err) {
+    res.status(400).json({ err: err});
   }
 };

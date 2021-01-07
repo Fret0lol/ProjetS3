@@ -20,13 +20,13 @@ mongoose
   .catch(err => {
     console.log({ database_error: err });
   });
-// db configuaration ends here
+
 //registering cors
 app.use(cors());
 //configure body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-//configure body-parser ends here
+
 
 app.use(morgan("dev")); // configire morgan
 
