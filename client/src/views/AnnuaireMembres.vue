@@ -19,10 +19,10 @@
             type="radio"
             id="anti_alpha"
             name="tri"
-            value="nati_alphabetique"
+            value="anti_alphabetique"
             @change="antiAlphabetique"
           />
-          <label for="anti_alpha">Tri alphabétique</label>
+          <label for="anti_alpha">Tri anti-alphabétique</label>
         </div>
       </div>
     </div>

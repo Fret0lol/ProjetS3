@@ -17,18 +17,18 @@
       <div class="body">
         <table>
           <tr v-for="user in users" :key="user.email">
-            <td v-if="user.valide" @click="changerValide(user)">
+            <td v-if="user.valide" @click="changerValide(user)" class="pointer">
               <font-awesome-icon icon="check" />
             </td>
             <td v-if="!user.valide" @click="changerValide(user)">
-              <font-awesome-icon icon="cross" />
+              <font-awesome-icon icon="times" />
             </td>
             <td>{{ user.nom }}</td>
             <td>{{ user.prenom }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.statut }}</td>
-            <td @click="deleteUser(user)">
-              <font-awesome-icon icon="cross" />
+            <td @click="deleteUser(user)" class="pointer">
+              <font-awesome-icon icon="times" />
             </td>
           </tr>
         </table>
@@ -46,7 +46,6 @@ export default {
       offset: 0,
       valide: 1,
       nom: 1,
-
     };
   },
   components: {
@@ -142,6 +141,9 @@ $color: #26f191;
           font-size: 1.2vw;
           border-bottom: 3px solid gray;
         }
+        .pointer {
+            cursor: pointer
+          }
       }
     }
   }

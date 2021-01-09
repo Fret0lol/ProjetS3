@@ -54,6 +54,9 @@
               <p>Informations</p>
               <div class="line"></div>
             </div>
+            <div class="body">
+              <p>{{ user.infoSupplementaire }} </p>
+            </div>
           </div>
           <div class="reseauDiv"></div>
         </div>

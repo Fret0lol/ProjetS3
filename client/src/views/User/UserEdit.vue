@@ -8,12 +8,14 @@
         <div id="left-head-info">
           <div class="photoProfil"></div>
           <div class="info-resume">
-            <p id="name">{{ user.prenom }} {{ user.nom }}</p>
+            <input type="text" v-model="user.prenom" class="inputResize" onkeydown="this.style.width = ((this.value.length + 1.2) * 2) + 'vh';">
+            <input type="text" v-model="user.nom" class="inputResize" onkeydown="this.style.width = ((this.value.length + 1.2) * 2) + 'vh';">
+            <!-- <p id="name">{{ user.prenom }} {{ user.nom }}</p> -->
             <p>{{ user.statut }}</p>
           </div>
         </div>
         <div id="right-head-info">
-          <button>Sauvegarder</button>
+          <button @click="save()">Sauvegarder</button>
           <button>Prendre Contact</button>
         </div>
       </div>
@@ -47,6 +49,9 @@
             <div class="title">
               <p>Informations</p>
               <div class="line"></div>
+            </div>
+            <div class="body">
+              <textarea v-model="user.infoSupplementaire" placeholder="Écrit une message pour ceux qui verront ton profil" autocomplete="off"></textarea>
             </div>
           </div>
           <div class="reseauDiv"></div>
@@ -106,12 +111,24 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+    async save() {
+      try {
+        await this.$http.put(`/user/` + this.user.email, this.user)
+        this.$router.replace(`/membre/` + this.user.email);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    inputResize() {
+      console.log(document.getElementsByClassName(".inputResize"))
     }
   },
   created() {
     this.getUserDetails();
     this.getInfoUser();
     this.getTimeline();
+    this.inputResize();
   },
 };
 </script>
@@ -154,6 +171,13 @@ export default {
           font-size: 3vh;
           #name {
             font-weight: 700;
+          }
+          input {
+            background: transparent;
+            color: $color;
+            font-weight: 700;
+            border: none;
+            
           }
         }
       }
@@ -233,6 +257,17 @@ export default {
       }
       .rightInfo {
         width: 50%;
+        .infoDiv {
+          .body {
+            textarea {
+              width: 100%;
+              height: 30vh;
+              margin: 2vh 0;
+              resize: none;
+              border: 2px solid $color;
+            }
+          }
+        }
       }
     }
   }
