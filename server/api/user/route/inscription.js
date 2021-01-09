@@ -13,7 +13,7 @@ router.get("/getByUser", inscriptiontController.getByUser);
 // //router.get("/users/etudiant", userController.getAllEtudiant);
 
 
-// router.put("/:email", userController.updateUser);
+router.put("/updateByUser", inscriptiontController.updateByUser);
 
 
 

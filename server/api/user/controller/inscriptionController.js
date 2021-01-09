@@ -62,13 +62,18 @@ exports.getByUser = async (req, res) => {
 // UPDATE INSCRIPTION
 exports.updateByUser = async (req, res) => {
   try {
-    let isUser = await User.findOne({ email: req.query.email });
+    let isUser = await User.findOne({ email: req.body.email });
     if (isUser.length >= 1) {
       return res.status(409).json({
         message: "Utilisateur non-répertorié dans notre base de données"
       });
     }
-    
+    console.log(isUser._id);
+    console.log(req.body.inscription)
+    await Inscription.updateOne({ utilisateurId: isUser._id, _id: req.body.inscription._id }, req.body.inscription)
+      .then(response => {
+        res.status(201).json(response)
+      });
   } catch (err) {
     res.status(400).json({ err: err});
   }

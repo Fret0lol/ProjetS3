@@ -89,4 +89,3 @@ npm run serve
 Ajout envoie mail après enregistrement d'un membre
 
 tri alphabétique 
-maj menu

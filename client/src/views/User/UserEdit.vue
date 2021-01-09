@@ -38,7 +38,7 @@
                 />
                 <button>Modifier</button>
               </li>
-              <li><button>Ajouter</button></li>
+              <li><router-link :to="'/membre/' + user.email + '/edit/' + update" tag="button">Ajouter</router-link></li>
             </ul>
           </div>
         </div>
@@ -70,7 +70,8 @@ export default {
     return {
       userLogin: "",
       user: {},
-      timeline: {}
+      timeline: {},
+      update: true
     };
   },
   methods: {

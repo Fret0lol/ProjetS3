@@ -61,6 +61,31 @@ const routes = [
       }
     },
   },
+  {
+    path: "/membre/:email/edit/:update",
+    name: "modifierFormation",
+    component: () => import("../views/UpdateFormation.vue"),
+    props: true,
+    beforeEnter: (to, from, next) => {
+      console.log(to.params.email);
+      console.log(localStorage.getItem("jwt"));
+      let token = localStorage.getItem("jwt");
+      if (token === null) {
+        next({
+          path: "/login",
+        });
+      } else {
+        let decoded = VueJwtDecode.decode(token);
+        if (decoded.email === to.params.email) {
+          next();
+        } else {
+          next({
+            path: "/",
+          });
+        }
+      }
+    },
+  },
 
   // {
   //   path: "/moncompte/modifier",
