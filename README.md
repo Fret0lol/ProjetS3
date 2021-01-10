@@ -38,7 +38,12 @@ npm run serve
         \_ Afficher un membre $$    CSS
             \_ Carte Membre $$
         \_ Modifier un membre -> En cours   CSS
-            \_ L'utilisateur ne peut modifier que sa page perso
+            \_ L'utilisateur ne peut modifier que sa page perso ✅
+            \_ Peut modifier Nom et Prénom ✅
+            \_ Peut modifier Info Supplémentaire ✅
+            \_ Peut modifier lien linkedin -> Manque vérification
+            \_ Peut modifier numéro Tel -> Manque vérfication
+            
     // Admin 
          \_ Liste Membres
             \_ Accès qu'avec le rôle "Administrateur" ✅

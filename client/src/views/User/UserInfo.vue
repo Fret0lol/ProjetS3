@@ -58,7 +58,18 @@
               <p>{{ user.infoSupplementaire }} </p>
             </div>
           </div>
-          <div class="reseauDiv"></div>
+          <div class="reseauDiv">
+            <div class="title">
+              <p>Réseaux</p>
+              <div class="line"></div>
+            </div>
+            <div class="body">
+              <a :href="'//' + user.linkedin" id="linkedin" class="reseau">
+                <img src="../../assets/LogoLinkedin.svg" alt="Logo Linkedin" type="image/svg+xml" title="Voir mon Linkedin">
+                Mon Linkedin
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -8,8 +8,18 @@
         <div id="left-head-info">
           <div class="photoProfil"></div>
           <div class="info-resume">
-            <input type="text" v-model="user.prenom" class="inputResize" onkeydown="this.style.width = ((this.value.length + 1.2) * 2) + 'vh';">
-            <input type="text" v-model="user.nom" class="inputResize" onkeydown="this.style.width = ((this.value.length + 1.2) * 2) + 'vh';">
+            <input
+              type="text"
+              v-model="user.prenom"
+              class="inputResize"
+              onInput="this.style.width = (this.value.length + 1) + 'ch';"
+            />
+            <input
+              type="text"
+              v-model="user.nom"
+              class="inputResize"
+              onInput="this.style.width = (this.value.length + 1) + 'ch';"
+            />
             <!-- <p id="name">{{ user.prenom }} {{ user.nom }}</p> -->
             <p>{{ user.statut }}</p>
           </div>
@@ -29,8 +39,8 @@
           <div class="body">
             <ul class="timeline">
               <li v-for="line in timeline" :key="line._id">
-                <Timeline 
-                  :formationComplet="line.formationId.intitulé_formation_long" 
+                <Timeline
+                  :formationComplet="line.formationId.intitulé_formation_long"
                   :formationCourt="line.formationId.intitulé_formation_court"
                   :dateEntree="line.date_entrée"
                   :dateSortie="line.date_sortie"
@@ -40,7 +50,13 @@
                 />
                 <button>Modifier</button>
               </li>
-              <li><router-link :to="'/membre/' + user.email + '/edit/' + update" tag="button">Ajouter</router-link></li>
+              <li>
+                <router-link
+                  :to="'/membre/' + user.email + '/edit/' + update"
+                  tag="button"
+                  >Ajouter</router-link
+                >
+              </li>
             </ul>
           </div>
         </div>
@@ -51,10 +67,38 @@
               <div class="line"></div>
             </div>
             <div class="body">
-              <textarea v-model="user.infoSupplementaire" placeholder="Écrit une message pour ceux qui verront ton profil" autocomplete="off"></textarea>
+              <textarea
+                v-model="user.infoSupplementaire"
+                placeholder="Écrit une message pour ceux qui verront ton profil"
+                autocomplete="off"
+              ></textarea>
             </div>
           </div>
-          <div class="reseauDiv"></div>
+          <div class="reseauDiv">
+            <div class="title">
+              <p>Réseaux</p>
+              <div class="line"></div>
+            </div>
+            <div class="body">
+              <div id="linkedin">
+                <img
+                  src="../../assets/LogoLinkedin.png"
+                  alt="Logo Linkedin"
+                  type="image/svg+xml"
+                  title="Voir mon Linkedin"
+                />
+                <input type="text" v-model="user.linkedin" />
+              </div>
+              <div id="phone">
+                <i><font-awesome-icon icon="phone" /></i>
+                <input type="tel" v-model="user.numereoTelephone" id="tel" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}"/>
+              </div>
+
+              <!-- <a :href="'//' + user.linkedin" id="linkedin" class="reseau">
+                Mon Linkedin
+              </a> -->
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -76,7 +120,7 @@ export default {
       userLogin: "",
       user: {},
       timeline: {},
-      update: true
+      update: true,
     };
   },
   methods: {
@@ -106,7 +150,6 @@ export default {
           email: this.email,
         };
         const data = await this.$http.get(`/inscription/getByUser`, { params });
-        console.log(data.data.inscription);
         this.timeline = data.data.inscription;
       } catch (err) {
         console.log(err);
@@ -114,21 +157,20 @@ export default {
     },
     async save() {
       try {
-        await this.$http.put(`/user/` + this.user.email, this.user)
+        await this.$http.put(`/user/` + this.user.email, this.user);
         this.$router.replace(`/membre/` + this.user.email);
       } catch (err) {
         console.log(err);
       }
     },
-    inputResize() {
-      console.log(document.getElementsByClassName(".inputResize"))
-    }
   },
   created() {
     this.getUserDetails();
     this.getInfoUser();
     this.getTimeline();
-    this.inputResize();
+  },
+  mounted() {
+    
   },
 };
 </script>
@@ -145,18 +187,19 @@ export default {
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      height: 25vh;
+      height: 20vh;
       width: 100%;
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     }
     #head-info {
-      padding: 7vh 7vw;
+      padding: 4vh 7vw;
       display: flex;
       flex-flow: row wrap;
       justify-content: space-between;
       #left-head-info {
         display: flex;
         flex-flow: row wrap;
+        //width: 80%;
         .photoProfil {
           // Image Profil
           background-color: #26f191;
@@ -166,9 +209,10 @@ export default {
             0 3px 6px rgba(0, 0, 0, 0.23);
         }
         .info-resume {
-          padding: 3vh 3vw;
+          padding: 3vh 0vw 3vh 3vw;
           color: $color;
           font-size: 3vh;
+          width: 600px;
           #name {
             font-weight: 700;
           }
@@ -177,13 +221,15 @@ export default {
             color: $color;
             font-weight: 700;
             border: none;
-            
+            width: 30%;
           }
         }
       }
       #right-head-info {
         display: flex;
+        flex-direction: row;
         align-items: center;
+
         button {
           background-color: $color;
           border: none;
@@ -261,10 +307,40 @@ export default {
           .body {
             textarea {
               width: 100%;
-              height: 30vh;
+              height: 20vh;
               margin: 2vh 0;
               resize: none;
               border: 2px solid $color;
+            }
+          }
+        }
+        .reseauDiv {
+          .body {
+            padding: 2vh 0;
+            img {
+              width: 3vw;
+            }
+
+            div {
+              margin: 0 1vw;
+              display: flex;
+              align-items: center;
+              input {
+                background: transparent;
+                color: $color;
+                font-weight: 700;
+
+                width: 30%;
+                border: 1px solid $color;
+                border-radius: 5px;
+                outline: none;
+                padding: 0.5vh 1vw;
+              }
+              i {
+                font-size: 3vh;
+                margin: 0 1vw;
+                color: $color;
+              }
             }
           }
         }
