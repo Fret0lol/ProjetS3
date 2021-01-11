@@ -64,13 +64,13 @@
               <div class="line"></div>
             </div>
             <div class="body">
-              <div id="linkedin" v-if="user.linkedin.length !== 0">
+              <div id="linkedin" v-if="user.linkedin !== ''">
                 <a :href=" user.linkedin" target="_blank" id="linkedin" class="reseau">
                 <img src="../../assets/LogoLinkedin.png" alt="Logo Linkedin" type="image/svg+xml" title="Voir mon Linkedin">
                 Mon Linkedin
               </a>
               </div>
-              <div id="phone" v-if="user.numeroTelephone.length !== 0">
+              <div id="phone" v-if="user.numeroTelephone !== ''">
                 <i><font-awesome-icon icon="phone" /></i>
                 <!-- <input type="tel" v-model="user.numereoTelephone" id="tel" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}"/> -->
                 <p>{{ user.numeroTelephone }}</p>

@@ -9,6 +9,5 @@ module.exports = {
   // Adresses I18N UTF‐8
   "formatAdresseMél": /^[a-zA-Z\p{Alphabetic}0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z\p{Alphabetic}0-9](?:[a-zA-Z\p{Alphabetic}0-9]{0,61}[a-zA-Z\p{Alphabetic}0-9])?(?:\.[a-zA-Z\p{Alphabetic}0-9](?:[a-zA-Z\p{Alphabetic}0-9]{0,61}[a-zA-Z\p{Alphabetic}0-9])?)+$/u,
 
-
 }
 

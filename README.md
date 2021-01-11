@@ -37,6 +37,7 @@ npm run serve
         \_ Lister les membres -> Affiner filtre de recherche    CSS
         \_ Afficher un membre $$    CSS
             \_ Carte Membre $$
+            \_ Afficher CV à télécharger
         \_ Modifier un membre -> En cours   CSS
             \_ L'utilisateur ne peut modifier que sa page perso ✅
             \_ Peut modifier Nom et Prénom ✅

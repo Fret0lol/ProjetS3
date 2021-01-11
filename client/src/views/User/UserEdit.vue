@@ -87,7 +87,7 @@
                   type="image/svg+xml"
                   title="Voir mon Linkedin"
                 />
-                <input type="text" v-model="user.linkedin" />
+                <input type="text" v-model="user.linkedin" placeholder="https://www.linkedin.com/in/XXXXXXXXXXX"/>
               </div>
               <div id="phone">
                 <i><font-awesome-icon icon="phone" /></i>
@@ -333,7 +333,8 @@ export default {
           .body {
             padding: 2vh 0;
             img {
-              width: 3vw;
+              width: 5vh;
+              margin: 0 0.5px 0 0;
             }
 
             div {
@@ -345,16 +346,23 @@ export default {
                 color: $color;
                 font-weight: 700;
 
-                width: 30%;
+                width: 100%;
                 border: 1px solid $color;
                 border-radius: 5px;
                 outline: none;
                 padding: 0.5vh 1vw;
+                font-size: 1.9vh;
               }
               i {
                 font-size: 3vh;
-                margin: 0 1vw;
+                margin: 0 10px;
                 color: $color;
+              }
+              p {
+                font-weight: 700;
+                color: $color;
+                margin: 0;
+                padding: 0 15px;
               }
             }
           }
