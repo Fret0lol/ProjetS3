@@ -64,10 +64,22 @@
               <div class="line"></div>
             </div>
             <div class="body">
-              <a :href="'//' + user.linkedin" id="linkedin" class="reseau">
-                <img src="../../assets/LogoLinkedin.svg" alt="Logo Linkedin" type="image/svg+xml" title="Voir mon Linkedin">
+              <div id="linkedin" v-if="user.linkedin.length !== 0">
+                <a :href=" user.linkedin" target="_blank" id="linkedin" class="reseau">
+                <img src="../../assets/LogoLinkedin.png" alt="Logo Linkedin" type="image/svg+xml" title="Voir mon Linkedin">
                 Mon Linkedin
               </a>
+              </div>
+              <div id="phone" v-if="user.numeroTelephone.length !== 0">
+                <i><font-awesome-icon icon="phone" /></i>
+                <!-- <input type="tel" v-model="user.numereoTelephone" id="tel" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}"/> -->
+                <p>{{ user.numeroTelephone }}</p>
+              </div>
+              <div id="mail">
+                <i><font-awesome-icon icon="envelope" /></i>
+                <!-- <input type="tel" v-model="user.email" id="email" pattern="@+."/> -->
+                <p>{{ user.email }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -148,12 +160,12 @@ export default {
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      height: 25vh;
+      height: 20vh;
       width: 100%;
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     }
     #head-info {
-      padding: 7vh 7vw;
+      padding: 4vh 7vw;
       display: flex;
       flex-flow: row wrap;
       justify-content: space-between;
@@ -237,6 +249,34 @@ export default {
       }
       .rightInfo {
         width: 50%;
+        .reseauDiv {
+          .body {
+            display: flex;
+            flex-flow: row nowrap;
+            padding: 2vh 0;
+            div {
+              margin: 0 1vw;
+              display: flex;
+              align-items: center;
+              font-weight: 700;
+              i {
+                font-size: 3vh;
+                margin: 0 1vw;
+                color: $color;
+              }
+              p {
+                margin: 0;
+              }
+              a {
+                color: black;
+                text-decoration: none;
+                img {
+                  width: 5vh;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

@@ -91,12 +91,12 @@
               </div>
               <div id="phone">
                 <i><font-awesome-icon icon="phone" /></i>
-                <input type="tel" v-model="user.numereoTelephone" id="tel" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}"/>
+                <input type="tel" v-model="user.numeroTelephone" id="tel" placeholder="+33 XXXXXXXXXX"/>
               </div>
-
-              <!-- <a :href="'//' + user.linkedin" id="linkedin" class="reseau">
-                Mon Linkedin
-              </a> -->
+              <div id="mail">
+                <i><font-awesome-icon icon="envelope" /></i>
+                <p>{{ user.email }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -106,6 +106,9 @@
 </template>
 <script>
 import VueJwtDecode from "vue-jwt-decode";
+import Constantes from "../../constantes"
+
+// Components
 import Header from "../../components/header";
 import Timeline from "../../components/Timeline";
 
@@ -144,6 +147,11 @@ export default {
         this.userLogin = decoded.email;
       }
     },
+    // En cas d'erreur de frappe utilisateur
+    async inputError(id) {
+      document.querySelector(id).querySelector("input").style.borderColor = "red";
+      document.querySelector(id).querySelector("input").style.color = "red";
+    },
     async getTimeline() {
       try {
         const params = {
@@ -157,8 +165,18 @@ export default {
     },
     async save() {
       try {
-        await this.$http.put(`/user/` + this.user.email, this.user);
-        this.$router.replace(`/membre/` + this.user.email);
+        // Test Linkedin Correct
+        if ((this.user.linkedin.length !== 0) && (!Constantes.formatLienLinkedIn.test(this.user.linkedin))) {
+          await this.inputError("#linkedin");
+          return 1
+        }
+        // Test Numéro Téléphone Correct
+        if ((this.user.numeroTelephone.length !== 0) && (!Constantes.formatNuméroTéléphone.test(this.user.numeroTelephone))) {
+          await this.inputError("#phone");
+          return 1
+        }
+        await this.$http.put(`/user/` + this.email, this.user);
+        this.$router.replace(`/membre/` + this.email);
       } catch (err) {
         console.log(err);
       }
@@ -168,10 +186,7 @@ export default {
     this.getUserDetails();
     this.getInfoUser();
     this.getTimeline();
-  },
-  mounted() {
-    
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>

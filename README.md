@@ -43,6 +43,7 @@ npm run serve
             \_ Peut modifier Info Supplémentaire ✅
             \_ Peut modifier lien linkedin -> Manque vérification
             \_ Peut modifier numéro Tel -> Manque vérfication
+            \_ Peut modifier email -> Manque vérification
             
     // Admin 
          \_ Liste Membres
@@ -83,6 +84,8 @@ npm run serve
 
 
 
+
+
 # Index 
 
 // Statuts possibles des membres
@@ -92,5 +95,3 @@ npm run serve
                 \_ Professeur -> Intitulé : "Professeur"
                 \_ Administrateur -> Intitulé : "Administrateur"
 Ajout envoie mail après enregistrement d'un membre
-
-tri alphabétique 

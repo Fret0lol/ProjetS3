@@ -70,7 +70,7 @@ $colorBlur: #26f19140;
 #app {
   background: linear-gradient(0deg, #e2e2e2 50%, #ffffff 0, #ffffff 100%);
   #homeFirstView {
-    height: 80vh;
+    height: 40vh;
     background-image: url("../assets/Rectangle_101.png");
     background-repeat: no-repeat;
     background-size: cover;

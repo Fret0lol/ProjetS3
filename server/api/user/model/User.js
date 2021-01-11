@@ -70,7 +70,7 @@ const userSchema = mongoose.Schema({
     type: String,
     default: null
   },
-  numereoTelephone: {
+  numeroTelephone: {
     type: String,
     default: null
   },
