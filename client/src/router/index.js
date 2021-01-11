@@ -25,7 +25,7 @@ const routes = [
     component: () => import("../views/Register.vue"),
   },
   {
-    path: "/membre/:email",
+    path: "/membre/:nomUtilisateur",
     name: "afficherMembre",
     component: () => import("../views/User/UserInfo.vue"),
     props: true,

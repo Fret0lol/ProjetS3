@@ -28,7 +28,7 @@
     </div>
     <div id="cards">
       <CardAnnuaire
-        :email="user.email"
+        :nomUtilisateur="user.nomUtilisateur"
         :key="user.email"
         :nom="user.nom"
         :prenom="user.prenom"

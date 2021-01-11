@@ -16,7 +16,7 @@
 </template>
 <script>
 export default {
-  props: ["email", "nom", "prenom", "statut"],
+  props: ["nomUtilisateur", "nom", "prenom", "statut"],
   data() {
     return {
       user: {},
@@ -25,13 +25,13 @@ export default {
   methods: {
     async getInfoUser() {
       const params = {
-        email: this.email,
+        nomUtilisateur: this.nomUtilisateur,
       };
-      const info = await this.$http.get(`/user/email`, { params }); //${this.email}
+      const info = await this.$http.get(`/user/nomUtilisateur`, { params }); //${this.email}
       this.user = info.data.user;
     },
     redirect() {
-      this.$router.push(`/membre/${this.email}`);
+      this.$router.push(`/membre/${this.nomUtilisateur}`);
     },
   },
   created() {

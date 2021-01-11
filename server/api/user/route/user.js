@@ -5,13 +5,13 @@ const userController = require("../controller/userController");
 
 router.post("/register", userController.registerNewUser);
 router.post("/login", userController.loginUser);
-router.get("/email", userController.getUserbyEmail);
+router.get("/nomUtilisateur", userController.getUserbyNomUtilisateur);
 router.get("/users/params", userController.getUserByParams); //A FINIR
 //router.get("/users", userController.getAllUsers);
 //router.get("/users/etudiant", userController.getAllEtudiant);
 
 
-router.put("/:email", userController.updateUser);
+router.put("/:nomUtilisateur", userController.updateUser);
 
 
 

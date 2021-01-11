@@ -93,7 +93,7 @@ import Header from "../../components/header";
 import Timeline from "../../components/Timeline";
 
 export default {
-  props: ["email"],
+  props: ["nomUtilisateur"],
   components: {
     Header,
     Timeline,
@@ -109,9 +109,9 @@ export default {
     async getInfoUser() {
       try {
         const params = {
-          email: this.email,
+          nomUtilisateur: this.nomUtilisateur,
         };
-        const info = await this.$http.get(`/user/email`, { params });
+        const info = await this.$http.get(`/user/nomUtilisateur`, { params });
         this.user = info.data.user;
       } catch (err) {
         console.log(err);
@@ -130,10 +130,9 @@ export default {
     async getTimeline() {
       try {
         const params = {
-          email: this.email,
+          nomUtilisateur: this.nomUtilisateur,
         };
         const data = await this.$http.get(`/inscription/getByUser`, { params });
-        console.log(data.data.inscription);
         this.timeline = data.data.inscription;
       } catch (err) {
         console.log(err);

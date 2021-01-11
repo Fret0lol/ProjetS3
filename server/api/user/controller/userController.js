@@ -4,11 +4,11 @@ const User = require("../model/User");
 // CREATE
 exports.registerNewUser = async (req, res) => {
   try {
-    let isUser = await User.find({ email: req.body.email });
+    let isUser = await User.find({ nomUtilisateur: req.body.nomUtilisateur });
     console.log(isUser);
     if (isUser.length >= 1) {
       return res.status(409).json({
-        message: "email already in use"
+        message: "nomUtilisateur already in use"
       });
     }
     const user = new User({
@@ -31,9 +31,9 @@ exports.registerNewUser = async (req, res) => {
 //       GET
 exports.loginUser = async (req, res) => {
   try {
-    const email = req.body.email;
+    const nomUtilisateur = req.body.nomUtilisateur;
     const password = req.body.password;
-    const user = await User.findByCredentials(email, password);
+    const user = await User.findByCredentials(nomUtilisateur, password);
     if (!user) {
       return res
         .status(401)
@@ -62,9 +62,9 @@ exports.getAllUsers = async (req, res) => {
 //   const rep = await User.find({ $or: [{ statut: "Etudiant" }, { statut: "Professeur" }] }).skip(offset).limit(10);
 //   res.status(201).json({ rep, count });
 // };
-exports.getUserbyEmail = async (req, res) => {
+exports.getUserbyNomUtilisateur = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.query.email });
+    const user = await User.findOne({ nomUtilisateur: req.query.nomUtilisateur });
     res.status(201).json({ user });
   } catch (err) {
     res.status(401).json({ err });
@@ -97,7 +97,7 @@ exports.getUserByParams = async (req, res) => {
 //    UPDATE
 exports.updateUser = async (req, res) => {
   try {
-    await User.updateOne({ email: req.body.email },  req.body )
+    await User.updateOne({ nomUtilisateur: req.body.nomUtilisateur },  req.body )
       .then(response => {
         res.status(201).json(response);
       });
@@ -109,7 +109,7 @@ exports.updateUser = async (req, res) => {
 // Update User Validation Admin
 exports.updateValidation = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ nomUtilisateur: req.body.nomUtilisateur });
     if (user) {
       user.valide = !user.valide;
       user.save()
@@ -125,7 +125,7 @@ exports.updateValidation = async (req, res) => {
 // Delete User Admin
 exports.deleteUser = async (req, res) => {
   try {
-    await User.deleteOne({ email: req.body.email });
+    await User.deleteOne({ nomUtilisateur: req.body.nomUtilisateur });
     res.status(201).json({message: "Suppression réussie !"});
   } catch (err) {
     res.status(401).json({err: err});

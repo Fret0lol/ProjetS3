@@ -15,7 +15,7 @@ exports.createNewInscription = async (req, res) => {
       });
     }
     // Test si Utilisateur déjà connu ou non
-    let isUser = await User.find({ email: req.body.utilisateur });
+    let isUser = await User.find({ nomUtilisateur: req.body.utilisateur });
     if (isUser.length < 1) {
       return res.status(409).json({
         message: "Utilisateur non-répertorié dans notre base de données"
@@ -46,7 +46,7 @@ exports.createNewInscription = async (req, res) => {
 // GET BY USERMAIL TO GET INSCRIPTION WITH FORMATION AND ETABLISSEMENT
 exports.getByUser = async (req, res) => {
   try {
-    let isUser = await User.findOne({ email: req.query.email });
+    let isUser = await User.findOne({ nomUtilisateur: req.query.nomUtilisateur });
     if (isUser.length >= 1) {
       return res.status(409).json({
         message: "Utilisateur non-répertorié dans notre base de données"
@@ -62,7 +62,7 @@ exports.getByUser = async (req, res) => {
 // UPDATE INSCRIPTION
 exports.updateByUser = async (req, res) => {
   try {
-    let isUser = await User.findOne({ email: req.body.email });
+    let isUser = await User.findOne({ nomUtilisateur: req.body.nomUtilisateur });
     if (isUser.length >= 1) {
       return res.status(409).json({
         message: "Utilisateur non-répertorié dans notre base de données"

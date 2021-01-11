@@ -110,8 +110,8 @@ userSchema.methods.generateAuthToken = async function() {
 };
 
 //this method search for a user by email and password.
-userSchema.statics.findByCredentials = async (email, password) => {
-  const user = await User.findOne({ email });
+userSchema.statics.findByCredentials = async (nomUtilisateur, password) => {
+  const user = await User.findOne({ nomUtilisateur });
   console.log(user);
   if (!user) {
     throw new Error({ error: "Invalid login details" });
