@@ -131,3 +131,48 @@ exports.deleteUser = async (req, res) => {
     res.status(401).json({err: err});
   }
 };
+
+
+// IMAGE
+// Upload Image from User
+exports.uploadImage = async (req, res) => {
+  try {
+    const user = await User.findById(req.body.id);
+    // //console.log(req.file);
+    // console.log(user.imageProfil)
+    user.imageProfil = req.file.buffer;
+    // console.log("YO");
+    user.save();
+    res.send({ message: "Check"})
+  } catch (err) {
+    res.status(400).send(err)
+  }
+};
+
+// Get Image from UserBase
+exports.getImage = async (req, res) => {
+  try {
+    console.log(req.query.nomUtilisateur)
+    const user = await User.findOne({ nomUtilisateur: req.query.nomUtilisateur });
+    if (!user || !user.imageProfil) {
+      throw new Error("Pas d'image")
+    }
+    
+    res.set('Content-Type', 'image/png')
+    let image = user.imageProfil
+    res.send({ image })
+  } catch (err) {
+    res.status(404).send()
+  }
+}
+// Delete Image in UserBase
+exports.deleteImage = async (req, res) => {
+  try {
+    const user = await User.findById(req.body.id)
+    user.imageProfil = undefined
+    user.save()
+    res.send({ message: "Check"})
+  } catch (err) {
+    res.status(400).send(err)
+  }
+};

@@ -58,8 +58,6 @@ npm run serve
                 \_ Changer Croix de suppression et de validation 
             \_ Afficher une liste infini de membres ❌
 
-    // Institution
-
     // Annuaire
         \_ Liste des membres $$
             \_ Tri alphabétique $$
@@ -85,7 +83,16 @@ npm run serve
 
 
 
-
+## BackEnd
+    \_ Organisation
+        \_ Création ✅
+        \_ Getteur ✅ (Un seul getteur avec personnalisation des paramètres de recherche)
+        \_ Modifier ✅ (Nécesitte le nom de l'organisation)
+        \_ Supprimer ✅ (Nécesitte le nom de l'organisation)
+    \_ Service
+        \_ Création ✅
+        \_ Getteur ✅ (Un seul getteur avec personnalisation des paramètres de recherche)
+        \_ Supprimer ✅ (Nécesitte le nom du service)
 
 # Index 
 

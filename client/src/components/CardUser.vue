@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="button">
-      <button @click="redirect">Plus d'info</button>
+      <button @click="redirect">Voir le profil</button>
     </div>
   </div>
 </template>
@@ -50,8 +50,9 @@ $color: #26f191;
   width: 400px;
   height: 200px;
   border-radius: 5px;
-  border: 1px solid $color;
-  background-color: $color;
+  border: 3px solid $color;
+  background-color: white;
+  color: $color;
   div {
     display: grid;
     grid-template-columns: 40% 60%;
@@ -68,7 +69,7 @@ $color: #26f191;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      color: white;
+      
       #name {
         font-size: 1.5vw;
         font-weight: 700;
@@ -83,12 +84,15 @@ $color: #26f191;
     flex-flow: row nowrap;
     justify-content: flex-end;
     padding: 0 2vw;
+    
     button {
+      background: $color;
       border: 2px solid $color;
       border-radius: 5px;
       width: 150px;
       padding: 0.75vh 1vw;
-      color: $color;
+      color: white;
+      font-weight: 600;
     }
   }
 }

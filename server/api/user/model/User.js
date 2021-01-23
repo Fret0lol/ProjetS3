@@ -74,10 +74,6 @@ const userSchema = mongoose.Schema({
     type: String,
     default: null
   },
-  infoSupplementaire: {
-    type: String,
-    default: null
-  },
   tokens: [
     {
       token: {

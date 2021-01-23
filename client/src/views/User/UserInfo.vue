@@ -80,6 +80,7 @@
                 <!-- <input type="tel" v-model="user.email" id="email" pattern="@+."/> -->
                 <p>{{ user.email }}</p>
               </div>
+              <img :src="'data:image/png;base64,' + imageProfil" alt="">
             </div>
           </div>
         </div>
@@ -102,7 +103,8 @@ export default {
     return {
       userLogin: "",
       user: {},
-      timeline: {}
+      timeline: {},
+      imageProfil: ""
     };
   },
   methods: {
@@ -126,7 +128,20 @@ export default {
         this.userLogin = decoded.email;
       }
     },
-
+    async getImageProfil() {
+      try {
+        console.log(this.user)
+        const params = {
+          nomUtilisateur: this.nomUtilisateur,
+        }
+        const data = await this.$http.get(`/user/image`, { params });
+        console.log(data.data.image)
+        this.imageProfil = data.data.image.toString('base64');
+        console.log(this.imageProfil)
+      } catch (err) {
+        console.log(err);
+      }
+    },
     async getTimeline() {
       try {
         const params = {
@@ -143,6 +158,7 @@ export default {
     this.getUserDetails();
     this.getInfoUser();
     this.getTimeline();
+    this.getImageProfil();
   },
 };
 </script>

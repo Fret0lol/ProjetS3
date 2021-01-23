@@ -29,7 +29,7 @@
     <div id="cards">
       <CardAnnuaire
         :nomUtilisateur="user.nomUtilisateur"
-        :key="user.email"
+        :key="user.nomUtilisateur"
         :nom="user.nom"
         :prenom="user.prenom"
         :statut="user.statut"

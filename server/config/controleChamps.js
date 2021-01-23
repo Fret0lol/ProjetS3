@@ -1,0 +1,9 @@
+module.exports = {
+
+  "formatIntitulé": /^[a-zA-Z\p{L}\p{Mark}\p{Pc}\p{Join_Control}\p{P}\p{N}\-‐ ]{2,1023}$/u,
+  "formatNom": /^[a-zA-Z]+$/,
+  "formatCodePostal": /^[A-Z0-9][A-Z0-9 -]{0,10}[A-Z0-9]$/,
+  "clésPays": [ "AL", "DE", "AD", "AT", "BE", "BY", "BA", "BG", "HR", "DK", "ES", "EE", "FI", "FR", "GR", "HU", "IE", "IS", "IT", "LV", "LT", "LI", "LU", "MK", "MT", "MD", "MC", "ME", "NO", "NL", "PL", "PT", "RO", "GB", "SM", "RS", "SK", "SI", "SE", "CH", "CZ", "UA", "VA", "AG", "AR", "BS", "BB", "BZ", "BO", "BR", "CA", "CL", "CO", "CR", "CU", "DM", "EC", "US", "GD", "GT", "GY", "HT", "HN", "JM", "MX", "NI", "PA", "PY", "PE", "DO", "KN", "VC", "LC", "SV", "SR", "TT", "UY", "VE", "SA", "BH", "CY", "EG", "AE", "IQ", "IR", "IL", "JO", "KW", "LB", "OM", "PS", "QA", "SY", "TR", "YE", "AF", "AZ", "AM", "BT", "MM", "BN", "CN", "KP", "KR", "GE", "IN", "ID", "JP", "KZ", "KG", "LA", "MY", "MV", "NP", "UZ", "PK", "PH", "RU", "SG", "LK", "TJ", "TH", "TL", "TM", "VN", "ZA", "DZ", "AO", "BJ", "BW", "BF", "BI", "KH", "CM", "CV", "CF", "KM", "CG", "CD", "CI", "DJ", "ET", "ER", "SZ", "GA", "GM", "GH", "GN", "GW", "GQ", "KE", "LR", "LY", "MG", "MW", "ML", "MA", "MU", "MR", "MZ", "NA", "NE", "NG", "UG", "RW", "ST", "SN", "SC", "SL", "SO", "SD", "SS", "TZ", "TD", "TG", "TN", "ZM", "ZW", "AU", "CK", "FJ", "KI", "MH", "FM", "NR", "NU", "NZ", "PW", "PG", "SB", "WS", "TO", "TV", "VU", "AUTRE", ],
+  "formatLienSite": /^https?:\/\/[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?)\.[a-zA-Z0-9]+/,
+  "formatLienLinkedIn": /^https?:\/\/www\.linkedin\.com\/in\/[a-zA-Z0-9\-]+/,
+};

@@ -5,6 +5,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const config = require("./config/db");
+// Manipulation de fichier
+const multer = require("multer");
 
 const app = express();
 
@@ -35,18 +37,23 @@ app.get("/", (req, res) => {
   console.log("Hello MEVN Soldier");
 });
 
-const userRoutes = require("./api/user/route/user"); //bring in our user routes
+const userRoutes = require("./api/user/routes/user"); //bring in our user routes
 app.use("/user", userRoutes);
 
-const etablissementRoutes = require("./api/user/route/etablissement");
+const etablissementRoutes = require("./api/user/routes/etablissement");
 app.use("/etablissement", etablissementRoutes);
 
-const inscriptionRoutes = require("./api/user/route/inscription");
+const inscriptionRoutes = require("./api/user/routes/inscription");
 app.use("/inscription", inscriptionRoutes);
 
-const formationRoutes = require("./api/user/route/formation");
+const formationRoutes = require("./api/user/routes/formation");
 app.use("/formation", formationRoutes);
 
+const organisationRoutes = require("./api/user/routes/organisation.routes");
+app.use("/organisation", organisationRoutes);
+
+const serviceRoutes = require("./api/user/routes/service.routes");
+app.use("/service", serviceRoutes);
 app.listen(PORT, () => {
   console.log(`App is running on ${PORT}`);
 });
