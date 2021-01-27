@@ -20,13 +20,39 @@
               class="inputResize"
               onInput="this.style.width = (this.value.length + 1) + 'ch';"
             />
-            <!-- <p id="name">{{ user.prenom }} {{ user.nom }}</p> -->
-            <p>{{ user.statut }}</p>
+            <!-- <p>{{ user.statut }}</p> -->
+          </div>
+          <div class="reseau">
+            <div id="linkedin">
+              <img
+                src="../../assets/LogoLinkedin.png"
+                alt="Logo Linkedin"
+                type="image/svg+xml"
+                title="Voir mon Linkedin"
+              />
+              <input
+                type="text"
+                v-model="user.linkedin"
+                placeholder="https://www.linkedin.com/in/XXXXXXXXXXX"
+              />
+            </div>
+            <div id="phone">
+              <i><font-awesome-icon icon="phone" /></i>
+              <input
+                type="tel"
+                v-model="user.numeroTelephone"
+                id="tel"
+                placeholder="+33 XXXXXXXXXX"
+              />
+            </div>
+            <div id="mail">
+              <i><font-awesome-icon icon="envelope" /></i>
+              <p>{{ user.email }}</p>
+            </div>
           </div>
         </div>
         <div id="right-head-info">
           <button @click="save()">Sauvegarder</button>
-          <button>Prendre Contact</button>
         </div>
       </div>
       <div id="body-info">
@@ -52,7 +78,7 @@
               </li>
               <li>
                 <router-link
-                  :to="'/membre/' + user.email + '/edit/' + update"
+                  :to="'/membre/' + user.nomUtilisateur + '/edit/' + update"
                   tag="button"
                   >Ajouter</router-link
                 >
@@ -87,11 +113,20 @@
                   type="image/svg+xml"
                   title="Voir mon Linkedin"
                 />
-                <input type="text" v-model="user.linkedin" placeholder="https://www.linkedin.com/in/XXXXXXXXXXX"/>
+                <input
+                  type="text"
+                  v-model="user.linkedin"
+                  placeholder="https://www.linkedin.com/in/XXXXXXXXXXX"
+                />
               </div>
               <div id="phone">
                 <i><font-awesome-icon icon="phone" /></i>
-                <input type="tel" v-model="user.numeroTelephone" id="tel" placeholder="+33 XXXXXXXXXX"/>
+                <input
+                  type="tel"
+                  v-model="user.numeroTelephone"
+                  id="tel"
+                  placeholder="+33 XXXXXXXXXX"
+                />
               </div>
               <div id="mail">
                 <i><font-awesome-icon icon="envelope" /></i>
@@ -106,14 +141,14 @@
 </template>
 <script>
 import VueJwtDecode from "vue-jwt-decode";
-import Constantes from "../../constantes"
+import Constantes from "../../constantes";
 
 // Components
 import Header from "../../components/header";
 import Timeline from "../../components/Timeline";
 
 export default {
-  props: ["email"],
+  props: ["nomUtilisateur"],
   components: {
     Header,
     Timeline,
@@ -130,9 +165,9 @@ export default {
     async getInfoUser() {
       try {
         const params = {
-          email: this.email,
+          nomUtilisateur: this.nomUtilisateur,
         };
-        const info = await this.$http.get(`/user/email`, { params });
+        const info = await this.$http.get(`/user/nomUtilisateur`, { params });
         this.user = info.data.user;
       } catch (err) {
         console.log(err);
@@ -144,18 +179,19 @@ export default {
         this.userLogin = null;
       } else {
         let decoded = VueJwtDecode.decode(token);
-        this.userLogin = decoded.email;
+        this.userLogin = decoded.nomUtilisateur;
       }
     },
     // En cas d'erreur de frappe utilisateur
     async inputError(id) {
-      document.querySelector(id).querySelector("input").style.borderColor = "red";
+      document.querySelector(id).querySelector("input").style.borderColor =
+        "red";
       document.querySelector(id).querySelector("input").style.color = "red";
     },
     async getTimeline() {
       try {
         const params = {
-          email: this.email,
+          nomUtilisateur: this.nomUtilisateur,
         };
         const data = await this.$http.get(`/inscription/getByUser`, { params });
         this.timeline = data.data.inscription;
@@ -165,18 +201,25 @@ export default {
     },
     async save() {
       try {
+        console.log(this.user.linkedin);
         // Test Linkedin Correct
-        if ((this.user.linkedin.length !== 0) && (!Constantes.formatLienLinkedIn.test(this.user.linkedin))) {
+        if (
+          this.user.linkedin !== null &&
+          !Constantes.formatLienLinkedIn.test(this.user.linkedin)
+        ) {
           await this.inputError("#linkedin");
-          return 1
+          return 1;
         }
         // Test Numéro Téléphone Correct
-        if ((this.user.numeroTelephone.length !== 0) && (!Constantes.formatNuméroTéléphone.test(this.user.numeroTelephone))) {
+        if (
+          this.user.numeroTelephone.length !== 0 &&
+          !Constantes.formatNuméroTéléphone.test(this.user.numeroTelephone)
+        ) {
           await this.inputError("#phone");
-          return 1
+          return 1;
         }
-        await this.$http.put(`/user/` + this.email, this.user);
-        this.$router.replace(`/membre/` + this.email);
+        await this.$http.put(`/user/` + this.nomUtilisateur, this.user);
+        this.$router.replace(`/membre/` + this.nomUtilisateur);
       } catch (err) {
         console.log(err);
       }
@@ -186,7 +229,7 @@ export default {
     this.getUserDetails();
     this.getInfoUser();
     this.getTimeline();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -196,25 +239,37 @@ export default {
   #info {
     margin-top: 1vh;
     #img-background {
-      position: absolute;
-      z-index: -1;
-      background-image: url("../../assets/imgBack.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      height: 20vh;
-      width: 100%;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      display: none;
+      @media screen and (min-width: 750px) {
+        display: block;
+        position: absolute;
+        z-index: -1;
+        background-image: url("../../assets/imgBack.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 20vh;
+        width: 100%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      }
     }
     #head-info {
       padding: 4vh 7vw;
       display: flex;
-      flex-flow: row wrap;
-      justify-content: space-between;
+      flex-direction: column;
+      align-content: center;
+      @media screen and (min-width: 750px) {
+        flex-flow: row wrap;
+        justify-content: space-between;
+      }
       #left-head-info {
         display: flex;
-        flex-flow: row wrap;
-        //width: 80%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        @media screen and (min-width: 750px) {
+          flex-flow: row wrap;
+        }
         .photoProfil {
           // Image Profil
           background-color: #26f191;
@@ -224,35 +279,65 @@ export default {
             0 3px 6px rgba(0, 0, 0, 0.23);
         }
         .info-resume {
-          padding: 3vh 0vw 3vh 3vw;
-          color: $color;
-          font-size: 3vh;
-          width: 600px;
-          #name {
-            font-weight: 700;
+          padding: 3vh 3vw;
+          color: $color3;
+          font-size: 4vh;
+          @media screen and (min-width: 750px) {
+            color: $color2;
+            font-size: 3vh;
           }
           input {
-            background: transparent;
-            color: $color;
+            width: 180px;
+            background-color: #ffffff56;
+            border: 1px solid #26f191;
+            border-radius: 5px;
+            outline: none;
             font-weight: 700;
-            border: none;
-            width: 30%;
+            margin: 0 0 2.2em 0;
+          }
+          .reseau {
+            display: flex;
+            flex-direction: row;
+            //padding: 2vh 0;
+            a {
+              img {
+                height: 50px;
+              }
+            }
+            div {
+              margin: 0 1vw 0 0;
+              display: flex;
+              align-items: center;
+              font-weight: 700;
+              i {
+                font-size: 3vh;
+                margin: 0 1vw;
+                color: $color;
+              }
+              p {
+                color: $color3;
+                margin: 0;
+                font-size: 18px;
+              }
+            }
           }
         }
       }
       #right-head-info {
         display: flex;
-        flex-direction: row;
         align-items: center;
-
         button {
           background-color: $color;
           border: none;
-          padding: 10px 22px;
           border-radius: 5px;
-          color: white;
+          padding: 10px 22px;
+          color: $color2;
           font-weight: 700;
-          margin: 0 1em;
+          margin: 0 5px;
+          width: 11em;
+        }
+        #edit {
+          width: 4em;
         }
       }
     }

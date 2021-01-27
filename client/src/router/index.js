@@ -34,7 +34,7 @@ const routes = [
     },
   },
   {
-    path: "/membre/:email/edit",
+    path: "/membre/:nomUtilisateur/edit",
     name: "modifierMembre",
     component: () => import("../views/User/UserEdit.vue"),
     props: true,
@@ -42,7 +42,7 @@ const routes = [
       requiresAuth: true,
     },
     beforeEnter: (to, from, next) => {
-      console.log(to.params.email);
+      console.log(to.params.nomUtilisateur);
       console.log(localStorage.getItem("jwt"));
       let token = localStorage.getItem("jwt");
       if (token === null) {
@@ -51,7 +51,7 @@ const routes = [
         });
       } else {
         let decoded = VueJwtDecode.decode(token);
-        if (decoded.email === to.params.email) {
+        if (decoded.nomUtilisateur === to.params.nomUtilisateur) {
           next();
         } else {
           next({

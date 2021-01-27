@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <Header />
-
     <div id="info">
       <div id="img-background"></div>
       <div id="head-info">
@@ -9,25 +8,53 @@
           <div class="photoProfil"></div>
           <div class="info-resume">
             <p id="name">{{ user.prenom }} {{ user.nom }}</p>
-            <p>{{ user.statut }}</p>
+            <!-- <p>{{ user.statut }}</p> Doit être le dernier poste occupée-->
+            <div class="reseau">
+              <div id="linkedin" v-if="user.linkedin !== null">
+                <a
+                  :href="user.linkedin"
+                  target="_blank"
+                  id="linkedin"
+                  class="reseau"
+                >
+                  <img
+                    src="../../assets/LogoLinkedin.png"
+                    alt="Logo Linkedin"
+                    type="image/svg+xml"
+                    title="Voir mon Linkedin"
+                  />
+                </a>
+              </div>
+              <div id="phone" v-if="user.numeroTelephone !== null">
+                <i><font-awesome-icon icon="phone" /></i>
+                <p>{{ user.numeroTelephone }}</p>
+              </div>
+              <div id="mail">
+                <i><font-awesome-icon icon="envelope" /></i>
+                <p>{{ user.email }}</p>
+              </div>
+            </div>
           </div>
         </div>
         <div id="right-head-info">
+          <!-- Lien Page Edition -->
           <router-link
-            :to="'/membre/' + user.email + '/edit'"
+            :to="'/membre/' + user.nomUtilisateur + '/edit'"
             tag="button"
             id="edit"
-            v-if="userLogin === user.email"
+            v-if="userLogin === user.nomUtilisateur"
           >
             <i>
               <font-awesome-icon icon="edit" />
             </i>
           </router-link>
+          <!-- Lien Page Messagerie Instantannée -->
           <button>Prendre Contact</button>
+          <button>Mon CV</button>
         </div>
       </div>
       <div id="body-info">
-        <div class="formations">
+        <div class="formations" v-if="timeline.length !== 0">
           <div class="title">
             <p>Formations</p>
             <div class="line"></div>
@@ -35,8 +62,8 @@
           <div class="body">
             <ul class="timeline">
               <li v-for="line in timeline" :key="line._id">
-                <Timeline 
-                  :formationComplet="line.formationId.intitulé_formation_long" 
+                <Timeline
+                  :formationComplet="line.formationId.intitulé_formation_long"
                   :formationCourt="line.formationId.intitulé_formation_court"
                   :dateEntree="line.date_entrée"
                   :dateSortie="line.date_sortie"
@@ -48,41 +75,29 @@
             </ul>
           </div>
         </div>
-        <div class="rightInfo">
-          <div class="infoDiv">
-            <div class="title">
-              <p>Informations</p>
-              <div class="line"></div>
-            </div>
-            <div class="body">
-              <p>{{ user.infoSupplementaire }} </p>
-            </div>
+        <div class="experiencePro" v-if="experiencePro.length !== 0">
+          <div class="title">
+            <p>Expérience Professionnel</p>
+            <div class="line"></div>
           </div>
-          <div class="reseauDiv">
-            <div class="title">
-              <p>Réseaux</p>
-              <div class="line"></div>
-            </div>
-            <div class="body">
-              <div id="linkedin" v-if="user.linkedin !== ''">
-                <a :href=" user.linkedin" target="_blank" id="linkedin" class="reseau">
-                <img src="../../assets/LogoLinkedin.png" alt="Logo Linkedin" type="image/svg+xml" title="Voir mon Linkedin">
-                Mon Linkedin
-              </a>
-              </div>
-              <div id="phone" v-if="user.numeroTelephone !== ''">
-                <i><font-awesome-icon icon="phone" /></i>
-                <!-- <input type="tel" v-model="user.numereoTelephone" id="tel" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}"/> -->
-                <p>{{ user.numeroTelephone }}</p>
-              </div>
-              <div id="mail">
-                <i><font-awesome-icon icon="envelope" /></i>
-                <!-- <input type="tel" v-model="user.email" id="email" pattern="@+."/> -->
-                <p>{{ user.email }}</p>
-              </div>
-              <img :src="'data:image/png;base64,' + imageProfil" alt="">
-            </div>
+          <div class="body">
+            <ul class="timeline">
+              <li v-for="line in experiencePro" :key="line._id">
+                <Timeline
+                  :formationComplet="line.formationId.intitulé_formation_long"
+                  :formationCourt="line.formationId.intitulé_formation_court"
+                  :dateEntree="line.date_entrée"
+                  :dateSortie="line.date_sortie"
+                  :infoSupp="line.infoSupp"
+                  :nomEtablissement="line.etablissementId.nom"
+                  :villeEtablissement="line.etablissementId.ville"
+                />
+              </li>
+            </ul>
           </div>
+        </div>
+        <div class="messageSiPasTimelines" v-if="timeline.length === 0 && experiencePro.length === 0">
+          <p>Nous n'avons pas plus d'informations sur cet individus :)</p>
         </div>
       </div>
     </div>
@@ -104,7 +119,7 @@ export default {
       userLogin: "",
       user: {},
       timeline: {},
-      imageProfil: ""
+      experiencePro: {},
     };
   },
   methods: {
@@ -115,6 +130,7 @@ export default {
         };
         const info = await this.$http.get(`/user/nomUtilisateur`, { params });
         this.user = info.data.user;
+        console.log(this.user.linkedin);
       } catch (err) {
         console.log(err);
       }
@@ -125,21 +141,7 @@ export default {
         this.userLogin = null;
       } else {
         let decoded = VueJwtDecode.decode(token);
-        this.userLogin = decoded.email;
-      }
-    },
-    async getImageProfil() {
-      try {
-        console.log(this.user)
-        const params = {
-          nomUtilisateur: this.nomUtilisateur,
-        }
-        const data = await this.$http.get(`/user/image`, { params });
-        console.log(data.data.image)
-        this.imageProfil = data.data.image.toString('base64');
-        console.log(this.imageProfil)
-      } catch (err) {
-        console.log(err);
+        this.userLogin = decoded.nomUtilisateur;
       }
     },
     async getTimeline() {
@@ -152,13 +154,12 @@ export default {
       } catch (err) {
         console.log(err);
       }
-    }
+    },
   },
   created() {
     this.getUserDetails();
     this.getInfoUser();
     this.getTimeline();
-    this.getImageProfil();
   },
 };
 </script>
@@ -169,24 +170,37 @@ export default {
   #info {
     margin-top: 1vh;
     #img-background {
-      position: absolute;
-      z-index: -1;
-      background-image: url("../../assets/imgBack.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      height: 20vh;
-      width: 100%;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      display: none;
+      @media screen and (min-width: 750px) {
+        display: block;
+        position: absolute;
+        z-index: -1;
+        background-image: url("../../assets/imgBack.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 20vh;
+        width: 100%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      }
     }
     #head-info {
       padding: 4vh 7vw;
       display: flex;
-      flex-flow: row wrap;
-      justify-content: space-between;
+      flex-direction: column;
+      align-content: center;
+      @media screen and (min-width: 750px) {
+        flex-flow: row wrap;
+        justify-content: space-between;
+      }
       #left-head-info {
         display: flex;
-        flex-flow: row wrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        @media screen and (min-width: 750px) {
+          flex-flow: row wrap;
+        }
         .photoProfil {
           // Image Profil
           background-color: #26f191;
@@ -197,10 +211,41 @@ export default {
         }
         .info-resume {
           padding: 3vh 3vw;
-          color: $color;
-          font-size: 3vh;
+          color: $color3;
+          font-size: 4vh;
+          @media screen and (min-width: 750px) {
+            color: $color2;
+            font-size: 3vh;
+          }
           #name {
             font-weight: 700;
+            margin: 0 0 2.2em 0;
+          }
+          .reseau {
+            display: flex;
+            flex-direction: row;
+            //padding: 2vh 0;
+            a {
+              img {
+                height: 50px;
+              }
+            }
+            div {
+              margin: 0 1vw 0 0;
+              display: flex;
+              align-items: center;
+              font-weight: 700;
+              i {
+                font-size: 3vh;
+                margin: 0 1vw;
+                color: $color;
+              }
+              p {
+                color: $color3;
+                margin: 0;
+                font-size: 18px;
+              }
+            }
           }
         }
       }
@@ -210,10 +255,15 @@ export default {
         button {
           background-color: $color;
           border: none;
-          padding: 10px 22px;
           border-radius: 5px;
-          color: white;
+          padding: 10px 22px;
+          color: $color2;
           font-weight: 700;
+          margin: 0 5px;
+          width: 11em;
+        }
+        #edit {
+          width: 4em;
         }
       }
     }
@@ -264,34 +314,6 @@ export default {
       }
       .rightInfo {
         width: 50%;
-        .reseauDiv {
-          .body {
-            display: flex;
-            flex-flow: row nowrap;
-            padding: 2vh 0;
-            div {
-              margin: 0 1vw;
-              display: flex;
-              align-items: center;
-              font-weight: 700;
-              i {
-                font-size: 3vh;
-                margin: 0 1vw;
-                color: $color;
-              }
-              p {
-                margin: 0;
-              }
-              a {
-                color: black;
-                text-decoration: none;
-                img {
-                  width: 5vh;
-                }
-              }
-            }
-          }
-        }
       }
     }
   }

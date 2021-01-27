@@ -5,12 +5,12 @@
       @submit.prevent="loginUser"
     >
     <div class="champ">
-      <p>Email</p>
-      <CustomInput type="email" label="Email" placeholder="Email" icon="at" v-model="login.email" required/>
+      <!-- <p>Nom d'utilisateur</p> -->
+      <CustomInput type="text" label="Nom d'utilisateur" placeholder="Nom d'utilisateur" icon="at" v-model="login.nomUtilisateur" required/>
       
     </div>
     <div class="champ">
-      <p>Mot de passe</p>
+      <!-- <p>Mot de passe</p> -->
       <CustomInput type="password" label="Mot de passe" placeholder="Mot de passe" icon="lock" v-model="login.password" required/>
     </div> 
 
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       login: {
-        email: "",
+        nomUtilisateur: "",
         password: "",
       },
     };
