@@ -77,7 +77,7 @@ npm run serve
                         \_ Créer ✅
                     \_ Shéma Inscription ✅
                         \_ Créer ✅
-                \_ Développer requêtes Back
+                \_ Développer requêtes Back ✅
             \_ CSS ✅
 
 

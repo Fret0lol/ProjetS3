@@ -49,7 +49,7 @@
             </i>
           </router-link>
           <!-- Lien Page Messagerie Instantannée -->
-          <button>Prendre Contact</button>
+          <button>Contacter</button>
           <button>Mon CV</button>
         </div>
       </div>
@@ -96,7 +96,10 @@
             </ul>
           </div>
         </div>
-        <div class="messageSiPasTimelines" v-if="timeline.length === 0 && experiencePro.length === 0">
+        <div
+          class="messageSiPasTimelines"
+          v-if="timeline.length === 0 && experiencePro.length === 0"
+        >
           <p>Nous n'avons pas plus d'informations sur cet individus :)</p>
         </div>
       </div>
@@ -220,6 +223,10 @@ export default {
           #name {
             font-weight: 700;
             margin: 0 0 2.2em 0;
+            text-align: center;
+            @media screen and (min-width: 750px) {
+              text-align: left;
+            }
           }
           .reseau {
             display: flex;
@@ -252,6 +259,7 @@ export default {
       #right-head-info {
         display: flex;
         align-items: center;
+        justify-content: center;
         button {
           background-color: $color;
           border: none;
@@ -260,7 +268,11 @@ export default {
           color: $color2;
           font-weight: 700;
           margin: 0 5px;
-          width: 11em;
+          width: 8em;
+          font-size: 1.8vh;
+          @media screen and (min-width: 750px) {
+            
+          }
         }
         #edit {
           width: 4em;
@@ -273,7 +285,8 @@ export default {
       flex-flow: row wrap;
       width: 90vw;
 
-      .formations {
+      .formations,
+      .experiencePro {
         width: 100vw;
         min-width: 300px;
         @media screen and (min-width: 660px) {

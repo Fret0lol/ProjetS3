@@ -11,48 +11,50 @@
             <input
               type="text"
               v-model="user.prenom"
-              class="inputResize"
+              class="inputResize name"
               onInput="this.style.width = (this.value.length + 1) + 'ch';"
             />
             <input
               type="text"
               v-model="user.nom"
-              class="inputResize"
+              class="inputResize name"
               onInput="this.style.width = (this.value.length + 1) + 'ch';"
             />
+            <div class="reseau">
+              <div id="linkedin">
+                <img
+                  src="../../assets/LogoLinkedin.png"
+                  alt="Logo Linkedin"
+                  width="50px"
+                  title="Voir mon Linkedin"
+                />
+                <input
+                  type="text"
+                  v-model="user.linkedin"
+                  placeholder="https://www.linkedin.com/in/XXXXXXXXXXX"
+                />
+              </div>
+              <div id="phone">
+                <i><font-awesome-icon icon="phone" /></i>
+                <input
+                  type="tel"
+                  v-model="user.numeroTelephone"
+                  id="tel"
+                  placeholder="+33 XXXXXXXXXX"
+                />
+              </div>
+              <div id="mail">
+                <i><font-awesome-icon icon="envelope" /></i>
+                <input
+                  type="tel"
+                  v-model="user.email"
+                  id="email"
+                  placeholder="exemple@gmail.com"
+                />
+              </div>
+            </div>
             <!-- <p>{{ user.statut }}</p> -->
           </div>
-          <div class="reseau">
-            <div id="linkedin">
-              <img
-                src="../../assets/LogoLinkedin.png"
-                alt="Logo Linkedin"
-                type="image/svg+xml"
-                title="Voir mon Linkedin"
-              />
-              <input
-                type="text"
-                v-model="user.linkedin"
-                placeholder="https://www.linkedin.com/in/XXXXXXXXXXX"
-              />
-            </div>
-            <div id="phone">
-              <i><font-awesome-icon icon="phone" /></i>
-              <input
-                type="tel"
-                v-model="user.numeroTelephone"
-                id="tel"
-                placeholder="+33 XXXXXXXXXX"
-              />
-            </div>
-            <div id="mail">
-              <i><font-awesome-icon icon="envelope" /></i>
-              <p>{{ user.email }}</p>
-            </div>
-          </div>
-        </div>
-        <div id="right-head-info">
-          <button @click="save()">Sauvegarder</button>
         </div>
       </div>
       <div id="body-info">
@@ -86,55 +88,36 @@
             </ul>
           </div>
         </div>
-        <div class="rightInfo">
-          <div class="infoDiv">
-            <div class="title">
-              <p>Informations</p>
-              <div class="line"></div>
-            </div>
-            <div class="body">
-              <textarea
-                v-model="user.infoSupplementaire"
-                placeholder="Écrit une message pour ceux qui verront ton profil"
-                autocomplete="off"
-              ></textarea>
-            </div>
+        <div class="experiencePro" v-if="experiencePro.length !== 0">
+          <div class="title">
+            <p>Expérience Professionnel</p>
+            <div class="line"></div>
           </div>
-          <div class="reseauDiv">
-            <div class="title">
-              <p>Réseaux</p>
-              <div class="line"></div>
-            </div>
-            <div class="body">
-              <div id="linkedin">
-                <img
-                  src="../../assets/LogoLinkedin.png"
-                  alt="Logo Linkedin"
-                  type="image/svg+xml"
-                  title="Voir mon Linkedin"
+          <div class="body">
+            <ul class="timeline">
+              <li v-for="line in experiencePro" :key="line._id">
+                <Timeline
+                  :formationComplet="line.formationId.intitulé_formation_long"
+                  :formationCourt="line.formationId.intitulé_formation_court"
+                  :dateEntree="line.date_entrée"
+                  :dateSortie="line.date_sortie"
+                  :infoSupp="line.infoSupp"
+                  :nomEtablissement="line.etablissementId.nom"
+                  :villeEtablissement="line.etablissementId.ville"
                 />
-                <input
-                  type="text"
-                  v-model="user.linkedin"
-                  placeholder="https://www.linkedin.com/in/XXXXXXXXXXX"
-                />
-              </div>
-              <div id="phone">
-                <i><font-awesome-icon icon="phone" /></i>
-                <input
-                  type="tel"
-                  v-model="user.numeroTelephone"
-                  id="tel"
-                  placeholder="+33 XXXXXXXXXX"
-                />
-              </div>
-              <div id="mail">
-                <i><font-awesome-icon icon="envelope" /></i>
-                <p>{{ user.email }}</p>
-              </div>
-            </div>
+                <button>Modifier</button>
+              </li>
+              <li>
+                <router-link
+                  :to="'/membre/' + user.nomUtilisateur + '/edit/' + update"
+                  tag="button"
+                  >Ajouter</router-link
+                >
+              </li>
+            </ul>
           </div>
         </div>
+        <button @click="save()">Sauvegarder</button>
       </div>
     </div>
   </div>
@@ -142,7 +125,7 @@
 <script>
 import VueJwtDecode from "vue-jwt-decode";
 import Constantes from "../../constantes";
-
+import swal from "sweetalert";
 // Components
 import Header from "../../components/header";
 import Timeline from "../../components/Timeline";
@@ -158,6 +141,7 @@ export default {
       userLogin: "",
       user: {},
       timeline: {},
+      experiencePro: {},
       update: true,
     };
   },
@@ -201,13 +185,14 @@ export default {
     },
     async save() {
       try {
-        console.log(this.user.linkedin);
+        console.log(this.user);
         // Test Linkedin Correct
         if (
-          this.user.linkedin !== null &&
+          this.user.linkedin !== "" &&
           !Constantes.formatLienLinkedIn.test(this.user.linkedin)
         ) {
-          await this.inputError("#linkedin");
+          this.inputError("#linkedin");
+          swal("Error", "Champs incorrects", "Error");
           return 1;
         }
         // Test Numéro Téléphone Correct
@@ -286,15 +271,23 @@ export default {
             color: $color2;
             font-size: 3vh;
           }
-          input {
-            width: 180px;
-            background-color: #ffffff56;
-            border: 1px solid #26f191;
-            border-radius: 5px;
-            outline: none;
+          .name {
             font-weight: 700;
             margin: 0 0 2.2em 0;
+            text-align: center;
+            @media screen and (min-width: 750px) {
+              text-align: left;
+            }
           }
+          input {
+              background: transparent;
+              width: 6em;
+              outline: none;
+              color: $color2;
+              font-weight: 700;
+              border: 1px solid $color;
+              border-radius: 5px;
+            }
           .reseau {
             display: flex;
             flex-direction: row;
@@ -314,30 +307,13 @@ export default {
                 margin: 0 1vw;
                 color: $color;
               }
-              p {
+              input {
                 color: $color3;
-                margin: 0;
-                font-size: 18px;
+                font-size: 2vh;
+                width: 14em;
               }
             }
           }
-        }
-      }
-      #right-head-info {
-        display: flex;
-        align-items: center;
-        button {
-          background-color: $color;
-          border: none;
-          border-radius: 5px;
-          padding: 10px 22px;
-          color: $color2;
-          font-weight: 700;
-          margin: 0 5px;
-          width: 11em;
-        }
-        #edit {
-          width: 4em;
         }
       }
     }
@@ -347,7 +323,8 @@ export default {
       flex-flow: row wrap;
       width: 90vw;
 
-      .formations {
+      .formations,
+      .experiencePro {
         width: 100vw;
         min-width: 300px;
         @media screen and (min-width: 660px) {
@@ -401,70 +378,16 @@ export default {
           }
         }
       }
-      .rightInfo {
-        width: 50%;
-        .infoDiv {
-          .body {
-            textarea {
-              width: 100%;
-              height: 20vh;
-              margin: 2vh 0;
-              resize: none;
-              border: 2px solid $color;
-            }
-          }
+      button {
+          background-color: $color;
+          border: none;
+          border-radius: 5px;
+          padding: 10px 22px;
+          color: $color2;
+          font-weight: 700;
+          margin: 20px 5px;
+          width: 11em;
         }
-        .reseauDiv {
-          .body {
-            padding: 2vh 0;
-            img {
-              width: 5vh;
-              margin: 0 0.5px 0 0;
-            }
-
-            div {
-              margin: 0 1vw;
-              display: flex;
-              align-items: center;
-              input {
-                background: transparent;
-                color: $color;
-                font-weight: 700;
-
-                width: 100%;
-                border: 1px solid $color;
-                border-radius: 5px;
-                outline: none;
-                padding: 0.5vh 1vw;
-                font-size: 1.9vh;
-              }
-              i {
-                font-size: 3vh;
-                margin: 0 10px;
-                color: $color;
-              }
-              p {
-                font-weight: 700;
-                color: $color;
-                margin: 0;
-                padding: 0 15px;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  #edit {
-    //height: 5vh;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-    align-items: center;
-    margin: 0 2vw;
-    a i {
-      font-size: 3vh;
-      color: $color;
     }
   }
 }
