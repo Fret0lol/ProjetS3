@@ -17,7 +17,12 @@ const routes = [
   {
     path: "/forum",
     name: "forum",
-    component: () => import("../views/forums.vue")
+    component: () => import("../views/forum/forums.vue")
+  },
+  {
+    path:"/addForum",
+    name:"addForum",
+    component: () => import("../views/forum/ajouterForum.vue")
   },
   {
     path: "/login",

@@ -1,0 +1,93 @@
+<template>
+  <div class="container">
+    <Header />
+    <div class="wrapper">
+        <h2 class="title">Nouveau forum</h2>
+      <form class="form">
+          <label class="form_label">Titre :</label>
+          <input type="text" class="form_input" name="titreForum">
+           <label class="form_label" >Type :</label>
+          <select name="type" class="form_input" id="">
+            <option value="publique">Publique</option>
+            <option value="privée">Privée</option>
+          </select>
+           <label class="form_label">Description :</label>
+          <textarea name="description" class="form_input textarea" cols="30" rows="10" ></textarea>
+           <label class="form_label">Ajouter une photo : </label>
+           <div class="inputImage_wrapper">
+                 <input type="file" class="form_input input_image">
+            <span @click="resetImage" class="reset_image">Reset image</span>
+           </div>
+         
+          <input type="submit" value="Publier forum">
+          <router-link class="retour">Retour</router-link>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+import Header from "../../components/header";
+export default {
+  components: {
+    Header,
+  },
+  data(){
+    return{
+      forum : {
+        nomForum : "",
+        typeForum : "",
+        descriptionForum : "",
+        illustrationForum :"",
+        dateForum : ""
+      }
+    }
+  },
+  methods: {
+    resetImage(){
+      let inputImage = document.querySelector('.input_image');
+      inputImage.value = '';
+    },
+
+    async createForum(){
+      
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.container {
+  width: 80%;
+  max-width: 1300px;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+
+  &_input{
+    border: solid 1px #26F191;
+    border-radius:5px ;
+    padding: 0.5em;
+  }
+  .textarea{
+    resize: none;
+  }
+
+  .inputImage_wrapper{
+    .reset_image{
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 1em ;
+    color: #2692f1;
+   }
+  }
+  
+  &_input:focus{
+    outline: none;
+     border: solid 2px #2692f1;
+    border-radius:5px ;
+  }
+}
+</style>

@@ -30,10 +30,9 @@ exports.createNewForum = async (req,res) => {
 }
 
 // get forums  : 
-
 exports.getForumsByNom = async (req, res) => {
     try {
-      const forum = await Etablissement.find({ nom: req.body.nom });
+      const forum = await Forum.find({ titreForum: req.body.titreForum });
       res.status(201).json({ forum });
     } catch (err) {
       res.status(400).json({ err: err });

@@ -2,7 +2,7 @@
     <div class="commentaire">
         <div class="commentaire_header">
             <div class="commentaire_header_info">
-                <img :src="require(`@/assets/${{this.imageProfil}}`)" class="commentaire_header_info_photo">
+                <img :src="require(`@/assets/${{imageProfil}}`)" class="commentaire_header_info_photo">
                 <div class="commentaire_header_info_content">
                     <h2 class="commentaire_header_info_content_name"> {{ this.nomUtilisateur }} </h2>
                     <p class="commentaire_header_info_content_date"> {{ this.date }} </p>
