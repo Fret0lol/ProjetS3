@@ -135,6 +135,15 @@ const routes = [
       }
     },
   },
+  // Routes formations
+  {
+    path: "/addFormation",
+    name: "Ajout Formation",
+    component: () => import("../views/Formations/AjoutFormation.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ];
 
 const router = new VueRouter({

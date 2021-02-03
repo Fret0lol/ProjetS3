@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/addForum" class="btn-ajoutForum">Nouveau Forum</router-link>
+  
 </template>
 
 <script>

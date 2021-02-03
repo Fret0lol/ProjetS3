@@ -10,7 +10,7 @@
             <p id="name">{{ user.prenom }} {{ user.nom }}</p>
             <!-- <p>{{ user.statut }}</p> Doit être le dernier poste occupée-->
             <div class="reseau">
-              <div id="linkedin" v-if="user.linkedin !== null">
+              <div id="linkedin" v-if="user.linkedin !== ''">
                 <a
                   :href="user.linkedin"
                   target="_blank"

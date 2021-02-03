@@ -16,11 +16,11 @@
            <label class="form_label">Ajouter une photo : </label>
            <div class="inputImage_wrapper">
                  <input type="file" class="form_input input_image">
-            <span @click="resetImage" class="reset_image">Reset image</span>
+            <!-- <span @click="resetImage" class="reset_image">Reset image</span> -->
            </div>
          
           <input type="submit" value="Publier forum">
-          <router-link class="retour">Retour</router-link>
+          <!-- <router-link class="retour">Retour</router-link> -->
       </form>
     </div>
   </div>
@@ -28,6 +28,7 @@
 
 <script>
 import Header from "../../components/header";
+import VueJwtDecode from "vue-jwt-decode";
 export default {
   components: {
     Header,
@@ -40,19 +41,36 @@ export default {
         descriptionForum : "",
         illustrationForum :"",
         dateForum : ""
-      }
+      },
+      userLogin: ""
     }
   },
   methods: {
-    resetImage(){
-      let inputImage = document.querySelector('.input_image');
-      inputImage.value = '';
+    async getInfoUser() {
+      try {
+        const params = {
+          nomUtilisateur: this.nomUtilisateur,
+        };
+        const info = await this.$http.get(`/user/nomUtilisateur`, { params });
+        this.user = info.data.user;
+      } catch (err) {
+        console.log(err);
+      }
     },
-
-    async createForum(){
-      
-    }
-  }
+    getUserDetails() {
+      let token = localStorage.getItem("jwt");
+      if (!token) {
+        this.userLogin = null;
+      } else {
+        let decoded = VueJwtDecode.decode(token);
+        this.userLogin = decoded.nomUtilisateur;
+        console.log(this.userLogin)
+      }
+    },
+  },
+  created() {
+    this.getUserDetails();
+  },
 };
 </script>
 
