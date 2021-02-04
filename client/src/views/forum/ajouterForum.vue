@@ -97,7 +97,7 @@ export default {
         this.forum.descriptionForum = description;
         this.forum.typeForum = type;
         console.log(this.forum)
-        let response = await this.$http.post("/addForum",this.forum);
+        let response = await this.$http.post("/forum/addForum",this.forum);
         console.log(response);
       }catch(err){
        console.log(err)

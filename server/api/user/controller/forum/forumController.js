@@ -5,8 +5,9 @@ const Forum = require("../../model/forum/Forum");
 // cree un nouveau forum 
 
 exports.createNewForum = async (req,res) => {
+  
     try {
-      console.log("k")
+        console.log(req.body);
         let isForum = await Forum.find({ titreForum : req.body.titreForum});
         if(isForum.length >= 1 ){
             return res.status(409).json({
