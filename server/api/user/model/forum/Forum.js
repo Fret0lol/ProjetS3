@@ -15,14 +15,14 @@ const forumSchema = mongoose.Schema({
       required : true
   },
   illustrationForum : {
-      type : Image,
+      type : String,
       required : true
   },
   typeForum : {
       type : String,
       required : true,
   },
-  statutForum : {
+  auteurForum : {
       type : String,
       required : true
   }

@@ -20,7 +20,7 @@ const routes = [
     component: () => import("../views/forum/forums.vue")
   },
   {
-    path:"/addForum",
+    path:"/forum/addForum",
     name:"addForum",
     component: () => import("../views/forum/ajouterForum.vue")
   },

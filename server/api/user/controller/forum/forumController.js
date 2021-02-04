@@ -6,20 +6,21 @@ const Forum = require("../../model/forum/Forum");
 
 exports.createNewForum = async (req,res) => {
     try {
+      console.log("k")
         let isForum = await Forum.find({ titreForum : req.body.titreForum});
         if(isForum.length >= 1 ){
             return res.status(409).json({
                 message : "Ce titre de forum existe déja !"
             })
         }
-
+       
         const forum = new Forum({
-            tireForum : req.body.titreForum,
+            titreForum : req.body.nomForum,
             descriptionForum : req.body.descriptionForum,
             dateForum : req.body.dateForum,
             illustrationForum : req.body.illustrationForum,
             typeForum : req.body.typeForum,
-            statutForum : req.body.statutForum
+            auteurForum : req.body.auteurForum
         });
         let data = await forum.save();
         res.status(201).json({ data });
@@ -29,12 +30,4 @@ exports.createNewForum = async (req,res) => {
     
 }
 
-// get forums  : 
-exports.getForumsByNom = async (req, res) => {
-    try {
-      const forum = await Forum.find({ titreForum: req.body.titreForum });
-      res.status(201).json({ forum });
-    } catch (err) {
-      res.status(400).json({ err: err });
-    }
-  };
+

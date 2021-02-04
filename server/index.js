@@ -52,6 +52,9 @@ app.use("/formation", formationRoutes);
 const organisationRoutes = require("./api/user/routes/organisation.routes");
 app.use("/organisation", organisationRoutes);
 
+const forumRoutes = require("./api/user/routes/forum");
+app.use("/forum",forumRoutes);
+
 const serviceRoutes = require("./api/user/routes/service.routes");
 app.use("/service", serviceRoutes);
 app.listen(PORT, () => {

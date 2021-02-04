@@ -163,6 +163,7 @@ export default {
     this.getUserDetails();
     this.getInfoUser();
     this.getTimeline();
+    console.log(this.user)
   },
 };
 </script>
