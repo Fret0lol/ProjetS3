@@ -1,9 +1,5 @@
 <template>
-<<<<<<< HEAD
   <router-link to="/forum/addForum" class="btn-ajoutForum">Nouveau Forum</router-link>
-=======
-  
->>>>>>> 3895b1a305ec02c76aaf20b410c11c9bcd2fb663
 </template>
 
 <script>

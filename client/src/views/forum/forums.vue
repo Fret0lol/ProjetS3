@@ -4,8 +4,7 @@
     <Header />
     <div class="forums">
       <h2 class="forums_title">Forums</h2>
-      <router-link :to="'/addForum'" class="btn-ajoutForum">Nouveau Forum</router-link>
-   
+      <BtnAjoutForum />   
       <div class="forums_table">
         <div class="forums_table_header">
           <li class="forums_table_header_cell">Forums</li>
@@ -19,11 +18,11 @@
 </template>
 <script>
 import Header from "../../components/header";
-//import BtnAjoutForum from "../../components/forum/btn-AjoutForum";
+import BtnAjoutForum from "../../components/forum/btn-AjoutForum";
 export default {
   components: {
     Header,
-    //BtnAjoutForum,
+    BtnAjoutForum,
   },
 };
 </script>
