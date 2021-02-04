@@ -7,11 +7,10 @@ const Forum = require("../../model/forum/Forum");
 exports.createNewForum = async (req,res) => {
   
     try {
-        console.log(req.body);
         let isForum = await Forum.find({ titreForum : req.body.titreForum});
         if(isForum.length >= 1 ){
             return res.status(409).json({
-                message : "Ce titre de forum existe déja !"
+                message : "Ce forum existe déja !"
             })
         }
        
@@ -31,4 +30,11 @@ exports.createNewForum = async (req,res) => {
     
 }
 
-
+exports.getForums = async(req,res) => {
+  try{
+    let forums = await Forum.find({});
+    res.status(201).json({forums})
+  }catch(err){
+    console.log(err)
+  }
+}

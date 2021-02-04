@@ -9,9 +9,15 @@
         <div class="forums_table_header">
           <li class="forums_table_header_cell">Forums</li>
           <li class="forums_table_header_cell">Type</li>
-          <li class="forums_table_header_cell">Nb de sujets</li>
+          <li class="forums_table_header_cell">Auteur</li>
         </div>
-     
+        <div class="forums_table_body">
+          <div class="forums_table_body_row"  v-for="forum in forums" :key="forum.titreForum">
+            <li class="forums_table_body_row_cell forums_table_body_row_cell-titre">{{forum.titreForum}}</li>
+            <li class="forums_table_body_row_cell">{{forum.typeForum}}</li>
+            <li class="forums_table_body_row_cell">{{forum.auteurForum}}</li>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -24,6 +30,20 @@ export default {
     Header,
     BtnAjoutForum,
   },
+  data(){
+    return {
+      forums : {},
+    }
+  },
+  methods : {
+    async getForums(){
+    const rep = await this.$http.get('/forum');
+    this.forums = rep.data.forums;
+    }
+  },
+  created(){
+    this.getForums();
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -35,8 +55,44 @@ export default {
 
 
   &_table{
-    background: red;
+    background: white;
+    
+    margin-top: 1em;
+    
     width: 100%;
+    /// table header
+    &_header{
+      border: 2px black solid;
+      padding: 1em;
+           display: grid;
+      grid-template-columns: repeat(3,1fr);
+      &_cell{
+        display: inline-block;
+        list-style: none;
+      }
+    }
+
+  /// table content
+  &_body{
+    &_row{
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      padding: 1em;
+      &:nth-child(odd){
+        background: rgb(196, 196, 196);
+      }
+      &:nth-child(even){
+        background: rgb(231, 231, 231);
+      }
+      &_cell{
+        display: inline-block;
+        list-style: none;
+        &-titre{
+          width: 100px;
+        }
+      }
+    }
+  }
   }
 }
 </style>

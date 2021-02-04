@@ -5,7 +5,7 @@
       <h2 class="title">Nouveau forum</h2>
       <form class="form" @submit.prevent="registerForum">
         <label class="form_label">Titre :</label>
-        <input type="text" class="form_input titre" name="titreForum" />
+        <input type="text" class="form_input titre" name="titreForum" required />
         <label class="form_label">Type :</label>
         <select name="type" class="form_input type">
           <option value="publique">Publique</option>
@@ -13,6 +13,7 @@
         </select>
         <label class="form_label">Description :</label>
         <textarea
+          required
           name="description"
           class="form_input textarea"
           cols="30"
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert';
 
 import VueJwtDecode from "vue-jwt-decode";
 import Header from "../../components/header";
@@ -98,7 +100,12 @@ export default {
         this.forum.typeForum = type;
         console.log(this.forum)
         let response = await this.$http.post("/forum/addForum",this.forum);
-        console.log(response);
+        if(response.status == 201){
+          this.$router.push("/forum");
+          swal("Success","Création forum réussie" ,"success");
+        }else{
+          swal("Error","La création du forum a échoué ");
+        }
       }catch(err){
        console.log(err)
       }
