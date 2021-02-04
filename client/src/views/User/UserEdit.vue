@@ -109,7 +109,7 @@
               </li>
               <li>
                 <router-link
-                  :to="'/membre/' + user.nomUtilisateur + '/edit/' + update"
+                  to="/addFormation"
                   tag="button"
                   >Ajouter</router-link
                 >

@@ -35,12 +35,17 @@
 
 import VueJwtDecode from "vue-jwt-decode";
 import Header from "../../components/header";
+<<<<<<< HEAD
 
+=======
+import VueJwtDecode from "vue-jwt-decode";
+>>>>>>> 3895b1a305ec02c76aaf20b410c11c9bcd2fb663
 export default {
   props: ["nomUtilisateur"],
   components: {
     Header,
   },
+<<<<<<< HEAD
   data() {
     return {
       userLogin: "",
@@ -72,6 +77,33 @@ export default {
     },
     getUserDetails() {
       
+=======
+  data(){
+    return{
+      forum : {
+        nomForum : "",
+        typeForum : "",
+        descriptionForum : "",
+        illustrationForum :"",
+        dateForum : ""
+      },
+      userLogin: ""
+    }
+  },
+  methods: {
+    async getInfoUser() {
+      try {
+        const params = {
+          nomUtilisateur: this.nomUtilisateur,
+        };
+        const info = await this.$http.get(`/user/nomUtilisateur`, { params });
+        this.user = info.data.user;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    getUserDetails() {
+>>>>>>> 3895b1a305ec02c76aaf20b410c11c9bcd2fb663
       let token = localStorage.getItem("jwt");
       if (!token) {
         this.userLogin = null;
@@ -81,6 +113,7 @@ export default {
         console.log(this.userLogin)
       }
     },
+<<<<<<< HEAD
   
   
     
@@ -110,6 +143,12 @@ export default {
   created() {
     this.getUserDetails();
   }
+=======
+  },
+  created() {
+    this.getUserDetails();
+  },
+>>>>>>> 3895b1a305ec02c76aaf20b410c11c9bcd2fb663
 };
 </script>
 
