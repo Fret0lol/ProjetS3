@@ -27,7 +27,8 @@ const routes = [
   {
     path:"/forum/:titreForum",
     name: "listeSujet",
-    component : () => import("../views/forum/listeSujet")
+    component : () => import("../views/forum/listeSujet"),
+    props: true
   },
   {
     path: "/login",

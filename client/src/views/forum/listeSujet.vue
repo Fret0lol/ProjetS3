@@ -1,13 +1,13 @@
 <template>
     <div class="container">
         
-    <h1>coucou</h1>
+    <h1>{{this.titreForum}}</h1>
     </div>
 </template>
 
 <script>
 export default {
-
+    props : ["titreForum"]
 }
 </script>
 

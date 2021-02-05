@@ -82,6 +82,12 @@ export default {
   /// table content
   &_body{
     &_row{
+      transition: all .3s ease;
+      &:hover{
+        opacity: 1;
+        background-color: #2692f1  !important;
+        cursor: pointer;
+      }
       display: grid;
       grid-template-columns: repeat(3,1fr);
       padding: 1em;
