@@ -15,13 +15,14 @@ const sujetSchema = mongoose.Schema({
       required : true
   },
   illustrationSujet : {
-      type : Image,
+      type : String,
       required : true
   },
   statutSujet : {
       type : String,
       required : true
-  }
+  },
+
 });
 
 const Sujet = mongoose.model("Sujet", sujetSchema);

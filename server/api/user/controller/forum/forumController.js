@@ -20,7 +20,8 @@ exports.createNewForum = async (req,res) => {
             dateForum : req.body.dateForum,
             illustrationForum : req.body.illustrationForum,
             typeForum : req.body.typeForum,
-            auteurForum : req.body.auteurForum
+            auteurForum : req.body.auteurForum,
+           
         });
         let data = await forum.save();
         res.status(201).json({ data });
@@ -30,11 +31,38 @@ exports.createNewForum = async (req,res) => {
     
 }
 
+
+/*
+*   Retourne l'ensemble des forums de l'application 
+*
+*/
+
 exports.getForums = async(req,res) => {
   try{
     let forums = await Forum.find({});
     res.status(201).json({forums})
   }catch(err){
-    console.log(err)
+    res.status(401).json(err);
   }
+}
+
+
+/*
+* Supprime le forum passer en param
+*
+*/
+
+exports.deleteForum = async(req,res) =>{
+  try{
+
+     await Forum.deleteOne({titreForum : req.body.titreForum });
+     
+     res.status(201).json({message : "Suppression réussie !"});
+  }catch(err){
+    res.status(401).json({err : err});
+  }
+}
+
+exports.getSujets = async (req,res) => {
+  console.log("cc");
 }

@@ -12,10 +12,11 @@
           <li class="forums_table_header_cell">Auteur</li>
         </div>
         <div class="forums_table_body">
-          <div class="forums_table_body_row"  v-for="forum in forums" :key="forum.titreForum">
+          <div class="forums_table_body_row"  v-for="forum in forums" :key="forum.titreForum" @click="redirect(forum.titreForum)">
             <li class="forums_table_body_row_cell forums_table_body_row_cell-titre">{{forum.titreForum}}</li>
             <li class="forums_table_body_row_cell">{{forum.typeForum}}</li>
             <li class="forums_table_body_row_cell">{{forum.auteurForum}}</li>
+            <BtnDelete :titreForum="forum.titreForum" />
           </div>
         </div>
       </div>
@@ -25,10 +26,12 @@
 <script>
 import Header from "../../components/header";
 import BtnAjoutForum from "../../components/forum/btn-AjoutForum";
+import BtnDelete from "../../components/forum/btn-DeleteForum";
 export default {
   components: {
     Header,
     BtnAjoutForum,
+    BtnDelete
   },
   data(){
     return {
@@ -36,9 +39,13 @@ export default {
     }
   },
   methods : {
+    redirect(titreForum){
+      this.$router.push(`/forum/${titreForum}`)
+    },
+
     async getForums(){
-    const rep = await this.$http.get('/forum');
-    this.forums = rep.data.forums;
+      const rep = await this.$http.get('/forum');
+      this.forums = rep.data.forums;
     }
   },
   created(){

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const Sujet = require('../forum/Sujet');
 const forumSchema = mongoose.Schema({
   titreForum : {
     type : String,
@@ -25,7 +25,8 @@ const forumSchema = mongoose.Schema({
   auteurForum : {
       type : String,
       required : true
-  }
+  },
+
 });
 
 const Forum = mongoose.model("Forum", forumSchema);

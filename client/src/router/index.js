@@ -25,6 +25,11 @@ const routes = [
     component: () => import("../views/forum/ajouterForum.vue")
   },
   {
+    path:"/forum/:titreForum",
+    name: "listeSujet",
+    component : () => import("../views/forum/listeSujet")
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/User/Login.vue"),
