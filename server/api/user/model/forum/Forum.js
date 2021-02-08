@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Sujet = require('../forum/Sujet');
+
 const forumSchema = mongoose.Schema({
   titreForum : {
     type : String,
@@ -26,7 +27,10 @@ const forumSchema = mongoose.Schema({
       type : String,
       required : true
   },
-
+  listeSujets : 
+      [{type: mongoose.Schema.Types.ObjectId, ref: 'Sujet'}]
+      
+  
 });
 
 const Forum = mongoose.model("Forum", forumSchema);

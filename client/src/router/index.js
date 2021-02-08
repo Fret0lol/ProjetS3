@@ -31,6 +31,12 @@ const routes = [
     props: true
   },
   {
+    path: "/forum/:titreForum/addSujet",
+    name : "addSujet",
+    props : true,
+    component : () => import("../views/forum/addSujet")
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/User/Login.vue"),

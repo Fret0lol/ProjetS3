@@ -21,8 +21,10 @@ exports.createNewForum = async (req,res) => {
             illustrationForum : req.body.illustrationForum,
             typeForum : req.body.typeForum,
             auteurForum : req.body.auteurForum,
-           
+            listeSujets : new Array(),
+            
         });
+        console.log(forum);
         let data = await forum.save();
         res.status(201).json({ data });
       }catch (err) {
@@ -63,6 +65,26 @@ exports.deleteForum = async(req,res) =>{
   }
 }
 
+
+
 exports.getSujets = async (req,res) => {
   console.log("cc");
+}
+
+
+/*
+* Retourne le forum dont le nom est passé en param
+*
+*/
+
+exports.getOneForum = async (req,res) => {
+  try{
+    
+    let forum = await Forum.findOne({titreForum : req.query.titreForum});
+    res.status(201).json({forum})
+    
+  }catch(err){
+    console.log(err);
+  }
+  
 }

@@ -53,6 +53,8 @@ $color: #26f191;
   border: 3px solid $color;
   background-color: white;
   color: $color;
+
+  box-shadow: 0px 100px 80px rgba(119, 119, 119, 0.07), 0px 41.7776px 33.4221px rgba(119, 119, 119, 0.0503198), 0px 22.3363px 17.869px rgba(119, 119, 119, 0.0417275), 0px 12.5216px 10.0172px rgba(119, 119, 119, 0.035), 0px 6.6501px 5.32008px rgba(119, 119, 119, 0.0282725), 0px 2.76726px 2.21381px rgba(119, 119, 119, 0.0196802);
   div {
     display: grid;
     grid-template-columns: 40% 60%;
@@ -62,6 +64,7 @@ $color: #26f191;
       img {
         height: 120px;
         width: 120px;
+        object-fit: scale-down;
         border-radius: 5px;
       }
     }

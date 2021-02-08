@@ -22,6 +22,15 @@ const sujetSchema = mongoose.Schema({
       type : String,
       required : true
   },
+  auteurSujet : {
+    type : String,
+    required : true
+  },
+  forumSujet : {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Forum',
+    required : true
+  }
 
 });
 

@@ -131,7 +131,7 @@ nav {
   padding: 0;
   //padding: 1vh 0;
   @media screen and (min-width: 800px) {
-    height: 8.5vh;
+    height: 80px;
   }
   #logo {
     a {

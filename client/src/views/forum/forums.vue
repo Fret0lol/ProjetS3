@@ -12,12 +12,15 @@
           <li class="forums_table_header_cell">Auteur</li>
         </div>
         <div class="forums_table_body">
-          <div class="forums_table_body_row"  v-for="forum in forums" :key="forum.titreForum" @click="redirect(forum.titreForum)">
-            <li class="forums_table_body_row_cell forums_table_body_row_cell-titre">{{forum.titreForum}}</li>
-            <li class="forums_table_body_row_cell">{{forum.typeForum}}</li>
-            <li class="forums_table_body_row_cell">{{forum.auteurForum}}</li>
-            <BtnDelete :titreForum="forum.titreForum" />
+          <div class="wrapper"   v-for="forum in forums" :key="forum.titreForum">
+            <div class="forums_table_body_row" @click="redirect(forum.titreForum)">
+              <li class="forums_table_body_row_cell forums_table_body_row_cell-titre">{{forum.titreForum}}</li>
+              <li class="forums_table_body_row_cell">{{forum.typeForum}}</li>
+              <li class="forums_table_body_row_cell">{{forum.auteurForum}}</li>
+            </div>
+            <BtnDelete :titreForum="forum.titreForum" class="btn-delete" />
           </div>
+        
         </div>
       </div>
     </div>
@@ -81,7 +84,18 @@ export default {
 
   /// table content
   &_body{
+
+    .wrapper{
+      position: relative;
+      .btn-delete{
+        position: absolute;
+        left: -50px;
+        top: 10%;
+      }
+    }
+     
     &_row{
+      position: relative;
       transition: all .3s ease;
       &:hover{
         opacity: 1;
@@ -97,6 +111,8 @@ export default {
       &:nth-child(even){
         background: rgb(231, 231, 231);
       }
+
+     
       &_cell{
         display: inline-block;
         list-style: none;

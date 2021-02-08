@@ -90,7 +90,7 @@ export default {
       let titre = document.querySelector('.titre').value;
       let description = document.querySelector('.textarea').value;
       let type = document.querySelector('.type').value;
-      console.log(titre,type,description);
+    
       try{
         this.forum.nomForum = titre;
         this.forum.dateForum = new Date();
@@ -100,14 +100,18 @@ export default {
         this.forum.typeForum = type;
         console.log(this.forum)
         let response = await this.$http.post("/forum/addForum",this.forum);
+    
         if(response.status == 201){
           this.$router.push("/forum");
           swal("Success","Création forum réussie" ,"success");
-        }else{
+        }else if(response.status == 400){
+          swal("Error","Ce forum existe déja ! :(")
+        }
+        else{
           swal("Error","La création du forum a échoué ");
         }
       }catch(err){
-       console.log(err)
+       console.log(err);
       }
     }
     ,
