@@ -28,7 +28,8 @@ export default {
 
     data(){
         return {
-            forum : {}
+            forum : {},
+            listeSujets : []
         }
     },
     components :{
@@ -43,11 +44,20 @@ export default {
             const rep = await this.$http.get('/forum/:titreForum',{params});
             this.forum = rep.data.forum;
             console.log(this.forum.titreForum);
+        },
+        async getSujets(){
+            const params = {
+                titreForum : this.titreForum
+            }
+            const rep = await this.$http.get('/forum/getSujets',{params});
+            this.listeSujets = rep.data;
+            
         }
     },
     created (){
-        
         this.getOneForum();
+        this.getSujets();
+        console.log(this.listeSujets);
     }
         
     

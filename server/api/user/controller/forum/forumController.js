@@ -1,5 +1,6 @@
 const { response } = require("express");
 const Forum = require("../../model/forum/Forum");
+const Sujet = require("../../model/forum/Sujet");
 
 
 // cree un nouveau forum 
@@ -22,7 +23,6 @@ exports.createNewForum = async (req,res) => {
             typeForum : req.body.typeForum,
             auteurForum : req.body.auteurForum,
             listeSujets : new Array(),
-            
         });
         console.log(forum);
         let data = await forum.save();
@@ -68,7 +68,17 @@ exports.deleteForum = async(req,res) =>{
 
 
 exports.getSujets = async (req,res) => {
-  console.log("cc");
+  console.log("ma requete "  +  req)
+  try{
+    let listeSujets = await Sujet.find({titreForum : req.body.titreForum});
+    
+    res.status(201).json({listeSujets});
+  }catch(err){
+    console.log(err)
+    res.status(401).json({err})
+  }
+    
+
 }
 
 

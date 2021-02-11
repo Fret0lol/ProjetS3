@@ -13,5 +13,5 @@ router.post("/deleteForum",forumController.deleteForum)
 router.get('/:titreForum',forumController.getOneForum)
 
 router.post('/addSujet',sujetController.createNewSujet)
-
+router.get("/getSujets",forumController.getSujets);
 module.exports = router;

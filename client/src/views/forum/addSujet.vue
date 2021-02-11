@@ -41,6 +41,7 @@ export default {
   data(){
     return {
       userLogin: "",
+      forum : {},
       sujet : {
         titreSujet : "",
         dateSujet : "",
@@ -49,8 +50,8 @@ export default {
         illustrationSujet : "",
         forumSujet : "",
         auteurSujet : ""
-      }
-      }
+      },
+      };
   },
   methods : {
     async getOneForum(){
@@ -58,32 +59,29 @@ export default {
                 titreForum : this.titreForum
             }
             const rep = await this.$http.get('/forum/:titreForum',{params});
-            let forum = rep.data.forum;
-            console.log(forum)
-            return forum
+            this.forum = rep.data.forum;            
         },
 
 
     async registerSujet(){
       
+    
       let titreSujet = document.querySelector('.titre').value;
       let description = document.querySelector('.textarea').value;
-      let forum = this.getOneForum();
+      
       try{
         this.sujet.titreSujet = titreSujet;
         this.sujet.dateSujet = new Date();
         this.sujet.descriptionSujet = description;
         this.sujet.statutSujet = "actif";
         this.sujet.illustrationSujet = "image.png";
-        this.sujet.forumSujet = this.titreForum;
         this.sujet.auteurSujet = this.userLogin;
-        this.sujet.forumSujet = forum;
-        let response = await this.$http.post(`/forum/addSujet`,this.sujet);
-        
+        this.sujet.forumSujet = this.forum;
+        let response = await this.$http.post("/forum/addSujet",this.sujet);
         if(response.status == 201){
           swal("Success","Vous venez de créer votre sujet :) ");
         }
-        forum.listeSujets.push(this.sujet);
+        
         // a finir
       }catch(err){
         console.log(err);
@@ -105,6 +103,7 @@ export default {
 
 
   created(){
+    this.getOneForum();
     this.getUserDetails();
   }
 

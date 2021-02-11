@@ -1,4 +1,5 @@
 const { response } = require("express");
+const Forum = require("../../model/forum/Forum");
 const Sujet = require("../../model/forum/Sujet");
 
 
@@ -20,10 +21,15 @@ exports.createNewSujet = async (req,res) => {
             auteurSujet : req.body.auteurSujet,
             forumSujet : req.body.forumSujet
         });
-        
+
         let data = await sujet.save();
+        let forum = await Forum.findOne({_id : sujet.forumSujet});
+        forum.listeSujets.push(sujet);
+        await forum.save();
+        console.log(forum);
         res.status(201).json({ data });
       }catch (err) {
+          console.log(err);
         res.status(400).json({ err: err });
       }
 }
