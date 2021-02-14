@@ -1,4 +1,5 @@
 const { response } = require("express");
+const { isValidObjectId } = require("mongoose");
 const Forum = require("../../model/forum/Forum");
 const Sujet = require("../../model/forum/Sujet");
 
@@ -68,17 +69,13 @@ exports.deleteForum = async(req,res) =>{
 
 
 exports.getSujets = async (req,res) => {
-  console.log("ma requete "  +  req)
-  try{
-    let listeSujets = await Sujet.find({titreForum : req.body.titreForum});
-    
-    res.status(201).json({listeSujets});
-  }catch(err){
-    console.log(err)
-    res.status(401).json({err})
-  }
-    
-
+      try{
+        
+        let sujet = await Sujet.findOne({_id : ObjectId(req.query._id) });
+        res.status(201).json({sujet});
+      }catch(err){
+        console.log(err);
+      }
 }
 
 
@@ -89,7 +86,7 @@ exports.getSujets = async (req,res) => {
 
 exports.getOneForum = async (req,res) => {
   try{
-    
+    console.log(req.query)
     let forum = await Forum.findOne({titreForum : req.query.titreForum});
     res.status(201).json({forum})
     
@@ -97,4 +94,20 @@ exports.getOneForum = async (req,res) => {
     console.log(err);
   }
   
+}
+
+
+exports.getAllSujets = async (req,res) =>{
+   try{
+     let content = {
+       forum : {},
+       sujet : []
+     }
+     content.forum = await Forum.findOne({titreForum :req.query.titreForum});
+     content.sujets = await Sujet.find({forumSujet : content.forum._id})
+     return res.status(201).json({content});
+
+   }catch(err){
+     console.log(err);
+   }
 }

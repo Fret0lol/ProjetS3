@@ -10,8 +10,11 @@ router.post("/addForum",forumController.createNewForum);
 router.get("/",forumController.getForums);
 
 router.post("/deleteForum",forumController.deleteForum)
-router.get('/:titreForum',forumController.getOneForum)
+router.get('/myForum',forumController.getOneForum)
+
+
+router.get('/listeSujet',forumController.getAllSujets)
 
 router.post('/addSujet',sujetController.createNewSujet)
-router.get("/getSujets",forumController.getSujets);
+// router.get("/getSujets",forumController.getSujets);
 module.exports = router;

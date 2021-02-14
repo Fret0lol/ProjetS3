@@ -11,10 +11,31 @@
                 <h3 class="header_creation_auteur">{{this.forum.dateForum}}</h3>
             </div>
         </div>
-        <div class="wrapper">
+         <div class="wrapper">
               <BtnAjoutSujet :nomForum = "this.forum.titreForum" />
         </div>
      
+        <!-- table -->
+          <div class="sujets_table">
+        <div class="sujets_table_header">
+          <li class="sujets_table_header_cell">Sujet</li>
+          <li class="sujets_table_header_cell">Type</li>
+          <li class="sujets_table_header_cell">Auteur</li>
+        </div>
+        <div class="sujets_table_body">
+          <div class="wrapper"   v-for="sujet in listeSujets" :key="sujet._id" @click="redirect(sujet._id)">
+            <div class="sujets_table_body_row">
+              <li class="sujets_table_body_row_cell forums_table_body_row_cell-titre">{{sujet.titreSujet}}</li>
+              <li class="sujets_table_body_row_cell">{{sujet.statutSujet}}</li>
+              <li class="sujets_table_body_row_cell">{{sujet.auteurSujet}}</li>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+
+       
         
     </div>
 </template>
@@ -24,12 +45,19 @@
 import Header from '../../components/header';
 import BtnAjoutSujet from '../../components/forum/btn-AjoutSujet';
 export default {
-    props : ["titreForum"],
+    props : {titreForum : {
+        type : String,
+        required : true
+        }
+        
+    
+    },
 
     data(){
         return {
             forum : {},
-            listeSujets : []
+            listeSujets : {},
+            idForum : ""
         }
     },
     components :{
@@ -37,33 +65,32 @@ export default {
         BtnAjoutSujet
     },
     methods : {
-        async getOneForum(){
+
+
+        async getAllSujets(){
             const params = {
                 titreForum : this.titreForum
             }
-            const rep = await this.$http.get('/forum/:titreForum',{params});
-            this.forum = rep.data.forum;
-            console.log(this.forum.titreForum);
+            const rep = await this.$http.get('/forum/listeSujet',{params})
+            this.forum = rep.data.content.forum;
+            this.listeSujets = rep.data.content.sujets;
         },
-        async getSujets(){
-            const params = {
-                titreForum : this.titreForum
-            }
-            const rep = await this.$http.get('/forum/getSujets',{params});
-            this.listeSujets = rep.data;
-            
-        }
+        redirect(titreSujet){
+            this.$router.push(this.$route.fullPath + '/'+ titreSujet)
+         }
+
+
     },
-    created (){
-        this.getOneForum();
-        this.getSujets();
-        console.log(this.listeSujets);
+    mounted (){
+   
+        this.getAllSujets();
+        console.log(this.$route.fullPath)
     }
+    
         
     
 }
 </script>
-
 <style lang="scss" scoped>
     .header{
         background: rgb(79, 79, 79);
@@ -86,4 +113,74 @@ export default {
 
         
     }
+
+    .sujets {
+  width: 80%;
+  margin: 0 auto;
+  max-width: 1300px;
+  margin-top: 1em;
+
+
+  &_table{
+    background: white;
+    
+    margin-top: 1em;
+    
+    width: 100%;
+    /// table header
+    &_header{
+        width: 90%;
+        margin: 0 auto;
+      border: 2px black solid;
+      padding: 1em;
+           display: grid;
+      grid-template-columns: repeat(3,1fr);
+      &_cell{
+        display: inline-block;
+        list-style: none;
+      }
+    }
+
+  /// table content
+  &_body{
+
+    .wrapper{
+      position: relative;
+      .btn-delete{
+        position: absolute;
+        left: -50px;
+        top: 10%;
+      }
+    }
+     
+    &_row{
+      position: relative;
+      transition: all .3s ease;
+      &:hover{
+        opacity: 1;
+        background-color: #2692f1  !important;
+        cursor: pointer;
+      }
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      padding: 1em;
+      &:nth-child(odd){
+        background: rgb(196, 196, 196);
+      }
+      &:nth-child(even){
+        background: rgb(231, 231, 231);
+      }
+
+     
+      &_cell{
+        display: inline-block;
+        list-style: none;
+        &-titre{
+          width: 100px;
+        }
+      }
+    }
+  }
+  }
+}
 </style>

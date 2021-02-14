@@ -30,6 +30,11 @@ const routes = [
     component : () => import("../views/forum/listeSujet"),
     props: true
   },
+  {path:"/forum/:titreForum/:idSujet",
+  name: "Sujet post",
+  props : true,
+  component : () => import("../views/forum/listeCommentaire.vue")
+},
   {
     path: "/forum/:titreForum/addSujet",
     name : "addSujet",

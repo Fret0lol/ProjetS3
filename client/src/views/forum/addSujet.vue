@@ -6,11 +6,6 @@
       <form class="form" @submit.prevent="registerSujet">
         <label class="form_label">Titre :</label>
         <input type="text" class="form_input titre" name="titreForum" required />
-        <!-- <label class="form_label">Type :</label> -->
-        <!-- <select name="type" class="form_input type">
-          <option value="publique">Publique</option>
-          <option value="privée">Privée</option>
-        </select> -->
         <label class="form_label">Description :</label>
         <textarea
           required
@@ -58,8 +53,9 @@ export default {
             const params = {
                 titreForum : this.titreForum
             }
-            const rep = await this.$http.get('/forum/:titreForum',{params});
-            this.forum = rep.data.forum;            
+            const rep = await this.$http.get('/forum/myForum',{params});
+            this.forum = rep.data.forum;    
+            console.log(this.forum)        
         },
 
 

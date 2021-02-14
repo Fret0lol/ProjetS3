@@ -23,7 +23,10 @@ mongoose
     console.log({ database_error: err });
   });
 
+// pr les warning 304 avec get : cache
+app.disable("etag");
 //registering cors
+
 app.use(cors());
 //configure body parser
 app.use(bodyParser.urlencoded({ extended: false }));

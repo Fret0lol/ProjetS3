@@ -10,6 +10,7 @@
           <li class="forums_table_header_cell">Forums</li>
           <li class="forums_table_header_cell">Type</li>
           <li class="forums_table_header_cell">Auteur</li>
+          <li class="forums_table_header_cell">Nb sujet</li>
         </div>
         <div class="forums_table_body">
           <div class="wrapper"   v-for="forum in forums" :key="forum.titreForum">
@@ -17,10 +18,10 @@
               <li class="forums_table_body_row_cell forums_table_body_row_cell-titre">{{forum.titreForum}}</li>
               <li class="forums_table_body_row_cell">{{forum.typeForum}}</li>
               <li class="forums_table_body_row_cell">{{forum.auteurForum}}</li>
+              <li class="forums_table_body_row_cell">{{forum.listeSujets.length}}</li>
             </div>
             <BtnDelete :titreForum="forum.titreForum" class="btn-delete" />
           </div>
-        
         </div>
       </div>
     </div>
@@ -39,6 +40,7 @@ export default {
   data(){
     return {
       forums : {},
+      forum : {}
     }
   },
   methods : {
@@ -75,7 +77,7 @@ export default {
       border: 2px black solid;
       padding: 1em;
            display: grid;
-      grid-template-columns: repeat(3,1fr);
+      grid-template-columns: repeat(4,1fr);
       &_cell{
         display: inline-block;
         list-style: none;
@@ -103,7 +105,7 @@ export default {
         cursor: pointer;
       }
       display: grid;
-      grid-template-columns: repeat(3,1fr);
+      grid-template-columns: repeat(4,1fr);
       padding: 1em;
       &:nth-child(odd){
         background: rgb(196, 196, 196);
