@@ -40,7 +40,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$color: #26f191;
+$color: #26f192;
 #card {
   display: flex;
   flex-flow: column nowrap;
@@ -50,9 +50,9 @@ $color: #26f191;
   width: 400px;
   height: 200px;
   border-radius: 5px;
-  border: 3px solid $color;
-  background-color: white;
-  color: $color;
+  border: 3px solid white;
+  background-color: $color;
+  color: white;
 
   box-shadow: 0px 100px 80px rgba(119, 119, 119, 0.07), 0px 41.7776px 33.4221px rgba(119, 119, 119, 0.0503198), 0px 22.3363px 17.869px rgba(119, 119, 119, 0.0417275), 0px 12.5216px 10.0172px rgba(119, 119, 119, 0.035), 0px 6.6501px 5.32008px rgba(119, 119, 119, 0.0282725), 0px 2.76726px 2.21381px rgba(119, 119, 119, 0.0196802);
   div {
@@ -61,24 +61,25 @@ $color: #26f191;
     #imgProfil {
       display: flex;
       justify-content: center;
+      
       img {
-        height: 120px;
-        width: 120px;
+        height: 140px;
+        width: 140px;
         object-fit: scale-down;
-        border-radius: 5px;
+        border-radius: 7px;
       }
     }
     #infoProfil {
       display: flex;
-      flex-direction: column;
+      flex-direction: column; 
       justify-content: flex-start;
       
       #name {
-        font-size: 1.5vw;
+        font-size: 140%;
         font-weight: 700;
       }
       p {
-        font-size: 1vw;
+        font-size: 120%;
       }
     }
   }
@@ -89,12 +90,12 @@ $color: #26f191;
     padding: 0 2vw;
     
     button {
-      background: $color;
-      border: 2px solid $color;
+      background: white;
+      border: 2px solid white;
       border-radius: 5px;
       width: 150px;
       padding: 0.75vh 1vw;
-      color: white;
+      color: $color;
       font-weight: 600;
     }
   }
