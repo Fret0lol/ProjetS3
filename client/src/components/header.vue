@@ -16,7 +16,7 @@
           <div>
             <ul>
               <li><router-link to="/">ACCUEIL</router-link></li>
-              <li v-if="this.login === true"><router-link to="/forum">FORUMS</router-link></li>
+              <li><router-link to="/forum">FORUMS</router-link></li>
               <li>
                 <router-link to="/annuaire-membres">ANNUAIRE</router-link>
               </li>
@@ -47,7 +47,7 @@
       <ul>
         <ul>
           <li><router-link to="/">ACCUEIL</router-link></li>
-          <li v-if="this.login === true"><router-link to="/forum">FORUMS</router-link></li>
+          <li><router-link to="/forum">FORUMS</router-link></li>
           <li><router-link to="/annuaire-membres">ANNUAIRE</router-link></li>
           <li><a href="#">OFFRES</a></li>
           <li v-if="this.user.statut === 'Administrateur'">
