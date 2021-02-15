@@ -20,7 +20,7 @@
               <li class="forums_table_body_row_cell">{{forum.auteurForum}}</li>
               <li class="forums_table_body_row_cell">{{forum.listeSujets.length}}</li>
             </div>
-            <BtnDelete :titreForum="forum.titreForum" class="btn-delete" />
+            <BtnDelete :titreForum="forum.titreForum" v-if="forum.auteurForum === userName" class="btn-delete" />
           </div>
         </div>
       </div>
@@ -37,6 +37,7 @@ export default {
     BtnAjoutForum,
     BtnDelete
   },
+  props:[ "userName"],
   data(){
     return {
       forums : {},
@@ -55,6 +56,7 @@ export default {
   },
   created(){
     this.getForums();
+    console.log(this.userName);
   }
 };
 </script>

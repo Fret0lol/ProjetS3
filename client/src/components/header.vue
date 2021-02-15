@@ -47,7 +47,7 @@
       <ul>
         <ul>
           <li><router-link to="/">ACCUEIL</router-link></li>
-          <li v-if="this.login === true"><router-link to="/forum">FORUMS</router-link></li>
+          <li v-if="this.login === true"><router-link :to="{name :'forum',params:{userName : user.nomUtilisateur}}" >FORUMS</router-link></li>
           <li><router-link to="/annuaire-membres">ANNUAIRE</router-link></li>
           <li><a href="#">OFFRES</a></li>
           <li v-if="this.user.statut === 'Administrateur'">
@@ -102,6 +102,7 @@ export default {
 
   created() {
     this.getUserDetails();
+    
     if (document.documentElement.clientWidth > 800) {
       this.desktop = true;
     } else {

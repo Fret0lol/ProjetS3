@@ -17,6 +17,7 @@ const routes = [
   {
     path: "/forum",
     name: "forum",
+    props:true,
     component: () => import("../views/forum/forums.vue")
   },
   {
