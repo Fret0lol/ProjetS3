@@ -33,3 +33,13 @@ exports.createNewSujet = async (req,res) => {
         res.status(400).json({ err: err });
       }
 }
+
+
+exports.getOneSujet = async (req,res) => {
+    try{
+        let sujet = await Sujet.findOne({_id : req.query.idSujet});
+        res.status(201).json({sujet});
+    }catch(err){
+        res.status(404).json({err : err});
+    }
+}

@@ -29,9 +29,12 @@
 <script>
 import VueJwtDecode from "vue-jwt-decode";
 import swal from 'sweetalert';
-
+import Header from '../../components/header';
 
 export default {
+  components : {
+    Header
+  },
   props : ["titreForum"],
   data(){
     return {

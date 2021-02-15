@@ -15,6 +15,7 @@ router.get('/myForum',forumController.getOneForum)
 
 router.get('/listeSujet',forumController.getAllSujets)
 
+router.get('/getSujet',sujetController.getOneSujet);
 router.post('/addSujet',sujetController.createNewSujet)
 // router.get("/getSujets",forumController.getSujets);
 module.exports = router;
