@@ -45,13 +45,7 @@
 import Header from '../../components/header';
 import BtnAjoutSujet from '../../components/forum/btn-AjoutSujet';
 export default {
-    props : {titreForum : {
-        type : String,
-        required : true
-        }
-        
-    
-    },
+    props : ["titreForum"],
 
     data(){
         return {
@@ -81,10 +75,8 @@ export default {
 
 
     },
-    mounted (){
-   
+    created (){
         this.getAllSujets();
-        console.log(this.$route.fullPath)
     }
     
         

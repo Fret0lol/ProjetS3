@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const sujetSchema = mongoose.Schema({
   titreSujet : {
     type : String,
@@ -30,7 +31,9 @@ const sujetSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Forum',
     required : true
-  }
+  },
+
+  
 
 });
 

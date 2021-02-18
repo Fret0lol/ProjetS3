@@ -14,27 +14,34 @@
 
     <div class="wrapper">
         <div class="btn" @click="this.toggleInput">Nouveau post </div>
+        <div class="posts"  v-for="post in this.posts" v-bind:key="post._id">
+                  <Post :isDelete="post.delete" :idPost="post._id" :_id="post.auteurCommentaire+ post._id" :nomUtilisateur="post.auteurCommentaire" :date="post.dateCommentaire" :commentaire="post.contenuCommentaire" :login="$data.auteur" />
+        </div>
     </div>
     <div class="input">
-        <h3>Nouveau post</h3>
-     <textarea placeholder="votre message ... " id="" cols="30" rows="5"></textarea>
-        <input type="submit" value="Publier">
+     <textarea  placeholder="votre message ... " id="" cols="30" rows="5"></textarea>
+        <input type="submit" value="Publier" @click="this.createPost">
         <input type="submit" value="Fermer" @click="this.closeInput">
     </div>
   </section>
 </template>
 
 <script>
+import Post from '../../components/commentaire'
 import Header from "../../components/header";
-
+import VueJwtDecode from "vue-jwt-decode";
+import swal from 'sweetalert';
 export default {
   data() {
     return {
       sujet: {},
+      posts: [],
+      auteur : ""
     };
   },
   components: {
     Header,
+    Post
   },
   props: ["idSujet"],
   methods: {
@@ -53,11 +60,52 @@ export default {
         const input = document.querySelector('.input');
         input.classList.remove('input-visible')
     }
+    ,
+   
+    async createPost(){
+      if(document.querySelector('textarea').value != ""){
+         document.querySelector('textarea').classList.remove('error')
+         const params = {
+          auteurCommentaire : this.auteur,
+          dateCommentaire : new Date(),
+          sujetRef : this.idSujet,
+          contenuCommentaire : document.querySelector('textarea').value
+        }
+        let response = await this.$http.post('/forum/createPost',{params});
+        this.getAllPosts();
+        if(response.status == 404){
+          swal('error','impossible de créer le post','error');
+        }
+      }else{
+        document.querySelector('textarea').classList.add('error')
+      }
+       
+    },
+    getUserDetails() {
+      
+      let token = localStorage.getItem("jwt");
+      if (!token) {
+        this.auteur = null;
+      } else {
+        let decoded = VueJwtDecode.decode(token);
+        this.auteur = decoded.nomUtilisateur;
+      }
+    },
+
+    async getAllPosts(){
+      let params = {
+        sujetRef : this.idSujet
+      }
+      let rep = await this.$http.get('/forum/getPosts',{params})
+      this.posts = rep.data.posts
+    }
   },
   
   created() {
-    console.log(this.idSujet);
     this.getOneSujet();
+    this.getUserDetails();
+    this.getAllPosts();
+    
   },
 };
 </script>
@@ -77,7 +125,9 @@ export default {
     max-width: 500px;
   }
 }
-
+.error{
+  border: solid 2px red;
+}
 .wrapper{
 
     width: 85%;
@@ -95,7 +145,7 @@ export default {
 }
 
 .input{
-    position: absolute;
+    position: fixed;
     bottom: 0;
     color: white;
     padding: 2em;

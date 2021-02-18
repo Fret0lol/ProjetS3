@@ -2,7 +2,7 @@ const { response } = require("express");
 const { isValidObjectId } = require("mongoose");
 const Forum = require("../../model/forum/Forum");
 const Sujet = require("../../model/forum/Sujet");
-
+const Post = require('../../model/forum/commentaire');
 
 // cree un nouveau forum 
 
@@ -25,7 +25,6 @@ exports.createNewForum = async (req,res) => {
             auteurForum : req.body.auteurForum,
             listeSujets : new Array(),
         });
-        console.log(forum);
         let data = await forum.save();
         res.status(201).json({ data });
       }catch (err) {
@@ -111,3 +110,6 @@ exports.getAllSujets = async (req,res) =>{
      console.log(err);
    }
 }
+
+
+

@@ -16,5 +16,14 @@ const commentaireschema = mongoose.Schema({
     },
     sujetRef : {
         type: mongoose.Schema.Types.ObjectId, ref: 'Sujet'
+    },
+    delete : {
+        type : Boolean,
+        required : true
     }
 });
+
+
+const Post = mongoose.model("Post", commentaireschema);
+module.exports = Post;
+

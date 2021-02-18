@@ -37,7 +37,9 @@ exports.createNewSujet = async (req,res) => {
 
 exports.getOneSujet = async (req,res) => {
     try{
+      
         let sujet = await Sujet.findOne({_id : req.query.idSujet});
+        console.log(sujet)
         res.status(201).json({sujet});
     }catch(err){
         res.status(404).json({err : err});

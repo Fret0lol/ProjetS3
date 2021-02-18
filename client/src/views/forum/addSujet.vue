@@ -58,7 +58,7 @@ export default {
             }
             const rep = await this.$http.get('/forum/myForum',{params});
             this.forum = rep.data.forum;    
-            console.log(this.forum)        
+            console.log(params.titreForum)        
         },
 
 
