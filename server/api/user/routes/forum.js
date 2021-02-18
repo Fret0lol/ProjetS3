@@ -15,5 +15,6 @@ router.get('/getSujet',sujetController.getOneSujet);
 router.post('/addSujet',sujetController.createNewSujet);
 router.get('/getPosts',postController.getAllPost);
 router.put('/deletePost',postController.deletePost);
+router.put('/updatePost', postController.updatePost);
 // router.get("/getSujets",forumController.getSujets);
 module.exports = router;

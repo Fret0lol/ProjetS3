@@ -20,6 +20,9 @@ const commentaireschema = mongoose.Schema({
     delete : {
         type : Boolean,
         required : true
+    },
+    reponse : {
+        type : String,
     }
 });
 

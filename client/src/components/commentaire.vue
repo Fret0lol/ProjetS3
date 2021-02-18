@@ -10,14 +10,20 @@
             </div>
             <img src="../assets/menu.png" class="commentaire_header_menu" @click="this.openMenu"  v-if="this.isDelete === false">
         </div>
-        <p class="commentaire_content">
+        <p class="commentaire_content"  v-if="!this.isMofidied">
             {{ this.commentaire }}
         </p>
+        <div class="modif-wrapper" v-if="this.isMofidied">
+             <textarea class="textarea-modif"  v-model="this.comVal"> </textarea>
+             <input type="submit" value="valider" @click="this.updatePost">
+             <input type="submit" value="annuler" @click="this.closeModified">
+        </div>
+       
         <img src="../assets/arrow.png" class="commentaire_rep" v-if="this.isDelete === false"/>
         <div class="menu menu-close" :id="[this._id + '_menu']">
             <ul class="menu_list">
-                <li class="menu_list_item">Répondre</li>
-                <li class="menu_list_item" v-if="this.login == this.nomUtilisateur" >Modifier</li>
+                <li class="menu_list_item" v-on:click="$emit('repondre', commentaire)" @click="this.closeMenu" >Répondre</li>
+                <li class="menu_list_item" v-if="this.login == this.nomUtilisateur" @click="modified">Modifier</li>
                 <li class="menu_list_item"  v-if="this.login == this.nomUtilisateur" @click="this.delete">Supprimer</li>
                 <li class="menu_list_item">Signaler</li>
             </ul>
@@ -28,7 +34,12 @@
 <script>
 export default {
     props : ["isDelete","idPost" ,"_id","nomUtilisateur","date","imageProfil","commentaire","login"],
-
+    data() {
+        return {
+            isMofidied : false,
+            comVal : "",
+        }
+    },
     methods: {
         openMenu(){
             const menu = document.querySelector(`#${this._id}_menu`); 
@@ -41,22 +52,44 @@ export default {
             menu.classList.add('menu-close');
         },
         async delete(){
+            this.closeMenu();
             const params = {
                 id : this.idPost,
                 
             }
-            
              await this.$http.put('/forum/deletePost',params);
             location.reload();
-        }
+        },
 
+        modified(){
+            this.isMofidied = true;   
+            this.comVal = document.querySelector(`#${this._id}_commentaire > p`).innerText; 
+            this.closeMenu();        
+        },
+        closeModified(){
+            this.isMofidied = false;
+        },
+        
+        async updatePost(){
+            const params = {
+                id : this.idPost,
+                contenuCommentaire : document.querySelector('.textarea-modif').value
+            }
+            await this.$http.put('/forum/updatePost',{params}); 
+            this.closeModified();
+            this.$router.go()
+        }
        
     }
 }
 </script>
 <style lang="scss" scoped>
 
-
+.textarea-modif{
+    width: 100%;
+    height: 100%;
+    padding: 1em;
+}
 .commentaire{
     position: relative;
     font-size: 0.9em;

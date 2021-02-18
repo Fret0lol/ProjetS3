@@ -15,7 +15,7 @@
     <div class="wrapper">
         <div class="btn" @click="this.toggleInput">Nouveau post </div>
         <div class="posts"  v-for="post in this.posts" v-bind:key="post._id">
-                  <Post :isDelete="post.delete" :idPost="post._id" :_id="post.auteurCommentaire+ post._id" :nomUtilisateur="post.auteurCommentaire" :date="post.dateCommentaire" :commentaire="post.contenuCommentaire" :login="$data.auteur" />
+                  <Post  v-on:repondre="reponse($event)"  :isDelete="post.delete" :idPost="post._id" :_id="post.auteurCommentaire+ post._id" :nomUtilisateur="post.auteurCommentaire" :date="post.dateCommentaire" :commentaire="post.contenuCommentaire" :login="$data.auteur" />
         </div>
     </div>
     <div class="input">
@@ -23,7 +23,9 @@
         <input type="submit" value="Publier" @click="this.createPost">
         <input type="submit" value="Fermer" @click="this.closeInput">
     </div>
+   
   </section>
+  
 </template>
 
 <script>
@@ -36,7 +38,8 @@ export default {
     return {
       sujet: {},
       posts: [],
-      auteur : ""
+      auteur : "",
+      repValue : ""
     };
   },
   components: {
@@ -45,6 +48,18 @@ export default {
   },
   props: ["idSujet"],
   methods: {
+    reponse(content){
+      let res;
+   
+      if(content.length > 100){
+        res = content.slice(0,100);
+        res += " ...\n";
+      }else{
+        res = content;
+      }
+      this.repValue = res;
+      this.toggleInput(); 
+    },
     async getOneSujet() {
       const params = {
         idSujet: this.idSujet,
@@ -53,6 +68,7 @@ export default {
       this.sujet = rep.data.sujet;
     },
     toggleInput(){
+        console.log(this.repValue)
         const input = document.querySelector('.input');
         input.classList.add('input-visible')
     },
@@ -69,10 +85,11 @@ export default {
           auteurCommentaire : this.auteur,
           dateCommentaire : new Date(),
           sujetRef : this.idSujet,
-          contenuCommentaire : document.querySelector('textarea').value
+          contenuCommentaire : this.repValue ? this.repValue  + document.querySelector('textarea').value : document.querySelector('textarea').value
         }
         let response = await this.$http.post('/forum/createPost',{params});
         this.getAllPosts();
+        this.closeInput();
         if(response.status == 404){
           swal('error','impossible de créer le post','error');
         }

@@ -40,3 +40,14 @@ exports.createNewPost = async (req,res) => {
       res.status(400).json({err :err});
     }
   }
+
+
+  exports.updatePost = async (req,res) => {
+    try {
+      console.log(req.body);
+      await Post.updateOne({ _id : req.body.params.id }, {contenuCommentaire : req.body.params.contenuCommentaire})
+      .then(response => {res.status(201).json({response})});
+    } catch (err) {
+      res.status(400).json({err :err})
+    }
+  }
