@@ -15,7 +15,7 @@
     <div class="wrapper">
         <div class="btn" @click="this.toggleInput">Nouveau post </div>
         <div class="posts"  v-for="post in this.posts" v-bind:key="post._id">
-                  <Post  v-on:repondre="reponse($event)"  :isDelete="post.delete" :idPost="post._id" :_id="post.auteurCommentaire+ post._id" :nomUtilisateur="post.auteurCommentaire" :date="post.dateCommentaire" :commentaire="post.contenuCommentaire" :login="$data.auteur" />
+                  <Post  :reponse="post.reponse" v-on:repondre="reponse($event)"  :isDelete="post.delete" :idPost="post._id" :_id="post.auteurCommentaire+ post._id" :nomUtilisateur="post.auteurCommentaire" :date="post.dateCommentaire" :commentaire="post.contenuCommentaire" :login="$data.auteur" />
         </div>
     </div>
     <div class="input">
@@ -85,7 +85,8 @@ export default {
           auteurCommentaire : this.auteur,
           dateCommentaire : new Date(),
           sujetRef : this.idSujet,
-          contenuCommentaire : this.repValue ? this.repValue  + document.querySelector('textarea').value : document.querySelector('textarea').value
+          contenuCommentaire : document.querySelector('textarea').value,
+          reponse : this.repValue ? this.repValue : ""
         }
         let response = await this.$http.post('/forum/createPost',{params});
         this.getAllPosts();

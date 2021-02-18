@@ -10,6 +10,7 @@ exports.createNewPost = async (req,res) => {
         dateCommentaire : req.body.params.dateCommentaire,
         sujetRef : req.body.params.sujetRef,
         contenuCommentaire : req.body.params.contenuCommentaire, 
+        reponse : req.body.params.reponse,
         delete : false
       });
       let data = post.save();

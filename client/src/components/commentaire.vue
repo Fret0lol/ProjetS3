@@ -10,16 +10,20 @@
             </div>
             <img src="../assets/menu.png" class="commentaire_header_menu" @click="this.openMenu"  v-if="this.isDelete === false">
         </div>
+         <p class="commentaire_content commentaire-rep"  v-if="!this.isMofidied">
+            {{ this.reponse }}
+        </p>
         <p class="commentaire_content"  v-if="!this.isMofidied">
             {{ this.commentaire }}
         </p>
+
         <div class="modif-wrapper" v-if="this.isMofidied">
              <textarea class="textarea-modif"  v-model="this.comVal"> </textarea>
              <input type="submit" value="valider" @click="this.updatePost">
              <input type="submit" value="annuler" @click="this.closeModified">
         </div>
        
-        <img src="../assets/arrow.png" class="commentaire_rep" v-if="this.isDelete === false"/>
+        <img src="../assets/arrow.png" class="commentaire_rep" v-if="this.isDelete === false" v-on:click="$emit('repondre', commentaire)"/>
         <div class="menu menu-close" :id="[this._id + '_menu']">
             <ul class="menu_list">
                 <li class="menu_list_item" v-on:click="$emit('repondre', commentaire)" @click="this.closeMenu" >Répondre</li>
@@ -33,7 +37,7 @@
 </template>
 <script>
 export default {
-    props : ["isDelete","idPost" ,"_id","nomUtilisateur","date","imageProfil","commentaire","login"],
+    props : ["reponse","isDelete","idPost" ,"_id","nomUtilisateur","date","imageProfil","commentaire","login"],
     data() {
         return {
             isMofidied : false,
@@ -101,6 +105,9 @@ export default {
     padding: 1em 1em 4em 1em;
     margin: 1.5em 0;
     
+    &-rep{
+        font-style: italic;
+    }
     &-delete{
     background: rgb(252, 152, 152)  !important;
     }
