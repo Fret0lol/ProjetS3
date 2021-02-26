@@ -33,3 +33,12 @@ exports.getEtablissementByNom = async (req, res) => {
     res.status(400).json({ err: err });
   }
 };
+
+exports.getAllEtablissement = async (req, res) => {
+  try {
+    const etablissement = await Etablissement.find();
+    res.status(201).json({ etablissement });
+  } catch (err) {
+    res.status(400).json({ err: err });
+  }
+}

@@ -4,20 +4,7 @@ const auth = require("../../../config/auth");
 const formationController = require("../controller/formationController");
 
 router.post("/createFormation", formationController.createFormation);
-// router.post("/login", userController.loginUser);
-// router.get("/email", userController.getUserbyEmail);
-//router.get("/getEtablissementByNom", etablissementController.getEtablissementByNom); //A FINIR
-// //router.get("/users", userController.getAllUsers);
-// //router.get("/users/etudiant", userController.getAllEtudiant);
-
-
-// router.put("/:email", userController.updateUser);
-
-
-
-
-// For Admin
-// router.put("/valide", userController.updateValidation);
-// router.post("/delete", userController.deleteUser);
+router.get("/getFormationByName", formationController.getFormationByNom);
+router.get("/getAllFormations", formationController.getAllFormation);
 
 module.exports = router;

@@ -1,5 +1,7 @@
 const { response } = require("express");
 const User = require("../model/User");
+const multer = require("multer");
+const fs = require("fs");
 
 // CREATE
 exports.registerNewUser = async (req, res) => {
@@ -8,7 +10,7 @@ exports.registerNewUser = async (req, res) => {
     console.log(isUser);
     if (isUser.length >= 1) {
       return res.status(409).json({
-        message: "nomUtilisateur already in use"
+        message: "nomUtilisateur already in use",
       });
     }
     const user = new User({
@@ -19,7 +21,7 @@ exports.registerNewUser = async (req, res) => {
       statut: req.body.statut,
       nomUtilisateur: req.body.nomUtilisateur,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
     });
     let data = await user.save();
     const token = await user.generateAuthToken(); // here it is calling the method that we created in the model
@@ -40,9 +42,7 @@ exports.loginUser = async (req, res) => {
         .json({ error: "Login failed! Check authentication credentials" });
     }
     if (!user.valide) {
-      return res
-        .status(401)
-        .json({ error: "Compte non validé !" });
+      return res.status(401).json({ error: "Compte non validé !" });
     }
     const token = await user.generateAuthToken();
     res.status(201).json({ user, token });
@@ -64,7 +64,9 @@ exports.getAllUsers = async (req, res) => {
 // };
 exports.getUserbyNomUtilisateur = async (req, res) => {
   try {
-    const user = await User.findOne({ nomUtilisateur: req.query.nomUtilisateur });
+    const user = await User.findOne({
+      nomUtilisateur: req.query.nomUtilisateur,
+    });
     res.status(201).json({ user });
   } catch (err) {
     res.status(401).json({ err });
@@ -73,7 +75,7 @@ exports.getUserbyNomUtilisateur = async (req, res) => {
 exports.getUserByParams = async (req, res) => {
   try {
     const count = await User.countDocuments();
-    const offset = parseInt(req.query.offset)*10;
+    const offset = parseInt(req.query.offset) * 10;
     const limit = parseInt(req.query.limit);
     var sortObject = {};
     const sortType = req.query.sortType;
@@ -87,92 +89,98 @@ exports.getUserByParams = async (req, res) => {
     // }
     // console.log('::queryObj::', queryObj); { $or: [filtre] }
     const rep = await User.find().sort(sortObject).skip(offset).limit(limit);
-    res.status(201).json({ rep, count })
+    res.status(201).json({ rep, count });
   } catch (err) {
-    res.status(401).json(err)
+    res.status(401).json(err);
   }
-  
-
 };
 //    UPDATE
 exports.updateUser = async (req, res) => {
   try {
-    await User.updateOne({ nomUtilisateur: req.body.nomUtilisateur },  req.body )
-      .then(response => {
-        res.status(201).json(response);
-      });
-  }catch (err) {
+    await User.updateOne(
+      { nomUtilisateur: req.body.nomUtilisateur },
+      req.body
+    ).then((response) => {
+      res.status(201).json(response);
+    });
+  } catch (err) {
     res.status(400).json({ err: err });
   }
-  
 };
 // Update User Validation Admin
 exports.updateValidation = async (req, res) => {
   try {
-    const user = await User.findOne({ nomUtilisateur: req.body.nomUtilisateur });
+    const user = await User.findOne({
+      nomUtilisateur: req.body.nomUtilisateur,
+    });
     if (user) {
       user.valide = !user.valide;
-      user.save()
+      user.save();
     }
-    res.status(201).json({message: "Validation mise à jour !"});
-  }catch (err){
-      res.status(401).json({err: err});
+    res.status(201).json({ message: "Validation mise à jour !" });
+  } catch (err) {
+    res.status(401).json({ err: err });
   }
 };
-
 
 //    DELETE
 // Delete User Admin
 exports.deleteUser = async (req, res) => {
   try {
     await User.deleteOne({ nomUtilisateur: req.body.nomUtilisateur });
-    res.status(201).json({message: "Suppression réussie !"});
+    res.status(201).json({ message: "Suppression réussie !" });
   } catch (err) {
-    res.status(401).json({err: err});
+    res.status(401).json({ err: err });
   }
 };
 
-
 // IMAGE
-// Upload Image from User
-exports.uploadImage = async (req, res) => {
+
+//Upload Image from User
+exports.uploadFile = async (req, res) => {
   try {
-    const user = await User.findById(req.body.id);
-    // //console.log(req.file);
-    // console.log(user.imageProfil)
-    user.imageProfil = req.file.buffer;
-    // console.log("YO");
-    user.save();
-    res.send({ message: "Check"})
-  } catch (err) {
-    res.status(400).send(err)
+    const user = await User.findOne({
+       nomUtilisateur: req.body.nomUtilisateur,
+    });
+    if (req.files == undefined) {
+      return res.send(`You must select a file.`);
+    }
+    if (!user) {
+      return res.send(`Need user name`);
+    }
+    user.imgProfil = req.files[0].filename;
+    await user.save();
+    console.log(user);
+    return res.send(`${req.protocol}://${req.get('host')}/images/${user.imgProfil}`);
+  } catch (error) {
+    return res.send(`Error when trying upload image: ${error}`);
   }
 };
 
 // Get Image from UserBase
 exports.getImage = async (req, res) => {
   try {
-    console.log(req.query.nomUtilisateur)
-    const user = await User.findOne({ nomUtilisateur: req.query.nomUtilisateur });
-    if (!user || !user.imageProfil) {
-      throw new Error("Pas d'image")
+    const user = await User.findOne({
+      nomUtilisateur: req.body.nomUtilisateur,
+    });
+    if (!user || !user.imgProfil) {
+      throw new Error("Pas d'image");
     }
-    
-    res.set('Content-Type', 'image/png')
-    let image = user.imageProfil
-    res.send({ image })
+    res.set("Content-Type", "image/png");
+    let image = user.imgProfil;
+    res.send({ image });
   } catch (err) {
-    res.status(404).send()
+    res.status(404).send();
   }
-}
+};
 // Delete Image in UserBase
 exports.deleteImage = async (req, res) => {
   try {
-    const user = await User.findById(req.body.id)
-    user.imageProfil = undefined
-    user.save()
-    res.send({ message: "Check"})
+    const user = await User.findById(req.body.id);
+    user.imageProfil = undefined;
+    user.save();
+    res.send({ message: "Check" });
   } catch (err) {
-    res.status(400).send(err)
+    res.status(400).send(err);
   }
 };

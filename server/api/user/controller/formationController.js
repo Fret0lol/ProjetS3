@@ -21,3 +21,20 @@ exports.createFormation = async (req, res) => {
   }
 };
 
+exports.getFormationByNom = async (req, res) => {
+  try {
+    let formation = await Formation.find({ intitulé_formation_long: req.body.nomComplet })
+    res.status(201).json({ formation })
+  } catch (err) {
+    res.status(400).json({ err: err })
+  }
+}
+
+exports.getAllFormation = async (req, res) => {
+  try {
+    let formation = await Formation.find()
+    res.status(201).json({ formation })
+  } catch (err) {
+    res.status(400).json({ err: err })
+  }
+}

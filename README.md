@@ -93,6 +93,9 @@ npm run serve
         \_ Création ✅
         \_ Getteur ✅ (Un seul getteur avec personnalisation des paramètres de recherche)
         \_ Supprimer ✅ (Nécesitte le nom du service)
+    \_ Etablissement
+        \_ Création ✅
+        \_ Getteur ✅ (Seulement par le nom ou tous)
 
 # Index 
 

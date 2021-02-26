@@ -112,7 +112,8 @@ $color: #26F191;
       i {
         color: $color;
         font-size: 2vh;
-        margin: 0 1.2vw;
+        margin: 0 1.2vh;
+        width: 3vh;
       }
       .input {
         display: flex;

@@ -4,10 +4,11 @@ import router from "./router";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css";
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAt, faLock, faEdit, faCheck, faTimes, faEye, faEyeSlash, faUser, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { faAt, faLock, faEdit, faCheck, faTimes, faEye, faEyeSlash, faUser, faPhone, faEnvelope, faGraduationCap } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faAt, faLock, faEdit, faCheck, faTimes, faEye, faEyeSlash, faUser, faPhone, faEnvelope)
+
+library.add(faAt, faLock, faEdit, faCheck, faTimes, faEye, faEyeSlash, faUser, faPhone, faEnvelope, faGraduationCap)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

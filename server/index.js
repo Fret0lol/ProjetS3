@@ -5,8 +5,9 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const config = require("./config/db");
+const path = require('path')
 // Manipulation de fichier
-const multer = require("multer");
+
 
 const app = express();
 
@@ -28,6 +29,8 @@ app.disable("etag");
 //registering cors
 
 app.use(cors());
+
+
 //configure body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -35,6 +38,8 @@ app.use(bodyParser.json());
 
 app.use(morgan("dev")); // configire morgan
 
+// 
+app.use('/images', express.static(path.join(__dirname, 'images')));
 // define first route
 app.get("/", (req, res) => {
   console.log("Hello MEVN Soldier");
@@ -60,6 +65,8 @@ app.use("/forum",forumRoutes);
 
 const serviceRoutes = require("./api/user/routes/service.routes");
 app.use("/service", serviceRoutes);
+
+
 app.listen(PORT, () => {
   console.log(`App is running on ${PORT}`);
 });

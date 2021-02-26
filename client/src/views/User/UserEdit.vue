@@ -6,7 +6,25 @@
       <div id="img-background"></div>
       <div id="head-info">
         <div id="left-head-info">
-          <div class="photoProfil"></div>
+          <div id="photoProfil">
+            <form
+              method="POST"
+              action="/user/upload"
+              enctype="multipart/form-data"
+            >
+              <div>
+                <label>Select your profile picture:</label>
+                <input type="file" name="profile_pic" />
+              </div>
+              <div>
+                <input
+                  type="submit"
+                  name="btn_upload_profile_pic"
+                  value="Upload"
+                />
+              </div>
+            </form>
+          </div>
           <div class="info-resume">
             <input
               type="text"
@@ -79,9 +97,7 @@
                 <button>Modifier</button>
               </li>
               <li>
-                <router-link
-                  :to="'/membre/' + user.nomUtilisateur + '/edit/' + update"
-                  tag="button"
+                <router-link to="/addFormation" tag="button"
                   >Ajouter</router-link
                 >
               </li>
@@ -108,9 +124,7 @@
                 <button>Modifier</button>
               </li>
               <li>
-                <router-link
-                  to="/addFormation"
-                  tag="button"
+                <router-link to="/addFormation" tag="button"
                   >Ajouter</router-link
                 >
               </li>
@@ -143,9 +157,22 @@ export default {
       timeline: {},
       experiencePro: {},
       update: true,
+      imgProfil: "",
     };
   },
   methods: {
+    submitFile() {
+      let formData = new FormData();
+      formData.append("file", this.file);
+      console.log(formData);
+      const upload = this.$http.post("/user/upload", formData, {
+        header: { "Content-Type": "multipart/form-data" },
+      });
+      console.log(upload);
+    },
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
+    },
     async getInfoUser() {
       try {
         const params = {
@@ -153,6 +180,7 @@ export default {
         };
         const info = await this.$http.get(`/user/nomUtilisateur`, { params });
         this.user = info.data.user;
+        document.querySelector("#photoProfil").style.backgroundImage = "url("+'http://localhost:4000/images/' + this.user.imgProfil+")";
       } catch (err) {
         console.log(err);
       }
@@ -255,9 +283,11 @@ export default {
         @media screen and (min-width: 750px) {
           flex-flow: row wrap;
         }
-        .photoProfil {
+        #photoProfil {
           // Image Profil
           background-color: #26f191;
+          background-repeat: no-repeat;
+          background-size: cover;
           height: 250px;
           width: 250px;
           box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
@@ -280,14 +310,14 @@ export default {
             }
           }
           input {
-              background: transparent;
-              width: 6em;
-              outline: none;
-              color: $color2;
-              font-weight: 700;
-              border: 1px solid $color;
-              border-radius: 5px;
-            }
+            background: transparent;
+            width: 6em;
+            outline: none;
+            color: $color2;
+            font-weight: 700;
+            border: 1px solid $color;
+            border-radius: 5px;
+          }
           .reseau {
             display: flex;
             flex-direction: row;
@@ -379,15 +409,15 @@ export default {
         }
       }
       button {
-          background-color: $color;
-          border: none;
-          border-radius: 5px;
-          padding: 10px 22px;
-          color: $color2;
-          font-weight: 700;
-          margin: 20px 5px;
-          width: 11em;
-        }
+        background-color: $color;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 22px;
+        color: $color2;
+        font-weight: 700;
+        margin: 20px 5px;
+        width: 11em;
+      }
     }
   }
 }

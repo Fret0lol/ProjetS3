@@ -74,6 +74,14 @@ const userSchema = mongoose.Schema({
     type: String,
     default: null
   },
+  imgProfil: {
+    type: String,
+    default: null
+  },
+  imgBuffer: {
+    data: Buffer,
+    contentType: String
+  },
   tokens: [
     {
       token: {
