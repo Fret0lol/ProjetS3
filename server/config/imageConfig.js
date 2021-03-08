@@ -10,9 +10,13 @@ const MIME_TYPES = {
   Définition de l'emplacement des fichiers dans le dossier 'image'
   Définition du nom du fichier par la date actuel en milliseconde + l'extension de base
 */
+
+multer({
+  limits: { fieldSize: 25 * 1024 * 1024 }
+})
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'images');
+    cb(null, 'images/userImage');
   },
   filename: function(req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));

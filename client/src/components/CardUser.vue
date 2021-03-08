@@ -1,8 +1,9 @@
 <template>
   <div id="card">
     <div>
-      <div id="imgProfil">
-        <img src="../assets/Logo.png" alt="" />
+      <div id="photoProfil">
+        <!-- <img :src="'http://localhost:4000/images/userImage/'+this.image" alt="" v-if="this.image != null" class="img"/>
+        <img src="../assets/Logo.png" alt="" v-else class="img"/>-->
       </div>
       <div id="infoProfil">
         <p id="name">{{ this.nom }} {{ this.prenom }}</p>
@@ -16,7 +17,7 @@
 </template>
 <script>
 export default {
-  props: ["nomUtilisateur", "nom", "prenom", "statut"],
+  props: ["nomUtilisateur", "nom", "prenom", "statut", "image"],
   data() {
     return {
       user: {},
@@ -29,6 +30,13 @@ export default {
       };
       const info = await this.$http.get(`/user/nomUtilisateur`, { params }); //${this.email}
       this.user = info.data.user;
+      if (this.user.imgProfil != null) {
+          document.querySelector("#photoProfil").style.backgroundImage =
+            "url(" +
+            "http://localhost:4000/images/userImage/" +
+            this.user.imgProfil +
+            ")";
+        }
     },
     redirect() {
       this.$router.push(`/membre/${this.nomUtilisateur}`);
@@ -58,11 +66,15 @@ $color: #26f192;
   div {
     display: grid;
     grid-template-columns: 40% 60%;
-    #imgProfil {
-      display: flex;
-      justify-content: center;
+    #photoProfil {
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 130px;
+      width: 130px;
+      padding: 0 10px;
       
-      img {
+      .img {
         height: 140px;
         width: 140px;
         object-fit: scale-down;

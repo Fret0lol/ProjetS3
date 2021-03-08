@@ -5,7 +5,7 @@
       <div id="img-background"></div>
       <div id="head-info">
         <div id="left-head-info">
-          <div class="photoProfil"></div>
+          <div id="photoProfil"></div>
           <div class="info-resume">
             <p id="name">{{ user.prenom }} {{ user.nom }}</p>
             <!-- <p>{{ user.statut }}</p> Doit être le dernier poste occupée-->
@@ -133,7 +133,13 @@ export default {
         };
         const info = await this.$http.get(`/user/nomUtilisateur`, { params });
         this.user = info.data.user;
-        console.log(this.user.linkedin);
+        if (this.user.imgProfil != null) {
+          document.querySelector("#photoProfil").style.backgroundImage =
+            "url(" +
+            "http://localhost:4000/images/userImage/" +
+            this.user.imgProfil +
+            ")";
+        }
       } catch (err) {
         console.log(err);
       }
@@ -163,7 +169,7 @@ export default {
     this.getUserDetails();
     this.getInfoUser();
     this.getTimeline();
-    console.log(this.user)
+    console.log(this.user);
   },
 };
 </script>
@@ -205,9 +211,11 @@ export default {
         @media screen and (min-width: 750px) {
           flex-flow: row wrap;
         }
-        .photoProfil {
+        #photoProfil {
           // Image Profil
           background-color: #26f191;
+          background-repeat: no-repeat;
+          background-size: cover;
           height: 250px;
           width: 250px;
           box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
@@ -272,7 +280,6 @@ export default {
           width: 8em;
           font-size: 1.8vh;
           @media screen and (min-width: 750px) {
-            
           }
         }
         #edit {

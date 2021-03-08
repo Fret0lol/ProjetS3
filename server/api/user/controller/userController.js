@@ -139,6 +139,7 @@ exports.deleteUser = async (req, res) => {
 //Upload Image from User
 exports.uploadFile = async (req, res) => {
   try {
+    console.log(req.body.nomUtilisateur)
     const user = await User.findOne({
        nomUtilisateur: req.body.nomUtilisateur,
     });
@@ -148,10 +149,15 @@ exports.uploadFile = async (req, res) => {
     if (!user) {
       return res.send(`Need user name`);
     }
+    console.log(user.imgProfil)
+    if (user.imgProfil != null) {
+      fs.unlink(`images/userImage/${user.imgProfil}`, () => {
+        console.log("Fichier supprimé")
+      })
+    }
     user.imgProfil = req.files[0].filename;
     await user.save();
-    console.log(user);
-    return res.send(`${req.protocol}://${req.get('host')}/images/${user.imgProfil}`);
+    return res.send(`${req.protocol}://${req.get('host')}/images/userImage/${user.imgProfil}`);
   } catch (error) {
     return res.send(`Error when trying upload image: ${error}`);
   }

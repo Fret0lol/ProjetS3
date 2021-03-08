@@ -33,6 +33,7 @@
         :nom="user.nom"
         :prenom="user.prenom"
         :statut="user.statut"
+        :image="user.imgProfil"
         v-for="user in users"
         class="card"
       />

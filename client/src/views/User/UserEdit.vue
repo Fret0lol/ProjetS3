@@ -2,82 +2,76 @@
   <div id="app">
     <Header />
     <div id="info">
-      <!-- TOP -->
-      <div id="img-background"></div>
-      <div id="head-info">
-        <div id="left-head-info">
-          <div id="photoProfil">
-            <form
-              method="POST"
-              action="/user/upload"
-              enctype="multipart/form-data"
-            >
-              <div>
-                <label>Select your profile picture:</label>
-                <input type="file" name="profile_pic" />
-              </div>
-              <div>
-                <input
-                  type="submit"
-                  name="btn_upload_profile_pic"
-                  value="Upload"
-                />
-              </div>
-            </form>
+      <div id="card">
+        <div id="photoProfil">
+          <div v-if="!image" class="div-image">
+            <input
+              type="file"
+              name="profile_pic"
+              @change="onFileChange"
+              class="btn-image"
+            />
+            <span
+              ><i><font-awesome-icon icon="camera" /></i
+            ></span>
           </div>
-          <div class="info-resume">
-            <input
-              type="text"
-              v-model="user.prenom"
-              class="inputResize name"
-              onInput="this.style.width = (this.value.length + 1) + 'ch';"
-            />
-            <input
-              type="text"
-              v-model="user.nom"
-              class="inputResize name"
-              onInput="this.style.width = (this.value.length + 1) + 'ch';"
-            />
-            <div class="reseau">
-              <div id="linkedin">
-                <img
-                  src="../../assets/LogoLinkedin.png"
-                  alt="Logo Linkedin"
-                  width="50px"
-                  title="Voir mon Linkedin"
-                />
-                <input
-                  type="text"
-                  v-model="user.linkedin"
-                  placeholder="https://www.linkedin.com/in/XXXXXXXXXXX"
-                />
-              </div>
-              <div id="phone">
-                <i><font-awesome-icon icon="phone" /></i>
-                <input
-                  type="tel"
-                  v-model="user.numeroTelephone"
-                  id="tel"
-                  placeholder="+33 XXXXXXXXXX"
-                />
-              </div>
-              <div id="mail">
-                <i><font-awesome-icon icon="envelope" /></i>
-                <input
-                  type="tel"
-                  v-model="user.email"
-                  id="email"
-                  placeholder="exemple@gmail.com"
-                />
-              </div>
+          <div v-else>
+            <img :src="image" id="imgProfil" />
+            <div class="div-image remove">
+              <button @click="removeImage" class="btn-image">
+                Remove image
+              </button>
+              <span>Supprimer</span>
             </div>
-            <!-- <p>{{ user.statut }}</p> -->
           </div>
         </div>
+        <div id="infoResume">
+          <h3>{{ user.prenom }} {{ user.nom }}</h3>
+          <h5>{{ user.statut }}</h5>
+          <h5>Autre</h5>
+        </div>
+        <div id="bouton">
+          <button class="button">Contacter</button>
+          <button class="button">CV</button>
+        </div>
+        <div id="lien">
+          <div id="linkedin" class="lien">
+            <img
+              src="../../assets/LogoLinkedin.png"
+              alt="Logo Linkedin"
+              width="50px"
+              title="Voir mon Linkedin"
+            />
+            <input
+              type="text"
+              v-model="user.linkedin"
+              placeholder="https://www.linkedin.com/in/XXXXXXXXXXX"
+            />
+          </div>
+          <div id="telephone" class="lien">
+            <i><font-awesome-icon icon="phone" /></i>
+            <input
+              type="tel"
+              v-model="user.numeroTelephone"
+              id="tel"
+              placeholder="+33 XXXXXXXXXX"
+            />
+          </div>
+          <div id="mail" class="lien">
+            <i><font-awesome-icon icon="envelope" /></i>
+            <input
+              type="tel"
+              v-model="user.email"
+              id="emailInput"
+              placeholder="exemple@gmail.com"
+            />
+          </div>
+        </div>
+        <button @click="save()" class="button">Sauvegarder</button>
       </div>
-      <div id="body-info">
+      <div id="timeline">
         <!-- FORMATION -->
-        <div class="formations">
+        <div id="formations">
           <div class="title">
             <p>Formations</p>
             <div class="line"></div>
@@ -94,19 +88,20 @@
                   :nomEtablissement="line.etablissementId.nom"
                   :villeEtablissement="line.etablissementId.ville"
                 />
-                <button>Modifier</button>
+                <router-link to="/editFormation" tag="button" class="button">Modifier</router-link>
+                <button class="button">Modifier</button>
               </li>
               <li>
-                <router-link to="/addFormation" tag="button"
-                  >Ajouter</router-link
+                <router-link to="/addFormation" tag="button" class="button"
+                  >Ajouter une formation</router-link
                 >
               </li>
             </ul>
           </div>
         </div>
-        <div class="experiencePro" v-if="experiencePro.length !== 0">
+        <div id="experiencePro" v-if="experiencePro.length !== 0">
           <div class="title">
-            <p>Expérience Professionnel</p>
+            <p>Expérience professionnelle</p>
             <div class="line"></div>
           </div>
           <div class="body">
@@ -121,23 +116,22 @@
                   :nomEtablissement="line.etablissementId.nom"
                   :villeEtablissement="line.etablissementId.ville"
                 />
-                <button>Modifier</button>
+                <button class="button">Modifier</button>
               </li>
               <li>
-                <router-link to="/addFormation" tag="button"
-                  >Ajouter</router-link
+                <router-link to="/addFormation" tag="button" class="button"
+                  >Ajouter une expérience professionnelle</router-link
                 >
               </li>
             </ul>
           </div>
         </div>
-        <button @click="save()">Sauvegarder</button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import VueJwtDecode from "vue-jwt-decode";
+// import VueJwtDecode from "vue-jwt-decode";
 import Constantes from "../../constantes";
 import swal from "sweetalert";
 // Components
@@ -157,22 +151,36 @@ export default {
       timeline: {},
       experiencePro: {},
       update: true,
-      imgProfil: "",
+      image: "",
+      file: null,
     };
   },
   methods: {
-    submitFile() {
-      let formData = new FormData();
-      formData.append("file", this.file);
-      console.log(formData);
-      const upload = this.$http.post("/user/upload", formData, {
-        header: { "Content-Type": "multipart/form-data" },
-      });
-      console.log(upload);
+    /* Méthodes pour affichage direct du fichier envoyé */
+    onFileChange(e) {
+      let files = e.target.files || e.dataTransfer.files;
+      this.file = e.target.files[0];
+      if (!files.length) {
+        return;
+      }
+      this.createImage(files[0]);
     },
-    handleFileUpload() {
-      this.file = this.$refs.file.files[0];
+    createImage(file) {
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = (e) => {
+        reader = e.target.result;
+        vm.image = e.target.result;
+      };
+      reader.readAsDataURL(file);
     },
+    removeImage() {
+      this.image = "";
+    },
+    /* Méthode pour obtenir informations sur l'utilisateur via BDD 
+       Affichage de l'image de profil
+    */
     async getInfoUser() {
       try {
         const params = {
@@ -180,26 +188,20 @@ export default {
         };
         const info = await this.$http.get(`/user/nomUtilisateur`, { params });
         this.user = info.data.user;
-        document.querySelector("#photoProfil").style.backgroundImage = "url("+'http://localhost:4000/images/' + this.user.imgProfil+")";
+        if (this.user.imgProfil != null) {
+          document.querySelector("#photoProfil").style.backgroundImage =
+            "url(" +
+            "http://localhost:4000/images/userImage/" +
+            this.user.imgProfil +
+            ")";
+        }
       } catch (err) {
         console.log(err);
       }
     },
-    getUserDetails() {
-      let token = localStorage.getItem("jwt");
-      if (!token) {
-        this.userLogin = null;
-      } else {
-        let decoded = VueJwtDecode.decode(token);
-        this.userLogin = decoded.nomUtilisateur;
-      }
-    },
-    // En cas d'erreur de frappe utilisateur
-    async inputError(id) {
-      document.querySelector(id).querySelector("input").style.borderColor =
-        "red";
-      document.querySelector(id).querySelector("input").style.color = "red";
-    },
+    /*
+      Méthode pour récupérer les formations de l'utilisateur
+    */
     async getTimeline() {
       try {
         const params = {
@@ -211,27 +213,55 @@ export default {
         console.log(err);
       }
     },
+    /*
+      Méthode pour mettre le texte en couleur quand les champs ne sont pas correct
+    */
+    inputError(id) {
+      document.querySelector(id).querySelector("input").style.borderColor =
+        "red";
+      document.querySelector(id).querySelector("input").style.color = "red";
+    },
+
+    /* Méthode pour envoyer les données modifiées par l'utilisateur
+       et sa photo de profil si elle ne reste pas inchangée 
+    */
     async save() {
       try {
-        console.log(this.user);
         // Test Linkedin Correct
         if (
           this.user.linkedin !== "" &&
           !Constantes.formatLienLinkedIn.test(this.user.linkedin)
         ) {
           this.inputError("#linkedin");
-          swal("Error", "Champs incorrects", "Error");
+          swal("Champs incorrect", "Le champs 'Lien Linkedin' est incorrect", "error");
           return 1;
         }
         // Test Numéro Téléphone Correct
         if (
-          this.user.numeroTelephone.length !== 0 &&
+          this.user.numeroTelephone !== "" &&
           !Constantes.formatNuméroTéléphone.test(this.user.numeroTelephone)
         ) {
-          await this.inputError("#phone");
+          this.inputError("#telephone");
+          swal("Champs incorrect", "Le champs 'Numéro de téléphone' est incorrect", "error")
+          return 1;
+        }
+        if (this.user.email !== "" && !Constantes.formatAdresseMél.test(this.user.email)) {
+          this.inputError("#mail");
+          swal("Champs incorrect", "Le champs 'Email' est incorrect", "error")
           return 1;
         }
         await this.$http.put(`/user/` + this.nomUtilisateur, this.user);
+        /* Envoie de l'image et enregistrement dans BDD de l'utilisateur */
+        if (this.file != null) {
+          let formData = new FormData();
+          formData.append("", this.file, this.file.name);
+          formData.append("nomUtilisateur", this.user.nomUtilisateur);
+          await this.$http.post("/user/upload", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          });
+        }
+
+        /* Redirection vers page de profil après enregistrement des changements */
         this.$router.replace(`/membre/` + this.nomUtilisateur);
       } catch (err) {
         console.log(err);
@@ -239,7 +269,6 @@ export default {
     },
   },
   created() {
-    this.getUserDetails();
     this.getInfoUser();
     this.getTimeline();
   },
@@ -251,96 +280,152 @@ export default {
 #app {
   #info {
     margin-top: 1vh;
-    #img-background {
-      display: none;
-      @media screen and (min-width: 750px) {
-        display: block;
-        position: absolute;
-        z-index: -1;
-        background-image: url("../../assets/imgBack.jpg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        height: 20vh;
-        width: 100%;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-      }
-    }
-    #head-info {
-      padding: 4vh 7vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    #card {
+      height: 80vh;
+      min-width: 350px;
+      width: 350px;
+      margin: 50px 7vw;
+      border: 2px solid $color;
+      border-radius: 20px;
       display: flex;
       flex-direction: column;
-      align-content: center;
+      align-items: center;
+      padding-top: 20px;
+      position: sticky;
       @media screen and (min-width: 750px) {
-        flex-flow: row wrap;
-        justify-content: space-between;
+        margin: auto 7vw auto 0;
       }
-      #left-head-info {
+      #photoProfil {
+        background-color: #26f191;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 250px;
+        width: 250px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        .div-image {
+          background: $color;
+          border-radius: 5px;
+          color: #fff;
+          font-size: 1em;
+          font-weight: bold;
+          margin: 0 auto; /*20px/16px 0*/
+          overflow: hidden;
+          padding: 10px; /*14px/16px*/
+          position: relative;
+          top: 220px;
+          text-align: center;
+          width: 120px;
+          cursor: pointer;
+          &:active,
+          &:focus,
+          &:hover {
+            cursor: pointer;
+          }
+          .btn-image {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            width: 148px;
+            height: 46px;
+            cursor: pointer;
+          }
+        }
+        .remove {
+          top: -30px;
+        }
+      }
+      #infoResume {
+        margin: 20px 0 0 0;
+        width: 250px;
+        h3 {
+          font-weight: 700;
+        }
+      }
+      #bouton {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        @media screen and (min-width: 750px) {
-          flex-flow: row wrap;
-        }
-        #photoProfil {
-          // Image Profil
-          background-color: #26f191;
-          background-repeat: no-repeat;
-          background-size: cover;
-          height: 250px;
+      }
+      button {
           width: 250px;
-          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
-            0 3px 6px rgba(0, 0, 0, 0.23);
+          margin: 5px 0;
         }
-        .info-resume {
-          padding: 3vh 3vw;
-          color: $color3;
-          font-size: 4vh;
-          @media screen and (min-width: 750px) {
-            color: $color2;
-            font-size: 3vh;
+      #lien {
+        width: 250px;
+        .lien {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin: 7px 0;
+          img {
+            width: 35px;
+            //fill: #26f191;
           }
-          .name {
-            font-weight: 700;
-            margin: 0 0 2.2em 0;
-            text-align: center;
-            @media screen and (min-width: 750px) {
-              text-align: left;
-            }
-          }
-          input {
-            background: transparent;
-            width: 6em;
-            outline: none;
-            color: $color2;
-            font-weight: 700;
-            border: 1px solid $color;
-            border-radius: 5px;
-          }
-          .reseau {
+          i {
+            width: 35px;
             display: flex;
-            flex-direction: row;
-            //padding: 2vh 0;
-            a {
-              img {
-                height: 50px;
-              }
+            justify-content: center;
+            font-size: 18px;
+            color: $color;
+          }
+        }
+        input {
+          background: transparent;
+          width: 215px;
+          height: 30px;
+          outline: none;
+          border: 1px solid $color;
+          border-radius: 3px;
+        }
+      }
+    }
+    #timeline {
+      display: flex;
+      flex-direction: column;
+      #formations, #experiencePro {
+        min-width: 300px;
+        .body {
+          .timeline {
+            width: 100%;
+            margin: 20px 2vw 0;
+            position: relative;
+            padding: 1em 0;
+            list-style-type: none;
+            &::before {
+              position: absolute;
+              left: 0;
+              top: 0;
+              content: " ";
+              display: block;
+              width: 6px;
+              height: 100%;
+              margin-left: -3px;
+              background: black;
+              z-index: 5;
             }
-            div {
-              margin: 0 1vw 0 0;
+            li {
+              padding: 1em 0;
+              padding-left: 31px;
               display: flex;
-              align-items: center;
-              font-weight: 700;
-              i {
-                font-size: 3vh;
-                margin: 0 1vw;
-                color: $color;
+              flex-direction: row;
+              &::after {
+                content: "";
+                display: block;
+                height: 0;
+                clear: both;
+                visibility: hidden;
               }
-              input {
-                color: $color3;
-                font-size: 2vh;
-                width: 14em;
+              button {
+                height: 45px;
               }
             }
           }
@@ -348,11 +433,6 @@ export default {
       }
     }
     #body-info {
-      margin: auto;
-      display: flex;
-      flex-flow: row wrap;
-      width: 90vw;
-
       .formations,
       .experiencePro {
         width: 100vw;
@@ -380,43 +460,8 @@ export default {
               background: black;
               z-index: 5;
             }
-            li {
-              padding: 1em 2em;
-              display: flex;
-              flex-direction: row;
-              &::after {
-                content: "";
-                display: block;
-                height: 0;
-                clear: both;
-                visibility: hidden;
-              }
-              button {
-                background-color: $color;
-                border: none;
-                padding: 10px 22px;
-                border-radius: 5px;
-                color: white;
-                font-weight: 700;
-                margin: 0 1em;
-              }
-              .modifier {
-                padding: 5px 11px;
-                height: 4vh;
-              }
-            }
           }
         }
-      }
-      button {
-        background-color: $color;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 22px;
-        color: $color2;
-        font-weight: 700;
-        margin: 20px 5px;
-        width: 11em;
       }
     }
   }

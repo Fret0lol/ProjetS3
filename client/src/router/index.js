@@ -70,8 +70,6 @@ const routes = [
       requiresAuth: true,
     },
     beforeEnter: (to, from, next) => {
-      console.log(to.params.nomUtilisateur);
-      console.log(localStorage.getItem("jwt"));
       let token = localStorage.getItem("jwt");
       if (token === null) {
         next({
