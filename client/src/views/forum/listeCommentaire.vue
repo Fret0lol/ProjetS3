@@ -1,5 +1,6 @@
 <template>
   <section class='c'>
+    <div class="blocker"></div>
     <Header />
     <div class="header">
       <div class="header_info">
@@ -15,7 +16,8 @@
     <div class="wrapper">
         <div class="btn" @click="this.toggleInput">Nouveau post </div>
         <div class="posts"  v-for="post in this.posts" v-bind:key="post._id">
-                  <Post  :reponse="post.reponse" v-on:repondre="reponse($event)"  :isDelete="post.delete" :idPost="post._id" :_id="post.auteurCommentaire+ post._id" :nomUtilisateur="post.auteurCommentaire" :date="post.dateCommentaire" :commentaire="post.contenuCommentaire" :login="$data.auteur" />
+                  <Signal :_id="post._id" :content="post.contenuCommentaire" />
+                  <Post  :reponse="post.reponse" v-on:repondre="reponse($event)"  v-on:signaler="openSignal($event)" :isDelete="post.delete" :idPost="post._id" :_id="post.auteurCommentaire+ post._id" :nomUtilisateur="post.auteurCommentaire" :date="post.dateCommentaire" :commentaire="post.contenuCommentaire" :login="$data.auteur" />
         </div>
     </div>
     <div class="input">
@@ -33,6 +35,7 @@ import Post from '../../components/commentaire'
 import Header from "../../components/header";
 import VueJwtDecode from "vue-jwt-decode";
 import swal from 'sweetalert';
+import Signal from '../../components/signal'
 export default {
   data() {
     return {
@@ -44,10 +47,20 @@ export default {
   },
   components: {
     Header,
-    Post
+    Post,
+    Signal
   },
   props: ["idSujet"],
   methods: {
+
+    openSignal(id){
+      const block = document.querySelector('.blocker')
+      block.style.opacity = 0.8
+      block.style.pointerEvents = 'all'
+      const signal = document.querySelector(`#signal_${id}`)
+      signal.style.visibility = 'visible'
+    },
+
     reponse(content){
       let res;
    
@@ -77,6 +90,7 @@ export default {
         input.classList.remove('input-visible')
     }
     ,
+  
    
     async createPost(){
       if(document.querySelector('textarea').value != ""){
@@ -129,7 +143,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.blocker{
+    background: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
+}
 .header {
   background: rgb(79, 79, 79);
   display: flex;
