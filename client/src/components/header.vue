@@ -24,6 +24,9 @@
               <li v-if="this.user.statut === 'Administrateur'">
                 <router-link to="/admin/users">MEMBRES</router-link>
               </li>
+               <li v-if="this.user.statut === 'Administrateur'">
+                <router-link to="/admin/signalements">SIGNALEMENTS</router-link>
+              </li>
               <li v-if="this.login === true">
                 <router-link :to="'/membre/' + user.nomUtilisateur"
                   ><i><font-awesome-icon icon="user" /></i>

@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert'
 
 export default {
     props : ["content","_id"],
@@ -37,7 +38,12 @@ export default {
             }
             console.log(params)
             let rep = await this.$http.post('/forum/createSignal',params)
-            console.log(rep)
+            if(rep.status == 201){
+                swal("Success","Un modérateur étudie votre signalement","success")
+            }else{
+                swal("Error","La création du signalement a échoué ");
+            }
+            this.closeVisibility()
         }
     }
 }
