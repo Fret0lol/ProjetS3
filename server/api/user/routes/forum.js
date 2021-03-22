@@ -18,5 +18,7 @@ router.get('/getPosts',postController.getAllPost);
 router.put('/deletePost',postController.deletePost);
 router.put('/updatePost', postController.updatePost);
 router.post('/createSignal',signalControler.createSignal)
-// router.get("/getSujets",forumController.getSujets);
+router.get('/admin_signal',signalControler.getSignalements)
+// router.post('/valideSignal',signalControler.deleteSignal)
+router.post('/deleteSignal',signalControler.deleteSignal)
 module.exports = router;

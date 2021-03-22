@@ -56,6 +56,9 @@
           <li v-if="this.user.statut === 'Administrateur'">
             <router-link to="/admin/users">MEMBRES</router-link>
           </li>
+           <li v-if="this.user.statut === 'Administrateur'">
+                <router-link to="/admin/signalements">SIGNALEMENTS</router-link>
+              </li>
         </ul>
         <li v-if="this.login === true">
           <router-link :to="'/membre/' + user.nomUtilisateur"
@@ -194,7 +197,7 @@ nav {
           text-decoration: none;
           i {
             margin: 0 2vw;
-            font-size: 3vh;
+            font-size: 2vh;
             color: $color;
           }
         }

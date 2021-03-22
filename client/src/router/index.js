@@ -133,6 +133,33 @@ const routes = [
     meta: {
       requiresAuth: true,
     },
+
+    beforeEnter: (to, from, next) => {
+      let token = localStorage.getItem("jwt");
+      if (token === null) {
+        next({
+          path: "/login",
+        });
+      } else {
+        let decoded = VueJwtDecode.decode(token);
+        if (decoded.statut === "Administrateur") {
+          next();
+        } else {
+          next({
+            path: "/",
+          });
+        }
+      }
+    },
+  },
+  {
+    path: "/admin/signalements",
+    name: "AdminSignal",
+    component: () => import("../views/AdminSignal.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+
     beforeEnter: (to, from, next) => {
       let token = localStorage.getItem("jwt");
       if (token === null) {
