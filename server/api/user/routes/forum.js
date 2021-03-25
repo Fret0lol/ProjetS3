@@ -20,6 +20,7 @@ router.put('/updatePost', postController.updatePost);
 router.get('/getOnePost',postController.getOnePost)
 router.post('/createSignal',signalControler.createSignal)
 router.get('/forumID',forumController.findByIdForum)
+router.get('/forumLimit',forumController.getForumsLimit)
 router.get('/admin_signal',signalControler.getSignalements)
 // router.post('/valideSignal',signalControler.deleteSignal)
 router.post('/deleteSignal',signalControler.deleteSignal)

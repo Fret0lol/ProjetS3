@@ -12,19 +12,26 @@
         <div class="line"></div>
       </div>
       <div class="body">
-        <CardUser
+        <CardUser v-for="user in this.users" :key="user.nom"
           :email="user.email"
           :nom="user.nom"
           :prenom="user.prenom"
           :statut="user.statut"
         />
       </div>
+
     </section>
     <section id="forum">
       <div class="title">
-        <p>Forum</p>
+        <p>Forums</p>
         <div class="line"></div>
       </div>
+        <div class="body">
+          <CardForum v-for="forum in this.forums" :key="forum._id"
+            :sujets="forum.listeSujets"
+            :nomForum="forum.titreForum"
+            :brief="forum.descriptionForum" />
+        </div>
     </section>
     <Footer />
   </div>
@@ -33,14 +40,17 @@
 import Header from "../components/header";
 import CardUser from "../components/CardUser";
 import Footer from "../components/footer";
+import CardForum from '../components/forum/CardForum';
 export default {
   data() {
     return {
-      user: {},
+      users: [],
+      forums : []
     };
   },
   components: {
     Header,
+    CardForum,
     CardUser,
     Footer,
   },
@@ -48,15 +58,29 @@ export default {
     async getUser() {
       const params = {
         offset: 0,
-        limit: 1,
+        limit: 3,
         sort: "dateInscription:-1",
       };
       const info = await this.$http.get(`/user/users/params`, { params });
-      this.user = info.data.rep[0];
+      this.users = info.data.rep;
     },
+
+
+    async getForums(){
+      const params = {
+        limit : 3
+      }
+
+      const info = await this.$http.get('/forum/forumLimit',{params})
+      console.log(info)
+      this.forums = info.data.rep
+
+    }
   },
   created() {
+    this.getForums();
     this.getUser();
+    
   },
 };
 </script>
