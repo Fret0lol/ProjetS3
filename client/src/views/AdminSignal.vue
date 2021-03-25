@@ -33,6 +33,7 @@ export default {
             console.log(rep)
             this.$data.signalements = rep.data.signalements
         },
+
     },
 
     created(){

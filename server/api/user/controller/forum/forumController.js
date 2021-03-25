@@ -95,6 +95,16 @@ exports.getOneForum = async (req,res) => {
   
 }
 
+exports.findByIdForum = async (req,res) => {
+  try {
+    console.log(req.query)
+    let forum = await Forum.findOne({_id : req.query._id})
+  res.status(201).json({forum})
+  } catch (error) {
+    res.status(404).json({err :error})
+  }
+  
+}
 
 exports.getAllSujets = async (req,res) =>{
    try{

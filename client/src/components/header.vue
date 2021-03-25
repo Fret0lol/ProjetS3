@@ -188,9 +188,9 @@ nav {
       justify-content: flex-end;
       //align-content: center;
       list-style: none;
-      font-size: 20px;
+      font-size: 18px;
       li {
-        margin: 6px;
+        margin: 5px;
         align-self: center;
         a {
           color: $color;
