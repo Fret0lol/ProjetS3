@@ -11,7 +11,7 @@ exports.createFormation = async (req, res) => {
       });
     }
     const formation = new Formation({
-      intitulé_formation_court: req.body.nomCourt,
+      intitulé_formation_court: req.body.nomCourt, 
       intitulé_formation_long: req.body.nomComplet
     });
     let data = await formation.save();

@@ -112,12 +112,6 @@ const routes = [
       }
     },
   },
-
-  // {
-  //   path: "/moncompte/modifier",
-  //   name: "userInfoEdit",
-  //   component: () => import("../")
-  // },
   {
     path: "/annuaire-membres",
     name: "AnnuaireMembres",
@@ -160,6 +154,15 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: "/editFormation",
+    name: "Edit Formation",
+    component: () => import("../views/Formations/ModifierFormation.vue"),
+    props: true,
+    meta: {
+      requiresAuth: true
+    }
+  }
 ];
 
 const router = new VueRouter({

@@ -28,7 +28,6 @@
         <div id="infoResume">
           <h3>{{ user.prenom }} {{ user.nom }}</h3>
           <h5>{{ user.statut }}</h5>
-          <h5>Autre</h5>
         </div>
         <div id="bouton">
           <button class="button">Contacter</button>
@@ -70,35 +69,6 @@
         <button @click="save()" class="button">Sauvegarder</button>
       </div>
       <div id="timeline">
-        <!-- FORMATION -->
-        <div id="formations">
-          <div class="title">
-            <p>Formations</p>
-            <div class="line"></div>
-          </div>
-          <div class="body">
-            <ul class="timeline">
-              <li v-for="line in timeline" :key="line._id">
-                <Timeline
-                  :formationComplet="line.formationId.intitulé_formation_long"
-                  :formationCourt="line.formationId.intitulé_formation_court"
-                  :dateEntree="line.date_entrée"
-                  :dateSortie="line.date_sortie"
-                  :infoSupp="line.infoSupp"
-                  :nomEtablissement="line.etablissementId.nom"
-                  :villeEtablissement="line.etablissementId.ville"
-                />
-                <router-link to="/editFormation" tag="button" class="button">Modifier</router-link>
-                <button class="button">Modifier</button>
-              </li>
-              <li>
-                <router-link to="/addFormation" tag="button" class="button"
-                  >Ajouter une formation</router-link
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
         <div id="experiencePro" v-if="experiencePro.length !== 0">
           <div class="title">
             <p>Expérience professionnelle</p>
@@ -121,6 +91,36 @@
               <li>
                 <router-link to="/addFormation" tag="button" class="button"
                   >Ajouter une expérience professionnelle</router-link
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- FORMATION -->
+        <div id="formations">
+          <div class="title">
+            <p>Formations</p>
+            <div class="line"></div>
+          </div>
+          <div class="body">
+            <ul class="timeline">
+              <li v-for="line in timeline" :key="line._id">
+                <Timeline
+                  :formationComplet="line.formationId.intitulé_formation_long"
+                  :formationCourt="line.formationId.intitulé_formation_court"
+                  :dateEntree="line.date_entrée"
+                  :dateSortie="line.date_sortie"
+                  :infoSupp="line.infoSupp"
+                  :nomEtablissement="line.etablissementId.nom"
+                  :villeEtablissement="line.etablissementId.ville"
+                />
+                <router-link to="/editFormation" tag="button" class="button"
+                  >Modifier</router-link
+                >
+              </li>
+              <li>
+                <router-link to="/addFormation" tag="button" class="button"
+                  >Ajouter une formation</router-link
                 >
               </li>
             </ul>
@@ -233,7 +233,11 @@ export default {
           !Constantes.formatLienLinkedIn.test(this.user.linkedin)
         ) {
           this.inputError("#linkedin");
-          swal("Champs incorrect", "Le champs 'Lien Linkedin' est incorrect", "error");
+          swal(
+            "Champs incorrect",
+            "Le champs 'Lien Linkedin' est incorrect",
+            "error"
+          );
           return 1;
         }
         // Test Numéro Téléphone Correct
@@ -242,12 +246,19 @@ export default {
           !Constantes.formatNuméroTéléphone.test(this.user.numeroTelephone)
         ) {
           this.inputError("#telephone");
-          swal("Champs incorrect", "Le champs 'Numéro de téléphone' est incorrect", "error")
+          swal(
+            "Champs incorrect",
+            "Le champs 'Numéro de téléphone' est incorrect",
+            "error"
+          );
           return 1;
         }
-        if (this.user.email !== "" && !Constantes.formatAdresseMél.test(this.user.email)) {
+        if (
+          this.user.email !== "" &&
+          !Constantes.formatAdresseMél.test(this.user.email)
+        ) {
           this.inputError("#mail");
-          swal("Champs incorrect", "Le champs 'Email' est incorrect", "error")
+          swal("Champs incorrect", "Le champs 'Email' est incorrect", "error");
           return 1;
         }
         await this.$http.put(`/user/` + this.nomUtilisateur, this.user);
@@ -303,6 +314,7 @@ export default {
         background-color: #26f191;
         background-repeat: no-repeat;
         background-size: cover;
+        background-position: center;
         height: 250px;
         width: 250px;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -340,6 +352,11 @@ export default {
             cursor: pointer;
           }
         }
+        img,
+        .imgProfil {
+          width: 250px;
+          height: 250px;
+        }
         .remove {
           top: -30px;
         }
@@ -356,9 +373,9 @@ export default {
         flex-direction: column;
       }
       button {
-          width: 250px;
-          margin: 5px 0;
-        }
+        width: 250px;
+        margin: 5px 0;
+      }
       #lien {
         width: 250px;
         .lien {
@@ -391,7 +408,8 @@ export default {
     #timeline {
       display: flex;
       flex-direction: column;
-      #formations, #experiencePro {
+      #formations,
+      #experiencePro {
         min-width: 300px;
         .body {
           .timeline {

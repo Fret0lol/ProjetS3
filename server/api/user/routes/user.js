@@ -13,7 +13,7 @@ router.post("/login", userController.loginUser);
 router.post("/upload", multer, userController.uploadFile);
 router.get("/nomUtilisateur", userController.getUserbyNomUtilisateur);
 router.get("/users/params", userController.getUserByParams); //A FINIR
-//router.get("/users", userController.getAllUsers);
+router.get("/users", userController.getAllUsers);
 //router.get("/users/etudiant", userController.getAllEtudiant);
 router.get("/addForum",userController.getUserbyNomUtilisateur)
 // Image
