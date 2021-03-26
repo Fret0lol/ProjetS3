@@ -2,7 +2,10 @@
   <div id="app">
     <Header />
     <div id="recherche">
-      <h1>Annuaire</h1>
+      <div class="title">
+        <p>Annuaire</p>
+        <div class="line"></div>
+      </div>
       <div id="tri">
         <p>Tri :</p>
         <div class="input">
@@ -12,7 +15,6 @@
             name="tri"
             value="alphabetique"
             @change="alphabetique"
-            checked
           />
           <label for="alpha" class="radio" :class="{ checked: triAlpha }"
             >Alphabétique</label
@@ -32,21 +34,23 @@
         </div>
       </div>
       <div id="recherche_par_nom_et_prenom">
+        <p>Recherche :</p>
         <input type="text" placeholder="Nom" v-model="name" />
-        <input type="radio" name="choixRechercheNom" @change="recherche = 1" />
-        <label for="choixRechercheNom" class="radio">Nom</label>
-        <input
-          type="radio"
-          name="choixRecherchePrenom"
-          @change="recherche = 2"
-        />
-        <label for="choixRecherchePrenom" class="radio">Prénom</label>
+
+        <div class="input" @click="recherche = 1">
+          <input type="radio" name="choixRechercheNom"/>
+          <label for="choixRechercheNom" class="radio" :class="{ checked : recherche === 1}">Nom</label>
+        </div>
+        <div class="input" @click="recherche = 2">
+          <input type="radio" name="choixRecherchePrenom" />
+          <label for="choixRecherchePrenom" class="radio" :class="{ checked : recherche === 2}">Prénom</label>
+        </div>
+
       </div>
-      <button class="button">Rechercher</button>
     </div>
     <div id="cards">
       <CardAnnuaire
-        v-for="user in filteredList"
+        v-for="user in filteredList.slice(10*nbPage, 10*nbPage + 10)"
         :nomUtilisateur="user.nomUtilisateur"
         :key="user.nomUtilisateur"
         :nom="user.nom"
@@ -58,7 +62,7 @@
     </div>
     <div id="button">
       <button @click="getLessUsers" v-if="boutonPrecedent">Précédente</button>
-      <button @click="getMoreUsers" v-if="boutonSuivant">Suivante</button>
+      <button @click="getMoreUsers" v-if="boutonSuivant && filteredList.length > 10">Suivante</button>
     </div>
   </div>
 </template>
@@ -82,7 +86,7 @@ export default {
       triAlpha: true,
       name: "",
       prenom: "",
-      recherche: 0,
+      recherche: 1,
     };
   },
   methods: {
@@ -167,7 +171,11 @@ export default {
   computed: {
     filteredList() {
       return this.listeEntiereUsers.filter((user) => {
-        return user.nom.toLowerCase().includes(this.name.toLowerCase());
+        if (this.recherche === 1) {
+          return user.nom.toLowerCase().includes(this.name.toLowerCase());
+        } else if (this.recherche === 2) {
+          return user.prenom.toLowerCase().includes(this.name.toLowerCase());
+        }
       });
     },
   },
@@ -187,8 +195,17 @@ export default {
     justify-content: center;
     align-content: center;
     font-weight: 700;
-    h1 {
-      text-align: center;
+    .title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 0 50px;
+      p {
+        font-size: 40px;
+      }
+      .line {
+        width: 200px;
+      }
     }
     #tri {
       display: flex;
@@ -201,7 +218,18 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: center;
+      align-items: center;
       margin-top: 20px;
+      vertical-align: center;
+      p {
+        margin: 0;
+      }
+      .input {
+        margin: 0 10px;
+        label {
+          margin: auto 0;
+        }
+      }
       input {
         padding: 3px 6px;
         outline: none;

@@ -10,8 +10,6 @@ npm run serve
 # Client
 cd client
 npm run serve
-
-Mettre formation actuelle en dessous de statut ou emploi actuelle
 # App
     // Menu
         \_ Membre
@@ -58,9 +56,6 @@ Mettre formation actuelle en dessous de statut ou emploi actuelle
             \_ Afficher une liste infini de membres ❌
 
     // Annuaire
-        \_ Liste des membres $$
-            \_ Tri alphabétique $$
-            \_ Tri anti-alphabétique $$
         \_ Liste des entreprises
     
     // Page Personelle Membre

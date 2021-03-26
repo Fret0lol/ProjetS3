@@ -71,7 +71,7 @@
       <div id="timeline">
         <div id="experiencePro" v-if="experiencePro.length !== 0">
           <div class="title">
-            <p>Expérience professionnelle</p>
+            <p>Parcours professionnel</p>
             <div class="line"></div>
           </div>
           <div class="body">
