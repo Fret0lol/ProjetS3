@@ -82,7 +82,16 @@ exports.getSujets = async (req,res) => {
 * Retourne le forum dont le nom est passé en param
 *
 */
-
+exports.getForumsLimit = async (req,res) => {
+  try {
+    const limit = parseInt(req.query.limit)
+    
+    const rep = await Forum.find().limit(limit)
+    res.status(201).json({rep})
+  } catch (error) {
+      res.status(404).json({error : error})
+  }
+}
 exports.getOneForum = async (req,res) => {
   try{
     console.log(req.query)
@@ -95,6 +104,16 @@ exports.getOneForum = async (req,res) => {
   
 }
 
+exports.findByIdForum = async (req,res) => {
+  try {
+    console.log(req.query)
+    let forum = await Forum.findOne({_id : req.query._id})
+  res.status(201).json({forum})
+  } catch (error) {
+    res.status(404).json({err :error})
+  }
+  
+}
 
 exports.getAllSujets = async (req,res) =>{
    try{

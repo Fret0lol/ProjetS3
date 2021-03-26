@@ -24,6 +24,9 @@
               <li v-if="this.user.statut === 'Administrateur'">
                 <router-link to="/admin/users">MEMBRES</router-link>
               </li>
+               <li v-if="this.user.statut === 'Administrateur'">
+                <router-link to="/admin/signalements">SIGNALEMENTS</router-link>
+              </li>
               <li v-if="this.login === true">
                 <router-link :to="'/membre/' + user.nomUtilisateur"
                   ><i><font-awesome-icon icon="user" /></i>
@@ -53,6 +56,9 @@
           <li v-if="this.user.statut === 'Administrateur'">
             <router-link to="/admin/users">MEMBRES</router-link>
           </li>
+           <li v-if="this.user.statut === 'Administrateur'">
+                <router-link to="/admin/signalements">SIGNALEMENTS</router-link>
+              </li>
         </ul>
         <li v-if="this.login === true">
           <router-link :to="'/membre/' + user.nomUtilisateur"
@@ -182,16 +188,16 @@ nav {
       justify-content: flex-end;
       //align-content: center;
       list-style: none;
-      font-size: 20px;
+      font-size: 18px;
       li {
-        margin: 6px;
+        margin: 5px;
         align-self: center;
         a {
           color: $color;
           text-decoration: none;
           i {
             margin: 0 2vw;
-            font-size: 3vh;
+            font-size: 2vh;
             color: $color;
           }
         }

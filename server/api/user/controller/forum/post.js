@@ -3,9 +3,7 @@ const Post = require('../../model/forum/commentaire');
 
 exports.createNewPost = async (req,res) => {
     try{
-      console.log("create a new post");
-      console.log(req.body.params);
-      const post = new Post({
+        const post = new Post({
         auteurCommentaire : req.body.params.auteurCommentaire,
         dateCommentaire : req.body.params.dateCommentaire,
         sujetRef : req.body.params.sujetRef,
@@ -42,6 +40,14 @@ exports.createNewPost = async (req,res) => {
     }
   }
 
+  exports.getOnePost = async(req,res) => {
+    try {
+      await Post.findById(req.query._id)
+      .then( response => { res.status(201).json(response)})
+    } catch (error) {
+      res.status(404).json({error : error})
+    }
+  }
 
   exports.updatePost = async (req,res) => {
     try {

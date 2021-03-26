@@ -13,7 +13,7 @@
          <p class="commentaire_content commentaire-rep"  v-if="!this.isMofidied">
             {{ this.reponse }}
         </p>
-        <p class="commentaire_content"  v-if="!this.isMofidied">
+        <p class="commentaire_content commentaire-content"  v-if="!this.isMofidied">
             {{ this.commentaire }}
         </p>
 
@@ -29,7 +29,7 @@
                 <li class="menu_list_item" v-on:click="$emit('repondre', commentaire)" @click="this.closeMenu" >Répondre</li>
                 <li class="menu_list_item" v-if="this.login == this.nomUtilisateur" @click="modified">Modifier</li>
                 <li class="menu_list_item"  v-if="this.login == this.nomUtilisateur" @click="this.delete">Supprimer</li>
-                <li class="menu_list_item">Signaler</li>
+                <li class="menu_list_item" v-on:click="$emit('signaler', idPost)">Signaler</li>
             </ul>
             <img  alt="" src="../assets/menu.png" class="menu_close" @click="this.closeMenu">
         </div>
@@ -45,6 +45,7 @@ export default {
         }
     },
     methods: {
+
         openMenu(){
             const menu = document.querySelector(`#${this._id}_menu`); 
             menu.classList.add('menu-expanded');
@@ -67,7 +68,7 @@ export default {
 
         modified(){
             this.isMofidied = true;   
-            this.comVal = document.querySelector(`#${this._id}_commentaire > p`).innerText; 
+            this.comVal = document.querySelector(`#${this._id}_commentaire .commentaire-content`).innerText; 
             this.closeMenu();        
         },
         closeModified(){
@@ -89,11 +90,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 
+
+
+
 .textarea-modif{
     width: 100%;
     height: 100%;
     padding: 1em;
 }
+
 .commentaire{
     position: relative;
     font-size: 0.9em;
@@ -169,5 +174,6 @@ export default {
     &-extended{
         visibility: visible;
     }
+
 }
 </style>

@@ -29,7 +29,6 @@
               <li class="sujets_table_body_row_cell">{{sujet.statutSujet}}</li>
               <li class="sujets_table_body_row_cell">{{sujet.auteurSujet}}</li>
             </div>
-            
           </div>
         </div>
       </div>
