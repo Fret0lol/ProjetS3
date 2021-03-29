@@ -2,21 +2,97 @@
   <div id="app">
     <Header />
     <div id="body">
+      <div id="recherche">
+        <div class="title">
+          <p>Liste des membres</p>
+          <div class="line"></div>
+        </div>
+        <div id="recherche_par">
+          <p>Recherche :</p>
+          <input type="text" placeholder="Nom" v-model="name" />
+
+          <div class="input" @click="recherche = 1">
+            <input type="radio" name="choixRechercheNom" />
+            <label
+              for="choixRechercheNom"
+              class="radio"
+              :class="{ checked: recherche === 1 }"
+              >Nom</label
+            >
+          </div>
+          <div class="input" @click="recherche = 2">
+            <input type="radio" name="choixRecherchePrenom" />
+            <label
+              for="choixRecherchePrenom"
+              class="radio"
+              :class="{ checked: recherche === 2 }"
+              >Prénom</label
+            >
+          </div>
+          <div class="input" @click="recherche = 3">
+            <input type="radio" name="choixRechercheEmail" />
+            <label
+              for="choixRechercheEmail"
+              class="radio"
+              :class="{ checked: recherche === 3 }"
+              >Email</label
+            >
+          </div>
+        </div>
+        <button
+          class="button"
+          @click="changeList"
+          v-if="this.listeEntiereUsersTri !== this.listeEntiereUsers"
+        >
+          Afficher tous les membres
+        </button>
+        <button class="button" @click="changeList" v-else>
+          Cacher les membres validés
+        </button>
+      </div>
       <div class="head">
         <table>
           <tr>
-            <th @click="valideFunction();tri('valide')">Validé</th>
-            <th @click="valideFunction();tri('nom')">Nom</th>
-            <th @click="valideFunction();tri('prenom')">Prénom</th>
-            <th @click="valideFunction();tri('email')">Email</th>
-            <th @click="valideFunction();tri('statut')">Statut</th>
+            <th
+              @click="
+                valideFunction();
+                tri(1);
+              "
+            >
+              Validé
+            </th>
+            <th
+              @click="
+                valideFunction();
+                tri(2);
+              "
+            >
+              Nom
+            </th>
+            <th
+              @click="
+                valideFunction();
+                tri(3);
+              "
+            >
+              Prénom
+            </th>
+            <th
+              @click="
+                valideFunction();
+                tri(4);
+              "
+            >
+              Email
+            </th>
+            <th>Statut</th>
             <th>Supprimer</th>
           </tr>
         </table>
       </div>
       <div class="body">
         <table>
-          <tr v-for="user in users" :key="user.email">
+          <tr v-for="user in filteredList" :key="user.email">
             <td v-if="user.valide" @click="changerValide(user)" class="pointer">
               <font-awesome-icon icon="check" />
             </td>
@@ -42,25 +118,28 @@ import Header from "../components/header";
 export default {
   data() {
     return {
-      users: {},
-      offset: 0,
+      listeEntiereUsers: [],
+      listeEntiereUsersTri: [],
       valide: 1,
-      nom: 1,
+      valeurTri: -1,
+      recherche: 1,
+      name: "",
     };
   },
   components: {
     Header,
   },
   methods: {
-    async getInfoUser() {
-      const params = {
-        offset: this.offset,
-        limit: 50,
-        sort: "",
-      };
-      const info = await this.$http.get(`/user/users/params`, { params });
-      this.users = info.data.rep;
+    valideFunction() {
+      if (this.valide === 1) {
+        this.valide = -1;
+      } else {
+        this.valide = 1;
+      }
     },
+    /**
+     * Change la validité de l'utilisateur
+     */
     async changerValide(user) {
       try {
         user.valide = !user.valide;
@@ -69,6 +148,9 @@ export default {
         console.log(err);
       }
     },
+    /**
+     * Supprime l'utilisateur
+     */
     async deleteUser(user) {
       try {
         await this.$http.post(`/user/delete`, user);
@@ -77,31 +159,106 @@ export default {
         console.log(err);
       }
     },
-    async tri(valeur) {
-      const params = {
-        offset: this.offset,
-        limit: 0,
-        sortType: valeur,
-        sortValue: this.valide
-      };
-      const info = await this.$http.get(`/user/users/params`, { params });
-      this.users = info.data.rep;
-    },
-    valideFunction() {
-        if (this.valide === 1) {
-            this.valide = -1;
-        } else {
-            this.valide = 1;
+    /**
+     * @returns La liste de tous les utilisateurs depuis la BDD
+     */
+    async getAllUsers() {
+      const data = await this.$http.get(`/user/users`);
+      data.data.users.forEach((user) => {
+        this.listeEntiereUsers.push(user);
+      });
+      this.listeEntiereUsersTri = this.listeEntiereUsers.filter((user) => {
+        if (user.valide === false) {
+          return user;
         }
-    }
+      });
+    },
+    /**
+     * Change soit vers la liste entière des membres soit vers la liste des membres non validé
+     */
+    changeList() {
+      if (this.listeEntiereUsersTri === this.listeEntiereUsers) {
+        this.listeEntiereUsersTri = this.listeEntiereUsers.filter((user) => {
+          if (user.valide === false) {
+            return user;
+          }
+        });
+      } else {
+        this.listeEntiereUsersTri = this.listeEntiereUsers;
+      }
+    },
+    /**
+     * @param Valeur Diffère selon choix utilisateur
+     */
+    async tri(valeur) {
+      switch (valeur) {
+        case 1:
+          if (this.valide === 1) {
+            this.listeEntiereUsersTri = this.listeEntiereUsersTri.sort((a, b) =>
+              a.valide < b.valide ? 1 : -1
+            );
+          } else if (this.valide === -1) {
+            this.listeEntiereUsersTri = this.listeEntiereUsersTri.sort((a, b) =>
+              a.valide > b.valide ? 1 : -1
+            );
+          }
+          break;
+        case 2:
+          if (this.valide === 1) {
+            this.listeEntiereUsersTri = this.listeEntiereUsersTri.sort((a, b) =>
+              a.nom < b.nom ? 1 : -1
+            );
+          } else if (this.valide === -1) {
+            this.listeEntiereUsersTri = this.listeEntiereUsersTri.sort((a, b) =>
+              a.nom > b.nom ? 1 : -1
+            );
+          }
+          break;
+        case 3:
+          if (this.valide === 1) {
+            this.listeEntiereUsersTri = this.listeEntiereUsersTri.sort((a, b) =>
+              a.prenom < b.prenom ? 1 : -1
+            );
+          } else if (this.valide === -1) {
+            this.listeEntiereUsersTri = this.listeEntiereUsersTri.sort((a, b) =>
+              a.prenom > b.prenom ? 1 : -1
+            );
+          }
+          break;
+        case 4:
+          if (this.valide === 1) {
+            this.listeEntiereUsersTri = this.listeEntiereUsersTri.sort((a, b) =>
+              a.email < b.email ? 1 : -1
+            );
+          } else if (this.valide === -1) {
+            this.listeEntiereUsersTri = this.listeEntiereUsersTri.sort((a, b) =>
+              a.email > b.email ? 1 : -1
+            );
+          }
+          break;
+      }
+    },
   },
   created() {
-    this.getInfoUser();
+    this.getAllUsers();
+  },
+  computed: {
+    filteredList() {
+      return this.listeEntiereUsersTri.filter((user) => {
+        if (this.recherche === 1) {
+          return user.nom.toLowerCase().includes(this.name.toLowerCase());
+        } else if (this.recherche === 2) {
+          return user.prenom.toLowerCase().includes(this.name.toLowerCase());
+        } else if (this.recherche === 3) {
+          return user.email.toLowerCase().includes(this.name.toLowerCase());
+        }
+      });
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-$color: #26f191;
+@import "@/Variable.scss";
 #app {
   #body {
     margin: 7vh 0 0 0;
@@ -109,6 +266,69 @@ $color: #26f191;
     flex-direction: column;
     align-items: center;
     height: 80vh;
+    #recherche {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+      .title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 0 30px;
+        p {
+          font-size: 40px;
+        }
+        .line {
+          width: 200px;
+        }
+      }
+      #recherche_par {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        vertical-align: center;
+        p {
+          margin: 0;
+        }
+        .input {
+          margin: 0 10px;
+          label {
+            margin: auto 0;
+          }
+        }
+        input {
+          padding: 3px 6px;
+          outline: none;
+          border: 2px $color solid;
+          border-radius: 5px;
+          margin: 0 15px;
+        }
+      }
+        button {
+          
+          margin: 20px auto 0;
+        }
+        input[type="radio"] {
+          display: none;
+        }
+        label {
+          border: 2px $color solid;
+          border-radius: 5px;
+          padding: 3px 6px;
+          cursor: pointer;
+          font-weight: 700;
+          color: $color3;
+          &:hover,
+          .checked {
+            background-color: $color;
+            color: $color2;
+          }
+        }
+      
+    }
     div table {
       width: 90vw;
       table-layout: fixed;
@@ -142,12 +362,13 @@ $color: #26f191;
           border-bottom: 3px solid gray;
         }
         .pointer {
-            cursor: pointer
-          }
+          cursor: pointer;
+        }
       }
     }
   }
 }
+
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -156,5 +377,9 @@ $color: #26f191;
 }
 ::-webkit-scrollbar-thumb {
   -webkit-box-shadow: inset 0 0 1vw #26f191c5;
+}
+.checked {
+  background-color: $color;
+  color: $color2 !important ;
 }
 </style>

@@ -11,6 +11,11 @@ npm run serve
 cd client
 npm run serve
 # App
+    // Liste membres
+     \_ Afficher que ceux non validé
+     \_ Recherche dans la liste de tous les membres
+        \_ Par nom
+        \_ Par prénom
     // Menu
         \_ Membre
             \_ Version Mobile 

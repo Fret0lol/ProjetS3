@@ -9,27 +9,13 @@
       <div id="tri">
         <p>Tri :</p>
         <div class="input">
-          <input
-            type="radio"
-            id="alpha"
-            name="tri"
-            value="alphabetique"
-            @change="alphabetique"
-          />
-          <label for="alpha" class="radio" :class="{ checked: triAlpha }"
-            >Alphabétique</label
+          <input type="radio" id="alpha" name="tri" @change="alphabetique" />
+          <label for="alpha" class="radio" :class="{ checked: triAlpha }">Alphabétique</label
           >
         </div>
         <div class="input">
-          <input
-            type="radio"
-            id="anti_alpha"
-            name="tri"
-            value="anti_alphabetique"
-            @change="antiAlphabetique"
-          />
-          <label for="anti_alpha" class="radio" :class="{ checked: !triAlpha }"
-            >Anti-alphabétique</label
+          <input type="radio" id="anti_alpha" name="tri" @change="antiAlphabetique" />
+          <label for="anti_alpha" class="radio" :class="{ checked: !triAlpha }">Anti-alphabétique</label
           >
         </div>
       </div>
@@ -38,19 +24,28 @@
         <input type="text" placeholder="Nom" v-model="name" />
 
         <div class="input" @click="recherche = 1">
-          <input type="radio" name="choixRechercheNom"/>
-          <label for="choixRechercheNom" class="radio" :class="{ checked : recherche === 1}">Nom</label>
+          <input type="radio" name="choixRechercheNom" />
+          <label
+            for="choixRechercheNom"
+            class="radio"
+            :class="{ checked: recherche === 1 }"
+            >Nom</label
+          >
         </div>
         <div class="input" @click="recherche = 2">
           <input type="radio" name="choixRecherchePrenom" />
-          <label for="choixRecherchePrenom" class="radio" :class="{ checked : recherche === 2}">Prénom</label>
+          <label
+            for="choixRecherchePrenom"
+            class="radio"
+            :class="{ checked: recherche === 2 }"
+            >Prénom</label
+          >
         </div>
-
       </div>
     </div>
     <div id="cards">
       <CardAnnuaire
-        v-for="user in filteredList.slice(10*nbPage, 10*nbPage + 10)"
+        v-for="user in filteredList.slice(10 * nbPage, 10 * nbPage + 10)"
         :nomUtilisateur="user.nomUtilisateur"
         :key="user.nomUtilisateur"
         :nom="user.nom"
@@ -62,7 +57,12 @@
     </div>
     <div id="button">
       <button @click="getLessUsers" v-if="boutonPrecedent">Précédente</button>
-      <button @click="getMoreUsers" v-if="boutonSuivant && filteredList.length > 10">Suivante</button>
+      <button
+        @click="getMoreUsers"
+        v-if="boutonSuivant && filteredList.length > 10"
+      >
+        Suivante
+      </button>
     </div>
   </div>
 </template>
